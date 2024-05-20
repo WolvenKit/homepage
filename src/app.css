@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scrollbar-gutter: stable;
+    overflow-y: auto;
+  }
+}
+
+@layer components {
+  .error-text {
+    @apply text-red uppercase italic;
+  }
+}
