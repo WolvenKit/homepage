@@ -117,7 +117,7 @@
           const pos = (y * elementImage.width + x) * 4;
           // if (pos < 0 || pos >= elementImage.data.length) continue;
 
-          if (elementImage.data[pos + 3] >= 100) {
+          if (elementImage.data[pos + 3] >= 50) {
             if (!edge) edge = [x, y, 0];
           } else if (edge) {
             edge[2] = y - edge[1];
@@ -145,26 +145,14 @@
     if (timestamp - lastTimestamp < MIN_DELTA) return;
     lastTimestamp = timestamp;
 
-    const time = timestamp * 0.001;
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (elementImage) {
-      // for (let x = 0; x < elementImage.width; x++) {
-      //   const val = simplex(x, timestamp / 1000) * 255;
-      //   for (let y = 0; y < elementImage.height; y++) {
-      //     const pos = (y * elementImage.width + x) * 4;
-      //     const h = y / elementImage.height;
-      //     elementImage.data[pos + 0] = val * 0.25;
-      //     elementImage.data[pos + 1] = val;
-      //     elementImage.data[pos + 2] = val;
-      //     elementImage.data[pos + 3] = 255 * h;
-      //   }
-      // }
       for (const [x, y, size] of edges) {
+        const height = y / canvas.height;
         // Mask for making chunks of rays
-        const mask = norm(simplex(x * 0.01, y * 0.1, time * 0.1)) ** 3;
+        const mask = norm(simplex(x * 0.01, y * 0.1, timestamp * 0.0001)) ** (2.5 + height);
         // Make tall objects have rays more often regardless of mask
-        const val = (mask + (size / canvas.height) ** 2 * 0.5) * norm(simplex(x, y, time)) ** 1.5;
+        const val = (mask + (size / canvas.height) ** 2 * 0.5) * norm(simplex(x, y, timestamp * 0.001)) ** 1.5;
 
         if (val < 0.1) continue; // won't be eve visible
 
@@ -172,9 +160,9 @@
         gradient.addColorStop(0.1, "cyan");
         gradient.addColorStop(1, "transparent");
         ctx.fillStyle = gradient;
-        ctx.globalAlpha = val; //* (1 - y / canvas.height) ** 0.5;
+        ctx.globalAlpha = val * (1 - height) ** 0.5;
 
-        ctx.fillRect(x, 0, 1, y + size * 0.5);
+        ctx.fillRect(x, 0, 1, y + Math.min(size, 4));
       }
       // ctx.putImageData(elementImage, 0, 0);
     }

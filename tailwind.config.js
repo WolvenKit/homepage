@@ -8,7 +8,7 @@ module.exports = {
     extend: {
       colors: {
         yellow: { DEFAULT: "#f3e600", dark: "#d3c600" },
-        cyan: { light: "#75ffff", DEFAULT: "#04daf6" },
+        cyan: { light: "#75ffff", DEFAULT: "#04daf6", dark: "#008b9d", darker: "#00464f" },
         red: { DEFAULT: "#ff003c", dark: "#910022", darker: "#40000f", darkest: "#090002" },
       },
       fontFamily: {
