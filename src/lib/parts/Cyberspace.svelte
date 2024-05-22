@@ -94,7 +94,7 @@
           offCtx.strokeRect(...box);
         }
 
-        offCtx.fillStyle = style.backgroundColor;
+        offCtx.fillStyle = style.backgroundColor != "rgba(0, 0, 0, 0)" ? style.backgroundColor : "black";
         offCtx.fillRect(...box);
       }
     }
@@ -173,6 +173,11 @@
 
 <svelte:window on:resize={() => resize()} on:load={() => resize()} />
 
-<canvas bind:this={canvas} class="absolute inset-0 -z-10 h-full w-full" style:image-rendering="pixelated" />
+<canvas
+  bind:this={canvas}
+  class="absolute inset-0 -z-10 h-full w-full transition duration-1000"
+  class:opacity-0={!edges.length}
+  style:image-rendering="pixelated"
+/>
 
 <slot {elements} />
