@@ -27,6 +27,6 @@
 
   .hover-glow:hover,
   .hover-glow:focus {
-    filter: drop-shadow(0 0 0.5rem color-mix(in srgb, theme("colors.cyan.DEFAULT"), transparent));
+    filter: drop-shadow(0 0 0.4rem rgba(255, 255, 255, 0.4));
   }
 }

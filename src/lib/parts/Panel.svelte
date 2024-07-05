@@ -6,7 +6,7 @@
   export { classes as class };
 </script>
 
-<div class={twMerge("panel absolute inset-0 -z-10 bg-cyan-darker transition", classes)} style:--slant="{slant}px">
+<div class={twMerge("panel absolute inset-0 -z-10 bg-gray-950 transition", classes)} style:--slant="{slant}px">
   <slot />
 </div>
 

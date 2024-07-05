@@ -1,8 +1,8 @@
 <script lang="ts">
   import { twMerge } from "tailwind-merge";
-  import Panel from "./Panel.svelte";
 
   export let horizontal = false;
+  export let overlay = !horizontal;
   export let href = "";
   export let external = !href.startsWith("/");
   export let title = "";
@@ -12,24 +12,33 @@
   {href}
   rel={external ? "noopener noreferrer" : undefined}
   target={external ? "_blank" : undefined}
-  class="hover-glow group relative flex flex-wrap p-1 transition"
+  class="group relative flex flex-wrap overflow-hidden bg-zinc-950 shadow-lg transition"
+  class:hover-glow={!overlay}
   class:flex-col={!horizontal}
 >
-  <Panel slant={34} class="group-hover:bg-cyan-dark" />
-
-  <Panel slant={32} class="static flex min-h-8 w-full max-w-md flex-1 items-center justify-center">
+  <div
+    class={twMerge(
+      "flex min-h-8 w-full max-w-md flex-1 items-center justify-center",
+      overlay && "blur-sm transition group-hover-focus:blur-none",
+    )}
+  >
     <slot name="logo" />
-  </Panel>
+  </div>
 
-  <div class={twMerge("relative max-w-md border-4 border-transparent bg-slate-900 px-4 py-2 transition")}>
+  <div
+    class={twMerge(
+      "relative max-w-md px-4 py-2 text-center transition",
+      overlay && "absolute inset-0 flex flex-col items-center justify-center gap-2",
+    )}
+  >
     {#if $$slots.title || title}
-      <h3 class="mb-1 text-2xl font-bold uppercase text-cyan">
+      <h3 class="mb-1 text-2xl font-bold uppercase text-white">
         <slot name="title">{title}</slot>
       </h3>
     {/if}
 
     <slot name="content">
-      <p class="text-justify leading-tight">
+      <p class="text-center leading-tight shadow">
         <slot />
       </p>
     </slot>
