@@ -7,29 +7,15 @@
   import wkit from "$assets/wkit.png";
   import Button from "$lib/parts/Button.svelte";
   import Card from "$lib/parts/Card.svelte";
-  import Cyberspace from "$lib/parts/Cyberspace.svelte";
   import Image from "$lib/parts/Image.svelte";
-
-  let elements: HTMLElement[] = [];
 </script>
 
 <header class="relative mx-auto flex flex-wrap justify-center gap-8 pt-16">
-  <Cyberspace bind:elements></Cyberspace>
-  <img bind:this={elements[0]} src={sammy} width="256" height="256" alt="" />
+  <img src={sammy} width="256" height="256" alt="" />
   <div class="flex flex-col items-center justify-center pt-8">
-    <h1
-      bind:this={elements[1]}
-      data-cybertext
-      class="text-6xl font-bold uppercase leading-none text-red md:text-7xl lg:text-8xl"
-    >
-      Red Modding
-    </h1>
+    <h1 class="text-6xl font-bold uppercase leading-none text-red md:text-7xl lg:text-8xl">Red Modding</h1>
 
-    <p
-      bind:this={elements[2]}
-      data-cybertext
-      class="inline-block text-2xl font-bold uppercase leading-none text-cyan-light"
-    >
+    <p class="inline-block text-2xl font-bold uppercase leading-none text-cyan-light">
       Deep dive into the modder space
     </p>
   </div>
