@@ -28,7 +28,7 @@
     <p
       bind:this={elements[2]}
       data-cybertext
-      class=" inline-block text-2xl font-bold uppercase italic leading-none text-cyan-light"
+      class="inline-block text-2xl font-bold uppercase leading-none text-cyan-light"
     >
       Deep dive into the modder space
     </p>
@@ -71,17 +71,19 @@
     <Card title="WolvenKit" href="https://github.com/WolvenKit/WolvenKit/releases/latest">
       <Image slot="logo" src={wkit} />
 
-      Community Mod editor/creator for REDengine games.</Card
-    >
+      Community Mod editor/creator for REDengine games.
+    </Card>
 
     <Card title="Cyber Engine Tweaks" href="https://github.com/maximegmd/CyberEngineTweaks/releases/latest">
       <Image slot="logo" src={cet} />
-      Cyberpunk 2077 tweaks, hacks and scripting framework.</Card
-    >
+      Cyberpunk 2077 tweaks, hacks and scripting framework.
+    </Card>
 
-    <Card title="SoundDB" href="https://sounddb.redmodding.org"
-      >Database of all sounds and voice-overs in Cyberpunk 2077.</Card
-    >
+    <Card title="SoundDB" href="https://sounddb.redmodding.org">
+      Database of all sounds and voice-overs in Cyberpunk 2077.
+    </Card>
+
+    <Card title="Blender Plugin" href="">TODO</Card>
   </nav>
 </main>
 
