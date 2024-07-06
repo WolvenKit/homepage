@@ -12,8 +12,7 @@
   {href}
   rel={external ? "noopener noreferrer" : undefined}
   target={external ? "_blank" : undefined}
-  class="group relative flex flex-wrap overflow-hidden bg-zinc-950 shadow-lg transition"
-  class:hover-glow={!overlay}
+  class="group relative flex flex-wrap overflow-hidden bg-zinc-950 shadow-lg transition hover-focus:shadow-red"
   class:flex-col={!horizontal}
 >
   <div
@@ -28,7 +27,7 @@
   <div
     class={twMerge(
       "relative max-w-md px-4 py-2 text-center transition",
-      overlay && "absolute inset-0 flex flex-col items-center justify-center gap-2",
+      overlay && "text-shadow absolute inset-0 flex flex-col items-center justify-center gap-2",
     )}
   >
     {#if $$slots.title || title}
@@ -38,7 +37,7 @@
     {/if}
 
     <slot name="content">
-      <p class="text-center leading-tight shadow">
+      <p class="text-center leading-tight">
         <slot />
       </p>
     </slot>
