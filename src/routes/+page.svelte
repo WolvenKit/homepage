@@ -30,7 +30,7 @@
       class="h-full w-full bg-black mix-blend-multiply transition-all hover:mix-blend-luminosity"
       autoplay
       loop
-      muted
+      muted={true}
       disablepictureinpicture
       disableremoteplayback
       preload=""
