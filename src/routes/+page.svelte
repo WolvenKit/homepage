@@ -16,10 +16,7 @@
   import Card from "$lib/parts/Card.svelte";
   import Section from "$lib/parts/Section.svelte";
 
-  let video: HTMLVideoElement;
   let bgLoaded = false;
-
-  $: if (video) video.defaultMuted = true;
 </script>
 
 <header class="relative flex min-h-[calc(100svh-7rem)] flex-col">
@@ -29,14 +26,12 @@
   >
     <div class="dots absolute inset-0" />
     <video
-      bind:this={video}
       use:mediaReady={() => (bgLoaded = true)}
-      class="h-full w-full bg-black mix-blend-multiply transition-all hover:mix-blend-luminosity"
+      class="h-full w-full bg-black mix-blend-multiply"
       autoplay
       loop
-      playsinline
       muted
-      defaultMuted
+      playsinline
       disablepictureinpicture
       disableremoteplayback
       preload=""
@@ -45,6 +40,7 @@
       <source src={malorianHEVC} type="video/mp4; codecs=hevc" />
       <source src={malorianAV1} type="video/webm; codecs=av1" />
       <source src={malorianMP4} type="video/mp4; codecs=avc1.640028" />
+      <Image src={malorian} />
     </video>
   </div>
 
