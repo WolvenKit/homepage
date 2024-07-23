@@ -7,11 +7,21 @@
   import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the CSS
   config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
+  import { twMerge } from "tailwind-merge";
   import sammy from "$assets/sammy.png";
   import Button from "$lib/elements/Button.svelte";
+
+  let scrollY = 0;
 </script>
 
-<header class="sticky top-0 z-40 flex w-full items-center justify-between bg-zinc-900/50 px-8 py-2 backdrop-blur">
+<svelte:window bind:scrollY />
+
+<header
+  class={twMerge(
+    "sticky top-0 z-40 flex w-full items-center justify-between px-8 py-2 transition duration-500",
+    scrollY > 1 && "bg-zinc-900/50 backdrop-blur",
+  )}
+>
   <a href="/" class="flex flex-wrap items-center gap-8">
     <img src={sammy} width="128" height="128" alt="" class="h-24 w-auto" />
 
