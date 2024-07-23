@@ -8,6 +8,10 @@
 }
 
 @layer base {
+  :root {
+    --fontsource-display: block;
+  }
+
   html {
     scrollbar-gutter: stable;
     overflow-y: auto;

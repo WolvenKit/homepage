@@ -10,6 +10,7 @@
   import wkit from "$assets/wkit.png";
   import { mediaReady } from "$lib/actions/mediaReady";
   import Button from "$lib/elements/Button.svelte";
+  import Divider from "$lib/elements/Divider.svelte";
   import Image from "$lib/elements/Image.svelte";
   import Title from "$lib/elements/Title.svelte";
   import Card from "$lib/parts/Card.svelte";
@@ -18,67 +19,74 @@
   let bgLoaded = false;
 </script>
 
-<header class="relative flex min-h-[50svh] flex-wrap items-center gap-16">
-  <!-- <img src={sammy} width="128" height="128" alt="" class="h-72 w-auto" /> -->
-
-  <div class="mx-auto mt-32 w-full max-w-screen-xl text-6xl font-bold uppercase text-zinc-200 drop-shadow">
-    Community of
-    <div class="-ml-0.5 text-8xl text-red">
-      RED<span class="text-zinc-400">engine</span> modding
-    </div>
-    enthusiasts
+<header class="relative flex min-h-[calc(100svh-7rem)] flex-col">
+  <div
+    class="absolute -top-28 bottom-0 right-0 -z-10 max-w-screen-xl bg-red opacity-90 mix-blend-lighten transition"
+    class:opacity-0={!bgLoaded}
+  >
+    <div class="dots absolute inset-0" />
+    <video
+      use:mediaReady={() => (bgLoaded = true)}
+      class="h-full w-full bg-black mix-blend-multiply transition-all hover:mix-blend-luminosity"
+      autoplay
+      loop
+      muted
+      disablepictureinpicture
+      disableremoteplayback
+      preload=""
+      poster={malorian}
+    >
+      <source src={malorianHEVC} type="video/mp4; codecs=hevc" />
+      <source src={malorianAV1} type="video/webm; codecs=av1" />
+      <source src={malorianMP4} type="video/mp4; codecs=avc1.640028" />
+      <Image src={malorian} />
+    </video>
   </div>
 
-  <div class="absolute right-0 -z-10 w-2/3 opacity-75 mix-blend-lighten">
-    <div class="isolate bg-red transition" class:opacity-0={!bgLoaded}>
-      <video
-        use:mediaReady={() => (bgLoaded = true)}
-        class="h-auto w-full mix-blend-multiply transition-all hover:mix-blend-luminosity"
-        autoplay
-        loop
-        muted
-        disablepictureinpicture
-        disableremoteplayback
-        preload=""
-        poster={malorian}
-      >
-        <source src={malorianHEVC} type="video/mp4; codecs=hevc" />
-        <source src={malorianAV1} type="video/webm; codecs=av1" />
-        <source src={malorianMP4} type="video/mp4; codecs=avc1.640028" />
-        <Image src={malorian} />
-      </video>
+  <div class="mx-auto mt-auto flex max-w-screen-2xl flex-wrap items-end justify-between gap-16 pb-16">
+    <div class="w-full text-6xl font-bold uppercase text-zinc-200">
+      <div class="header-bg inline-block">
+        Community of
+        <div class="-ml-0.5 text-8xl text-red">
+          RED<span class="text-zinc-400">engine</span> modding
+        </div>
+        enthusiasts
+      </div>
     </div>
-    <!-- <span class="masked-shadow absolute bottom-0 h-1/2 w-[90%]" /> -->
+
+    <div>
+      <Divider class="justify-start" />
+      <p class="max-w-3xl text-left text-2xl">
+        We are a community formed around modding <strong>The Witcher 3</strong>, the release of
+        <strong>Cyberpunk 2077</strong> expanded our community dramatically.
+        <Button inline href="/about">Read more...</Button>
+      </p>
+    </div>
+
+    <nav>
+      <div class="text-md text-center uppercase text-zinc-400">FIND US ON</div>
+      <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
+        <li>
+          <Button href="https://github.com/WolvenKit/" icon={faGithub}>GitHub</Button>
+        </li>
+        <li>
+          <Button href="https://discord.com/invite/Epkq79kd96" icon={faDiscord}>Discord</Button>
+        </li>
+        <li>
+          <Button href="https://www.patreon.com/RedModdingTools" icon={faPatreon}>Patreon</Button>
+        </li>
+      </ul>
+    </nav>
   </div>
 </header>
 
-<p class="mx-auto my-16 max-w-3xl text-center text-2xl">
-  We are a community formed around modding <strong>The Witcher 3</strong>, the release of
-  <strong>Cyberpunk 2077</strong> expanded our community dramatically. <Button inline href="/about">Read more...</Button
-  >
-</p>
-<nav>
-  <div class="text-md text-center uppercase text-zinc-400">FIND US ON</div>
-  <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-    <li>
-      <Button href="https://github.com/WolvenKit/" icon={faGithub}>GitHub</Button>
-    </li>
-    <li>
-      <Button href="https://discord.com/invite/Epkq79kd96" icon={faDiscord}>Discord</Button>
-    </li>
-    <li>
-      <Button href="https://www.patreon.com/RedModdingTools" icon={faPatreon}>Patreon</Button>
-    </li>
-  </ul>
-</nav>
-
-<Section>
+<!-- <Section>
   <Card horizontal title="Check out our wiki!" href="https://wiki.redmodding.org">
     <span slot="logo" class="p-4 px-6 text-7xl font-bold text-red">wiki</span>
 
     Our wiki is a community-driven collection of guides for modding and documentation about our tools.
   </Card>
-</Section>
+</Section> -->
 
 <Section class="bg-zinc-950">
   <Title>Our Main Projects</Title>
@@ -96,3 +104,15 @@
     </Card>
   </nav>
 </Section>
+
+<style>
+  .header-bg {
+    --color: color-mix(in srgb, theme("colors.zinc.900"), transparent);
+    background: radial-gradient(farthest-side, var(--color) 75%, transparent);
+  }
+
+  .dots {
+    background: radial-gradient(transparent, #000a);
+    background-size: 3px;
+  }
+</style>
