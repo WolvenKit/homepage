@@ -16,16 +16,20 @@
   import Card from "$lib/parts/Card.svelte";
   import Section from "$lib/parts/Section.svelte";
 
+  let video: HTMLVideoElement;
   let bgLoaded = false;
 </script>
 
-<header class="relative flex min-h-[calc(100svh-7rem)] flex-col">
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<header class="relative flex min-h-[calc(100svh-7rem)] flex-col" on:click={() => video?.play()}>
   <div
     class="absolute -top-28 bottom-0 right-0 -z-10 max-w-screen-xl bg-red opacity-90 mix-blend-lighten transition"
     class:opacity-0={!bgLoaded}
   >
     <div class="dots absolute inset-0" />
     <video
+      bind:this={video}
       use:mediaReady={() => (bgLoaded = true)}
       class="h-full w-full bg-black mix-blend-multiply"
       autoplay
