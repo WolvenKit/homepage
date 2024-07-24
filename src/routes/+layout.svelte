@@ -18,21 +18,32 @@
 
 <header
   class={twMerge(
-    "sticky top-0 z-40 flex w-full items-center justify-between px-8 py-2 transition duration-500",
-    scrollY > 1 && "bg-zinc-900/50 backdrop-blur",
+    "sticky top-0 z-40 flex h-16 w-full items-center gap-8 bg-zinc-900 px-[10svw] transition duration-500",
+    scrollY > 1 && "shadow-xl",
   )}
 >
-  <a href="/" class="flex flex-wrap items-center gap-8">
-    <img src={sammy} width="128" height="128" alt="" class="h-24 w-auto" />
-
-    <h1 class="text-4xl font-bold uppercase leading-none text-red md:text-5xl lg:text-6xl">Red Modding</h1>
+  <a href="/" class="relative mt-auto flex flex-wrap items-center gap-8">
+    <span
+      class={twMerge("rounded-full p-4 transition duration-500", scrollY > 1 && "bg-zinc-900 shadow-xl backdrop-blur")}
+    >
+      <img src={sammy} width="128" height="128" alt="" class="h-24 w-auto" />
+    </span>
   </a>
 
-  <nav>
-    <ul class="flex gap-2">
-      <li><Button href="https://wiki.redmodding.org">Wiki</Button></li>
-      <li><Button href="/projects">Projects</Button></li>
-      <li><Button href="/about">About us</Button></li>
+  <h1
+    class={twMerge(
+      "text-4xl font-bold uppercase text-red transition-all duration-500",
+      scrollY <= 1 && "translate-y-1/2 text-6xl",
+    )}
+  >
+    Red Modding
+  </h1>
+
+  <nav class="ml-auto">
+    <ul class="flex gap-4">
+      <li><Button class="text-xl" href="https://wiki.redmodding.org">Wiki</Button></li>
+      <li><Button class="text-xl" href="/projects">Projects</Button></li>
+      <li><Button class="text-xl" href="/about">About us</Button></li>
     </ul>
   </nav>
 </header>

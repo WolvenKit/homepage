@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
+  import { faExternalLink } from "@fortawesome/free-solid-svg-icons/faExternalLink";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
 
@@ -8,6 +9,9 @@
   export let external = !href.startsWith("/");
   export let icon: IconDefinition | undefined = undefined;
   export let element: HTMLElement | undefined = undefined;
+  export let hideExternal = false;
+  let classes = "";
+  export { classes as class };
 </script>
 
 <svelte:element
@@ -20,8 +24,10 @@
     "hover-glow relative inline-flex items-center justify-center gap-3 text-center font-bold uppercase text-cyan",
     "transition hover:text-white",
     !inline && "px-4 py-2 text-xl",
+    classes,
   )}
 >
   {#if icon}<FontAwesomeIcon {icon} class="-ml-2" />{/if}
   <slot />
+  {#if external && !hideExternal}<FontAwesomeIcon icon={faExternalLink} class="-ml-1 -mt-1 text-sm opacity-50" />{/if}
 </svelte:element>

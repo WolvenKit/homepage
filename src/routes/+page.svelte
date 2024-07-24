@@ -22,12 +22,13 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<header class="relative flex min-h-[calc(100svh-7rem)] flex-col" on:click={() => video?.play()}>
+<header class="relative flex min-h-[calc(100svh-4rem)] flex-col" on:click={() => video?.play()}>
+  <div class="dots absolute inset-0 -top-16 -z-10 opacity-50" />
   <div
-    class="absolute -top-28 bottom-0 right-0 -z-10 max-w-screen-xl bg-red opacity-90 mix-blend-lighten transition"
+    class="absolute -top-16 bottom-0 right-0 max-w-screen-xl bg-red opacity-90 mix-blend-lighten transition"
     class:opacity-0={!bgLoaded}
   >
-    <div class="dots absolute inset-0" />
+    <div class="crt absolute inset-0" />
     <video
       bind:this={video}
       use:mediaReady={() => (bgLoaded = true)}
@@ -48,9 +49,9 @@
     </video>
   </div>
 
-  <div class="mx-auto mt-auto flex max-w-screen-2xl flex-wrap items-end justify-between gap-16 pb-16">
+  <div class="relative z-10 mx-[10svw] mt-auto flex flex-wrap items-end justify-between gap-16 pb-16">
     <div class="w-full text-6xl font-bold uppercase text-zinc-200">
-      <div class="header-bg inline-block">
+      <div class="header-bg relative -ml-1 inline-block">
         Community of
         <div class="-ml-0.5 text-8xl text-red">
           RED<span class="text-zinc-400">engine</span> modding
@@ -61,24 +62,24 @@
 
     <div>
       <Divider class="justify-start" />
-      <p class="max-w-3xl text-left text-2xl">
+      <p class="header-bg max-w-3xl text-left text-2xl">
         We are a community formed around modding <strong>The Witcher 3</strong>, the release of
         <strong>Cyberpunk 2077</strong> expanded our community dramatically.
         <Button inline href="/about">Read more...</Button>
       </p>
     </div>
 
-    <nav>
-      <div class="text-md text-center uppercase text-zinc-400">FIND US ON</div>
+    <nav class="header-bg">
+      <div class="text-center text-xl uppercase opacity-50">Find us on</div>
       <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
         <li>
-          <Button href="https://github.com/WolvenKit/" icon={faGithub}>GitHub</Button>
+          <Button hideExternal href="https://github.com/WolvenKit/" icon={faGithub}>GitHub</Button>
         </li>
         <li>
-          <Button href="https://discord.com/invite/Epkq79kd96" icon={faDiscord}>Discord</Button>
+          <Button hideExternal href="https://discord.com/invite/Epkq79kd96" icon={faDiscord}>Discord</Button>
         </li>
         <li>
-          <Button href="https://www.patreon.com/RedModdingTools" icon={faPatreon}>Patreon</Button>
+          <Button hideExternal href="https://www.patreon.com/RedModdingTools" icon={faPatreon}>Patreon</Button>
         </li>
       </ul>
     </nav>
@@ -93,7 +94,7 @@
   </Card>
 </Section> -->
 
-<Section class="bg-zinc-950">
+<Section class="m-0 bg-zinc-950">
   <Title>Our Main Projects</Title>
 
   <nav class="flex flex-wrap justify-center gap-4">
@@ -112,12 +113,20 @@
 
 <style>
   .header-bg {
-    --color: color-mix(in srgb, theme("colors.zinc.900"), transparent);
-    background: radial-gradient(farthest-side, var(--color) 75%, transparent);
+    --color: color-mix(in srgb, theme("colors.zinc.900") 75%, transparent);
+    background-image: radial-gradient(farthest-side, var(--color) 75%, transparent);
+    text-shadow: 0.3ex 0.25ex 0.5ex var(--color);
+  }
+
+  .crt {
+    background-image: radial-gradient(transparent, #000a);
+    background-size: 3px 3px;
   }
 
   .dots {
-    background: radial-gradient(transparent, #000a);
-    background-size: 3px;
+    background-image: radial-gradient(theme("colors.red.DEFAULT") 0.1rem, transparent 0.2rem);
+    background-size: 2rem 2rem;
+    background-position: bottom right;
+    mask: radial-gradient(farthest-side at 100% 50%, white, black) luminance;
   }
 </style>
