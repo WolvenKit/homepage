@@ -1,8 +1,9 @@
 <script lang="ts">
-  import Title from "$lib/elements/Title.svelte";
+  import Heading from "$lib/elements/Heading.svelte";
   import Section from "$lib/parts/Section.svelte";
 </script>
 
 <Section>
-  <Title>Our Projects</Title>
+  <Heading>Our Projects</Heading>
+  <div class="cyber-text text-4xl">WIP: to be done</div>
 </Section>

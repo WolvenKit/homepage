@@ -1,7 +1,4 @@
 <script lang="ts">
-  import { faDiscord } from "@fortawesome/free-brands-svg-icons/faDiscord";
-  import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
-  import { faPatreon } from "@fortawesome/free-brands-svg-icons/faPatreon";
   import malorian from "$assets/malorian-explosion_chart.avif";
   import malorianHEVC from "$assets/malorian-explosion_chart.hevc?url";
   import malorianMP4 from "$assets/malorian-explosion_chart.mp4";
@@ -12,10 +9,11 @@
   import { mediaReady } from "$lib/actions/mediaReady";
   import Button from "$lib/elements/Button.svelte";
   import Divider from "$lib/elements/Divider.svelte";
+  import Heading from "$lib/elements/Heading.svelte";
   import Image from "$lib/elements/Image.svelte";
-  import Title from "$lib/elements/Title.svelte";
   import Card from "$lib/parts/Card.svelte";
   import Section from "$lib/parts/Section.svelte";
+  import Socials from "$lib/parts/Socials.svelte";
 
   let video: HTMLVideoElement;
   let bgLoaded = false;
@@ -27,9 +25,14 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <header class="relative flex min-h-[calc(100svh-4rem)] flex-col items-center" on:click={() => video?.play()}>
-  <div class="dots absolute inset-0 -top-16 -z-10 opacity-50" />
+  <div class="dots absolute inset-0 -top-16 -z-10 overflow-hidden bg-red/50">
+    <div
+      class="dots-wave absolute bottom-0 right-0 top-0 w-[10svw] min-w-32 bg-gradient-to-l from-transparent via-red to-transparent"
+    />
+  </div>
+
   <div
-    class="absolute -top-16 right-0 max-w-[75svw] bg-red opacity-90 mix-blend-lighten transition max-lg:hidden xl:bottom-0"
+    class="absolute -top-16 right-0 max-w-[75svw] bg-red opacity-90 mix-blend-lighten transition max-lg:hidden 2xl:bottom-0"
     class:opacity-0={!bgLoaded}
   >
     <div class="crt absolute inset-0" />
@@ -59,7 +62,7 @@
   </div>
 
   <div
-    class="relative z-10 mx-[5svw] mt-auto flex max-w-screen-2xl flex-wrap justify-center gap-16 pb-16 md:justify-between"
+    class="relative z-10 mx-[5svw] mt-auto flex max-w-screen-2xl flex-wrap items-end justify-center gap-16 pb-16 md:justify-between"
   >
     <div class="w-full text-5xl font-bold uppercase text-zinc-200 sm:text-6xl">
       <div class="header-bg relative -ml-1 inline-block">
@@ -80,20 +83,7 @@
       </p>
     </div>
 
-    <nav class="header-bg">
-      <div class="text-center text-xl uppercase opacity-50">Find us on</div>
-      <ul class="flex flex-wrap items-center justify-center gap-x-8 gap-y-4">
-        <li>
-          <Button hideExternal href="https://github.com/WolvenKit/" icon={faGithub}>GitHub</Button>
-        </li>
-        <li>
-          <Button hideExternal href="https://discord.com/invite/Epkq79kd96" icon={faDiscord}>Discord</Button>
-        </li>
-        <li>
-          <Button hideExternal href="https://www.patreon.com/RedModdingTools" icon={faPatreon}>Patreon</Button>
-        </li>
-      </ul>
-    </nav>
+    <Socials class="header-bg" />
   </div>
 </header>
 
@@ -106,7 +96,7 @@
 </Section> -->
 
 <Section class="m-0 bg-zinc-950">
-  <Title>Our Main Projects</Title>
+  <Heading level={2}>Our Main Projects</Heading>
 
   <nav class="flex flex-wrap justify-center gap-4">
     <Card title="WolvenKit" href="https://github.com/WolvenKit/WolvenKit/releases/latest">
@@ -140,9 +130,25 @@
   }
 
   .dots {
-    background-image: radial-gradient(theme("colors.red.DEFAULT") 0.1rem, transparent 0.2rem);
-    background-size: 2rem 2rem;
-    background-position: bottom right;
-    mask: radial-gradient(farthest-side at 100% 50%, white, black) luminance;
+    mask: radial-gradient(white 0.1rem, transparent 0.2rem),
+      radial-gradient(farthest-side at 100% 50%, white, transparent);
+    mask-size:
+      2rem 2rem,
+      100% 100%;
+    mask-position: bottom right;
+    mask-composite: intersect;
+  }
+
+  .dots-wave {
+    animation: move-wave 5s infinite linear;
+  }
+
+  @keyframes move-wave {
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(-100vw);
+    }
   }
 </style>

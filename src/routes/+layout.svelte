@@ -85,12 +85,13 @@
     >
       <li><Button class="text-xl" href="https://wiki.redmodding.org">Wiki</Button></li>
       <li><Button class="text-xl" href="/projects">Projects</Button></li>
+      <li><Button class="text-xl" href="/members">Members</Button></li>
       <li><Button class="text-xl" href="/about">About us</Button></li>
     </ul>
   </nav>
 </header>
 
-<main>
+<main class="flex-grow">
   <slot />
 </main>
 
