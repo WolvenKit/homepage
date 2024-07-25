@@ -1,11 +1,14 @@
 <script lang="ts">
   import "@fontsource/rajdhani/400.css";
+  import "@fontsource/rajdhani/600.css";
   import "@fontsource/rajdhani/700.css";
+  import "@fontsource/metamorphous/400.css";
+
+  import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the CSS
   import { config } from "@fortawesome/fontawesome-svg-core";
+  config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
   import "../app.css";
-  import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the CSS
-  config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
 
   import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
   import { faClose } from "@fortawesome/free-solid-svg-icons/faClose";

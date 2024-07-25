@@ -7,11 +7,22 @@
   src: url("$assets/Cyberpunk-Regular.woff2") format("woff2");
 }
 
-@layer base {
-  :root {
-    --fontsource-display: block;
-  }
+:root {
+  --witcher-border-caret: polygon(
+    0 calc(50% - 5px),
+    5px 50%,
+    0 calc(50% + 5px),
+    0 100%,
+    2px 100%,
+    2px calc(50% + 5.5px),
+    7.5px 50%,
+    2px calc(50% - 5.5px),
+    2px 0,
+    0 0
+  );
+}
 
+@layer base {
   html {
     scrollbar-gutter: stable;
     overflow-y: auto;

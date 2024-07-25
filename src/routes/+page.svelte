@@ -25,10 +25,8 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <header class="relative flex min-h-[calc(100svh-4rem)] flex-col items-center" on:click={() => video?.play()}>
-  <div class="dots absolute inset-0 -top-16 -z-10 overflow-hidden bg-red/50">
-    <div
-      class="dots-wave absolute bottom-0 right-0 top-0 w-[10svw] min-w-32 bg-gradient-to-l from-transparent via-red to-transparent"
-    />
+  <div class="dots absolute inset-0 -top-16 -z-10 overflow-hidden bg-red/40">
+    <div class="dots-wave absolute inset-0 text-red" />
   </div>
 
   <div
@@ -140,15 +138,21 @@
   }
 
   .dots-wave {
+    --repeats: 2;
+
+    --size: calc(100% / var(--repeats));
+    width: calc(100% + var(--size) * 2);
+    background: linear-gradient(to right, transparent 10vw, currentColor, transparent 20vw);
+    background-size: calc(var(--size) / 2) 100%;
     animation: move-wave 5s infinite linear;
   }
 
   @keyframes move-wave {
     from {
-      transform: translateX(100%);
+      transform: translateX(calc(var(--size) / 4));
     }
     to {
-      transform: translateX(-100vw);
+      transform: translateX(calc(var(--size) / -4));
     }
   }
 </style>

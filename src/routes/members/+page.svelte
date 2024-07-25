@@ -82,7 +82,7 @@
     <MemberItem
       member={{
         name: "CyberWopps",
-        bio: "The",
+        bio: "The the cat with the cyber ",
         image: wopss,
         teams: ["wiki", "CET", "WolvenKit", "REDcore", "Website"],
         theme: "Cyberpunk",
