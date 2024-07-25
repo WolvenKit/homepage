@@ -27,7 +27,8 @@
   <div
     class={twMerge(
       "relative max-w-md px-4 py-2 text-center transition",
-      overlay && "text-shadow absolute inset-0 flex flex-col items-center justify-center gap-2",
+      overlay &&
+        "text-shadow absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/25 group-hover-focus:bg-transparent",
     )}
   >
     {#if $$slots.title || title}
@@ -37,7 +38,7 @@
     {/if}
 
     <slot name="content">
-      <p class="text-center leading-tight">
+      <p class="text-shadow text-center leading-tight">
         <slot />
       </p>
     </slot>

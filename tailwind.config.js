@@ -50,6 +50,8 @@ module.exports = {
         ":merge(.peer):focus ~ &",
         ":merge(.peer):focus-within ~ &",
       ]);
+      addVariant("noscript", ["body.noscript &"]);
+      addVariant("script", ["body:not(.noscript) &"]);
     }),
   ],
 };
