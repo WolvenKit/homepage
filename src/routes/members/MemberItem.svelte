@@ -35,9 +35,15 @@
 
   $: borderClass =
     {
-      Cyberpunk: "cyberborder border-2 border-red overflow-hidden",
-      Witcher: "border-2 border-zinc-300 p-1",
+      Cyberpunk: "cyberborder ring-2 ring-red overflow-hidden",
+      Witcher: "ring-2 ring-zinc-300 p-1",
     }[member.theme as Theme] || "";
+
+  $: contentClass =
+    {
+      Cyberpunk: "bg-black",
+      Witcher: "bg-zinc-700",
+    }[member.theme as Theme] || "bg-neutral-800";
 </script>
 
 <li class="flex items-start">
@@ -52,7 +58,7 @@
     {/if}
   </div>
 
-  <div class="flex flex-grow flex-col px-4">
+  <div class={twMerge("flex h-full flex-grow flex-col px-4 pt-2", contentClass)}>
     <h3 class="mb-1 flex flex-wrap items-center gap-x-2">
       <span class={twMerge("text-2xl leading-none", nameClass)}>{member.name}</span>
 
@@ -67,7 +73,7 @@
 
     <p class={twMerge("leading-tight text-zinc-300", descClass)}>{member.bio}</p>
 
-    <ul class="ml-auto mt-auto flex gap-1">
+    <ul class="-mr-2 ml-auto mt-auto flex gap-1">
       <li>
         <Button iconOnly hideExternal icon={faGithub} label="GitHub" />
       </li>
@@ -84,7 +90,7 @@
     content: "";
     position: absolute;
     background: black;
-    border: inherit;
+    border: 2px solid theme("colors.red.DEFAULT");
   }
   .cyberborder::after {
     width: 1.5rem;
@@ -100,7 +106,6 @@
     height: 1rem;
     transform: skewX(-45deg);
     border-right-width: 3px;
-    /* outline: 2px solid red; */
   }
 
   .witcher-inner-border::before,
