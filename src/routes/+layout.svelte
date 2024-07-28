@@ -19,7 +19,7 @@
   import sammy from "$assets/sammy.png";
   import Button from "$lib/elements/Button.svelte";
 
-  let scrollY = 0;
+  let scrollY = 2;
   let navOpen = false;
   let navClosed = true; // after transition
 

@@ -49,3 +49,9 @@
     filter: drop-shadow(0 0 0.4rem theme("colors.cyan.dark"));
   }
 }
+
+@layer utilities {
+  .small-caps {
+    font-variant: small-caps;
+  }
+}

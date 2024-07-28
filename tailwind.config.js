@@ -4,13 +4,14 @@ import plugin from "tailwindcss/plugin";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/app.html", "./src/**/*.{svelte,ts}"],
+
   theme: {
     extend: {
       colors: {
         yellow: { DEFAULT: "#f3e600", dark: "#d3c600" },
         cyan: { light: "#75ffff", DEFAULT: "#04daf6", dark: "#008b9d", darker: "#00464f" },
         red: { DEFAULT: "#ff003c", dark: "#910022", darker: "#40000f", darkest: "#090002" },
-        witcher: "#e1a735",
+        witcher: { gold: "#e1a735", silver: "#718381" },
       },
       fontFamily: {
         sans: ["Rajdhani", ...defaultConfig.theme.fontFamily.sans],
@@ -36,10 +37,13 @@ module.exports = {
       transitionDuration: {
         DEFAULT: "250ms",
       },
+      dropShadow: {
+        px: "1px 1px 0 black",
+      },
     },
   },
   plugins: [
-    plugin(function ({ addVariant }) {
+    plugin(function ({ addVariant, matchUtilities }) {
       addVariant("hover-focus", ["&:hover", "&:focus", "&:focus-within"]);
       addVariant("group-hover-focus", [
         ":merge(.group):hover &",
@@ -51,8 +55,15 @@ module.exports = {
         ":merge(.peer):focus ~ &",
         ":merge(.peer):focus-within ~ &",
       ]);
+      addVariant("pseudo", ["&::before", "&::after"]);
       addVariant("noscript", ["body.noscript &"]);
       addVariant("script", ["body:not(.noscript) &"]);
+
+      matchUtilities({
+        clip: (value) => ({
+          "clip-path": value,
+        }),
+      });
     }),
   ],
 };
