@@ -20,26 +20,26 @@
   import ThemeFrameBig from "$lib/theme/ThemeFrameBig.svelte";
   import ThemeFrameSmall from "$lib/theme/ThemeFrameSmall.svelte";
   import WitcherDivider from "$lib/theme/WitcherDivider.svelte";
-  import { outlineToPath, THEME_CORNERS, type Theme } from "$lib/themes";
+  import { outlineToPath, THEME_COLORS, THEME_CORNERS, type Theme } from "$lib/themes";
   import { tw, type CornerConfig } from "$lib/utils";
 
   export let member: Member;
 
   const THEMES = {
     Cyberpunk: {
-      base: tw`bg-black`,
-      header: tw`border-b-2 border-red`,
+      base: tw``,
+      header: tw`pl-2`,
       name: tw`cyber-text`,
-      image: tw`-my-0.5`,
-      content: tw`text-red`,
+      image: tw``,
+      content: THEME_COLORS.Cyberpunk.border.text,
       links: tw``,
       frame: tw``,
     },
     Witcher: {
       base: tw`bg-zinc-800`,
-      header: tw`border-none bg-zinc-700 px-6`,
+      header: tw`border-none px-6`,
       name: tw`small-caps font-[Metamorphous] text-witcher-gold`,
-      image: tw`-my-px drop-shadow-px`,
+      image: tw`mt-px drop-shadow-px`,
       content: tw``,
       links: tw`mr-1`,
       frame: tw`drop-shadow-px`,
@@ -61,6 +61,7 @@
     compensateWidth = Math.ceil(width) - width - compensateWidth;
   }
 
+  $: colors = THEME_COLORS[member.theme ?? "default"];
   $: theme = member.theme && THEMES[member.theme];
   $: corners = member.theme && CORNERS[member.theme];
   $: clipPath = member.theme && outlineToPath(THEME_CORNERS[member.theme].outline, corners);
@@ -69,11 +70,18 @@
 <li
   bind:this={container}
   bind:clientWidth
-  class={twMerge("witcher-clip relative flex flex-col bg-zinc-800", theme?.base)}
+  class={twMerge("witcher-clip relative flex flex-col", colors.background, theme?.base)}
   style:clip-path={clipPath}
   style:padding-right="{compensateWidth}px"
 >
-  <h3 class={twMerge("relative flex flex-wrap items-center justify-between gap-x-4 p-2", theme?.header)}>
+  <h3
+    class={twMerge(
+      "relative flex flex-wrap items-center justify-between gap-x-4 border-b-2 p-2 pl-4",
+      colors.border.border,
+      colors.background,
+      theme?.header,
+    )}
+  >
     <span class={twMerge("text-2xl leading-none", theme?.name)}>{member.name}</span>
 
     {#if member.teams.length}
@@ -85,7 +93,7 @@
     {/if}
 
     {#if member.theme == "Witcher"}
-      <div class="absolute -left-px bottom-0 right-0 flex h-0 text-zinc-400">
+      <div class="absolute -bottom-0.5 -left-px right-0 flex h-0 text-zinc-400">
         <span class="-mt-0.5 inline-block h-0 w-[130px] translate-x-px border-b-2 border-current" />
         <WitcherDivider withoutCorners class="flex-grow rotate-180 text-inherit drop-shadow-px" />
       </div>
@@ -115,9 +123,7 @@
     </div>
   </div>
 
-  {#if member.theme}
-    <ThemeFrameBig theme={member.theme} {corners} class={theme?.frame} />
-  {/if}
+  <ThemeFrameBig theme={member.theme} {corners} class={theme?.frame} />
 </li>
 
 <style>

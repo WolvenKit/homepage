@@ -3,6 +3,10 @@ import { tw, type Corner, type CornerConfig, type Point } from "./utils";
 export type Theme = "Cyberpunk" | "Witcher";
 
 export const THEME_COLORS = {
+  default: {
+    border: { text: tw`text-red-dark`, border: tw`border-red-dark` },
+    background: tw`bg-zinc-800`,
+  },
   Cyberpunk: {
     border: { text: tw`text-red`, border: tw`border-red` },
     background: tw`bg-black`,
@@ -11,7 +15,7 @@ export const THEME_COLORS = {
     border: { text: tw`text-zinc-400`, border: tw`border-zinc-400` },
     background: tw`bg-zinc-700`,
   },
-} satisfies Record<Theme, { border: Record<"text" | "border", string>; background: string }>;
+} satisfies Record<Theme | "default", { border: Record<"text" | "border", string>; background: string }>;
 
 export const THEME_CORNERS = {
   Cyberpunk: {
