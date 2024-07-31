@@ -23,7 +23,7 @@
     "2xl:grid-cols-[repeat(auto-fit,minmax(20%,auto))]",
     "lg:grid-cols-[repeat(auto-fit,minmax(30%,auto))]",
     "sm:grid-cols-[repeat(auto-fit,minmax(35%,auto))]",
-    "grid-cols-[repeat(auto-fit,minmax(50%,auto))]",
+    "grid-cols-[repeat(auto-fit,minmax(50%,100%))]",
   )}
 >
   <!-- <ul class="flex max-w-screen-2xl flex-wrap justify-center gap-4"> -->

@@ -30,7 +30,7 @@
   </div>
 
   <div
-    class="absolute -top-16 right-0 max-w-[75svw] bg-red opacity-90 mix-blend-lighten transition max-lg:hidden 2xl:bottom-0"
+    class="absolute -top-16 right-0 max-w-[75vw] bg-red opacity-90 mix-blend-lighten transition max-lg:hidden 2xl:bottom-0"
     class:opacity-0={!bgLoaded}
   >
     <div class="crt absolute inset-0" />
@@ -60,7 +60,7 @@
   </div>
 
   <div
-    class="relative z-10 mx-[5svw] mt-auto flex max-w-screen-2xl flex-wrap items-end justify-center gap-16 pb-16 md:justify-between"
+    class="relative z-10 mx-[5vw] mt-auto flex max-w-screen-2xl flex-wrap items-end justify-between gap-2 pb-4 pt-16 max-v-md:flex-grow v-md:gap-8 max-sm:flex-col md:pb-16 lg:gap-16"
   >
     <div class="w-full text-5xl font-bold uppercase text-zinc-200 sm:text-6xl">
       <div class="header-bg relative -ml-1 inline-block">
@@ -75,8 +75,8 @@
     <div>
       <Divider class="justify-start" />
       <p class="header-bg max-w-3xl text-left text-2xl">
-        We are a community formed around modding <strong>The Witcher 3</strong>, the release of
-        <strong>Cyberpunk 2077</strong> expanded our community dramatically.
+        We are a community formed around modding <strong>The Witcher 3</strong>, significantly expanded by the release
+        of <strong>Cyberpunk 2077</strong>.
         <Button inline href="/about">Read more...</Button>
       </p>
     </div>

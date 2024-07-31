@@ -43,7 +43,7 @@ module.exports = {
     },
   },
   plugins: [
-    plugin(function ({ addVariant, matchUtilities }) {
+    plugin(function ({ addVariant, matchUtilities, matchVariant, theme }) {
       addVariant("hover-focus", ["&:hover", "&:focus", "&:focus-within"]);
       addVariant("group-hover-focus", [
         ":merge(.group):hover &",
@@ -55,9 +55,26 @@ module.exports = {
         ":merge(.peer):focus ~ &",
         ":merge(.peer):focus-within ~ &",
       ]);
+
       addVariant("pseudo", ["&::before", "&::after"]);
+
       addVariant("noscript", ["body.noscript &"]);
       addVariant("script", ["body:not(.noscript) &"]);
+
+      matchVariant(
+        "max-v",
+        (value) => {
+          return `@media (max-height: ${value})`;
+        },
+        { values: theme("screens") },
+      );
+      matchVariant(
+        "v",
+        (value) => {
+          return `@media (min-height: ${value})`;
+        },
+        { values: theme("screens") },
+      );
 
       matchUtilities({
         clip: (value) => ({
