@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  import type { Team } from "$lib/parts/TeamBadge.svelte";
+  import type { Team } from "$components/parts/TeamBadge.svelte";
 
   export interface Member {
     name: string;
@@ -14,12 +14,12 @@
   import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
   import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
   import { twMerge } from "tailwind-merge";
-  import Button from "$lib/elements/Button.svelte";
-  import Image from "$lib/elements/Image.svelte";
-  import TeamBadge from "$lib/parts/TeamBadge.svelte";
-  import ThemeFrameBig from "$lib/theme/ThemeFrameBig.svelte";
-  import ThemeFrameSmall from "$lib/theme/ThemeFrameSmall.svelte";
-  import WitcherDivider from "$lib/theme/WitcherDivider.svelte";
+  import Button from "$components/elements/Button.svelte";
+  import Image from "$components/elements/Image.svelte";
+  import TeamBadge from "$components/parts/TeamBadge.svelte";
+  import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
+  import ThemeFrameSmall from "$components/theme/ThemeFrameSmall.svelte";
+  import WitcherDivider from "$components/theme/WitcherDivider.svelte";
   import { outlineToPath, THEME_COLORS, THEME_CORNERS, type Theme } from "$lib/themes";
   import { tw, type CornerConfig } from "$lib/utils";
 

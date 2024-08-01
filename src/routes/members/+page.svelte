@@ -2,8 +2,9 @@
   import wopss from "$assets/members/cyberwopps.png";
   import fuzzo from "$assets/members/fuzzo.png";
   import trade from "$assets/members/live_trade_reaction.gif";
-  import Heading from "$lib/elements/Heading.svelte";
-  import Section from "$lib/parts/Section.svelte";
+  import Heading from "$components/elements/Heading.svelte";
+  import Section from "$components/parts/Section.svelte";
+  import Divider from "$lib/components/elements/Divider.svelte";
   import MemberItem from "./MemberItem.svelte";
   import TeamSection from "./TeamSection.svelte";
 </script>
@@ -45,6 +46,8 @@
       }}
     />
   </TeamSection>
+
+  <Divider class="m-0 -mb-8" />
 
   <TeamSection team="REDcore">
     <MemberItem
@@ -139,6 +142,8 @@
       }}
     />
   </TeamSection>
+
+  <Divider class="m-0 -mb-8" />
 
   <TeamSection team="Website">
     <MemberItem

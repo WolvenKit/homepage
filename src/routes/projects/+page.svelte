@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Heading from "$lib/elements/Heading.svelte";
-  import Section from "$lib/parts/Section.svelte";
+  import Heading from "$components/elements/Heading.svelte";
+  import Section from "$components/parts/Section.svelte";
 </script>
 
 <Section>

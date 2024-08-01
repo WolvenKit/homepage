@@ -3,7 +3,7 @@
   import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
   import { faPatreon } from "@fortawesome/free-brands-svg-icons/faPatreon";
   import { twMerge } from "tailwind-merge";
-  import Button from "$lib/elements/Button.svelte";
+  import Button from "$components/elements/Button.svelte";
 
   let classes = "";
   export { classes as class };

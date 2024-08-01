@@ -1,7 +1,7 @@
 <script lang="ts">
   import { twMerge } from "tailwind-merge";
-  import Heading from "$lib/elements/Heading.svelte";
-  import TeamBadge, { type Team } from "$lib/parts/TeamBadge.svelte";
+  import Heading from "$components/elements/Heading.svelte";
+  import TeamBadge, { type Team } from "$components/parts/TeamBadge.svelte";
 
   export let team: Team | undefined = undefined;
   export let title: string = `Team ${team}`;

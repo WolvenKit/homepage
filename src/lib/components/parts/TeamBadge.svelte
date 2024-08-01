@@ -4,7 +4,7 @@
 
 <script lang="ts">
   import catMod from "$assets/catmod.webp";
-  import Image from "$lib/elements/Image.svelte";
+  import Image from "$components/elements/Image.svelte";
 
   const COLORS = {
     REDcore: "#ff0000",
