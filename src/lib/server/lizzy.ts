@@ -30,6 +30,17 @@ function fetchLizzy(path: string, init?: RequestInit) {
   });
 }
 
+export async function fetchDetails(members: string[]) {
+  const result = await fetchLizzy("/api/discord/user/details?server=" + DISCORD_SERVER_ID, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(members),
+  });
+  return await result.json();
+}
+
 export async function fetchRoles(): Promise<Role[]> {
   const result = await fetchLizzy("/api/discord/roles?server=" + DISCORD_SERVER_ID);
   return (await result.json())[0];
