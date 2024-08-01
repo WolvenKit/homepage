@@ -1,3 +1,3 @@
-import { fetchRoles } from "$lib/server/lizzy";
+import { fetchRoles, getMembersFromRoles } from "$lib/server/lizzy";
 
-fetchRoles().then(console.log).catch(console.error);
+// fetchRoles().then(getMembersFromRoles).then(console.log).catch(console.error);
