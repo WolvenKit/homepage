@@ -12,7 +12,7 @@
 
 <svg version="1.1" viewBox="-1 -1 17 17" xmlns="http://www.w3.org/2000/svg" width={17} height={17} {...$$restProps}>
   <polyline
-    points={THEME_CORNERS[theme].points.map((p) => p.join(",")).join(" ")}
+    points={THEME_CORNERS[theme]?.points.map((p) => p.join(",")).join(" ")}
     class="fill-none stroke-current"
     stroke-linecap="square"
     stroke-width="2"

@@ -1,27 +1,17 @@
-<script lang="ts" context="module">
-  export type Team = "admin" | "wiki" | "CET" | "WolvenKit" | "REDcore" | "Website";
-</script>
-
 <script lang="ts">
-  import catMod from "$assets/catmod.webp";
-  import Image from "$components/elements/Image.svelte";
+  import Image from "$lib/components/elements/Image.svelte";
+  import { teams, type Team } from "$lib/content/teams";
 
-  const COLORS = {
-    REDcore: "#ff0000",
-    Website: "#7119f8",
-    wiki: "#00d7fd",
-    WolvenKit: "#ff4c6f",
-    CET: "#005bf9",
-  } satisfies Record<Exclude<Team, "admin">, string>;
-
-  export let team: Team;
+  export let team: Team | string;
   let classes = "";
   export { classes as class };
+
+  $: teamInfo = typeof team === "string" ? teams[team] : team;
 </script>
 
-{#if team == "admin"}
-  <Image src={catMod} width={24} height={24} alt={team} title={team} class={classes} />
-{:else}
+{#if "icon" in teamInfo && teamInfo.icon}
+  <Image src={teamInfo.icon} width="24" height="24" class={classes} title={teamInfo.label} />
+{:else if "color" in teamInfo && teamInfo.color}
   <svg
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -29,10 +19,9 @@
     width="24"
     height="24"
     class={classes}
-    style:color={COLORS[team]}
+    style:color={teamInfo.color}
   >
-    <title>{team}</title>
-
+    <title>{teamInfo.label}</title>
     <path d="m937.1 761-425.1 249-425.1-249 .0052-498 425.1-249 425.1 249z" fill="black" stroke="white" />
     <path
       d="m870 722.4-358.6 209.4-358-210.4.593-419.8 358.6-209.4 358 210.4z"

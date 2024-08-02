@@ -1,41 +1,34 @@
-<script lang="ts" context="module">
-  import type { Team } from "$components/parts/TeamBadge.svelte";
-
-  export interface Member {
-    name: string;
-    bio: string;
-    image: string;
-    teams: Team[];
-    theme?: Theme;
-  }
-</script>
-
 <script lang="ts">
   import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
   import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
   import { twMerge } from "tailwind-merge";
+  import fuzz from "$assets/members/fuzzo.png";
   import Button from "$components/elements/Button.svelte";
   import Image from "$components/elements/Image.svelte";
-  import TeamBadge from "$components/parts/TeamBadge.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import ThemeFrameSmall from "$components/theme/ThemeFrameSmall.svelte";
   import WitcherDivider from "$components/theme/WitcherDivider.svelte";
-  import { outlineToPath, THEME_COLORS, THEME_CORNERS, type Theme } from "$lib/themes";
+  import type { TeamMember } from "$lib/server/lizzy";
+  import { outlineToPath, THEME_COLORS, THEME_CORNERS, type GameTheme } from "$lib/themes";
   import { tw, type CornerConfig } from "$lib/utils";
+  import TeamBadge from "./TeamBadge.svelte";
 
-  export let member: Member;
+  export let member: TeamMember;
 
-  const THEMES = {
-    Cyberpunk: {
+  const THEMES: Record<
+    GameTheme,
+    Record<"base" | "header" | "name" | "image" | "content" | "links" | "frame", string>
+  > = {
+    cyberpunk: {
       base: tw``,
       header: tw`pl-2`,
       name: tw`cyber-text`,
       image: tw``,
-      content: THEME_COLORS.Cyberpunk.border.text,
+      content: THEME_COLORS.cyberpunk.border.text,
       links: tw``,
       frame: tw``,
     },
-    Witcher: {
+    witcher: {
       base: tw`bg-zinc-800`,
       header: tw`border-none px-6`,
       name: tw`small-caps font-[Metamorphous] text-witcher-gold`,
@@ -44,12 +37,12 @@
       links: tw`mr-1`,
       frame: tw`drop-shadow-px`,
     },
-  } satisfies Record<Theme, Record<"base" | "header" | "name" | "image" | "content" | "links" | "frame", string>>;
+  };
 
-  const CORNERS = {
-    Cyberpunk: { tr: true, bl: true },
-    Witcher: { tl: true, tr: true, br: true },
-  } satisfies Record<Theme, CornerConfig>;
+  const CORNERS: Record<GameTheme, CornerConfig> = {
+    cyberpunk: { tr: true, bl: true },
+    witcher: { tl: true, tr: true, br: true },
+  };
 
   // Align right side of the item with integers cuz of firefox rendering issues
   let container: HTMLElement;
@@ -62,9 +55,10 @@
   }
 
   $: colors = THEME_COLORS[member.theme ?? "default"];
-  $: theme = member.theme && THEMES[member.theme];
-  $: corners = member.theme && CORNERS[member.theme];
-  $: clipPath = member.theme && outlineToPath(THEME_CORNERS[member.theme].outline, corners);
+  $: theme = member.theme && member.theme != "default" ? THEMES[member.theme] : undefined;
+  $: corners = member.theme && member.theme != "default" ? CORNERS[member.theme] : undefined;
+  $: clipPath =
+    member.theme && THEME_CORNERS[member.theme] && outlineToPath(THEME_CORNERS[member.theme]!.outline, corners);
 </script>
 
 <li
@@ -82,17 +76,17 @@
       theme?.header,
     )}
   >
-    <span class={twMerge("text-2xl leading-none", theme?.name)}>{member.name}</span>
+    <span class={twMerge("text-2xl leading-none", theme?.name)}>{member.Displayname}</span>
 
-    {#if member.teams.length}
+    {#if member.Teams.size}
       <ul class="flex flex-wrap gap-px">
-        {#each member.teams as team (team)}
+        {#each member.Teams as team, i (i)}
           <li><TeamBadge {team} /></li>
         {/each}
       </ul>
     {/if}
 
-    {#if member.theme == "Witcher"}
+    {#if member.theme == "witcher"}
       <div class="absolute -bottom-0.5 -left-px right-0 flex h-0 text-zinc-400">
         <span class="-mt-0.5 inline-block h-0 w-[130px] translate-x-px border-b-2 border-current" />
         <WitcherDivider withoutCorners class="flex-grow rotate-180 text-inherit drop-shadow-px" />
@@ -102,7 +96,7 @@
 
   <div class="flex">
     <div class={twMerge("relative", theme?.image)}>
-      <Image src={member.image} width={96} height={96} class="size-32 object-cover" />
+      <Image src={fuzz} width={96} height={96} class="size-32 object-cover" />
 
       {#if member.theme}
         <ThemeFrameSmall theme={member.theme} />
@@ -110,7 +104,7 @@
     </div>
 
     <div class={twMerge("relative flex h-full flex-shrink-0 flex-grow flex-col p-4", theme?.content)}>
-      <p class={twMerge("leading-tight ")}>{member.bio}</p>
+      {#if member.description}<p class={twMerge("leading-tight ")}>{member.description}</p>{/if}
 
       <ul class={twMerge("-mb-4 -mr-3 ml-auto mt-auto flex gap-1", theme?.links)}>
         <li>

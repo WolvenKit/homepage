@@ -1,20 +1,19 @@
 <script lang="ts">
   import { twMerge } from "tailwind-merge";
   import Heading from "$components/elements/Heading.svelte";
-  import TeamBadge, { type Team } from "$components/parts/TeamBadge.svelte";
+  import type { Team } from "$lib/content/teams";
+  import TeamBadge from "./TeamBadge.svelte";
 
-  export let team: Team | undefined = undefined;
-  export let title: string = `Team ${team}`;
-  export let description = "";
+  export let team: Team;
 </script>
 
 <Heading level={2} class="flex flex-wrap items-center justify-center gap-2">
-  {#if team}<TeamBadge {team} class="size-10" />{/if}
-  {title}
+  <TeamBadge {team} class="size-10" />
+  {team.label}
 </Heading>
 
-{#if description}
-  <p class="-my-8 text-zinc-400">{description}</p>
+{#if team.description}
+  <p class="-my-8 text-zinc-400">{team.description}</p>
 {/if}
 
 <ul

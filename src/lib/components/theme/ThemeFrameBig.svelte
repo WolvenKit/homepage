@@ -4,9 +4,9 @@
   import type { Corner } from "$lib/utils";
   import ThemeCorner from "./ThemeCorner.svelte";
 
-  export let theme: Theme | undefined;
+  export let theme: Theme = "default";
   export let corners: Partial<Record<Corner, boolean>> =
-    theme == "Cyberpunk" ? { tr: true, bl: true } : { tl: true, tr: true, bl: true, br: true };
+    theme == "cyberpunk" ? { tr: true, bl: true } : { tl: true, tr: true, bl: true, br: true };
   let classes = "";
   export { classes as class };
 </script>
@@ -18,7 +18,7 @@
     classes,
   )}
 >
-  {#if theme}
+  {#if theme != "default"}
     {#if corners.tl}
       <ThemeCorner {theme} class="absolute -left-0.5 -top-0.5" />
     {/if}

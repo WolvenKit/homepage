@@ -5,7 +5,7 @@
   import { mediaReady } from "$lib/actions/mediaReady";
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface $$Props extends HTMLImgAttributes {}
+  type $$Props = HTMLImgAttributes;
 
   let loaded = false;
 </script>

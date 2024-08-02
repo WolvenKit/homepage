@@ -1,0 +1,40 @@
+leaders:
+  label: Primary members
+  description: The leaders, the masters, the god.
+  members: rfuzzo, traderain, moonded, wopss, yamashi, jackhumbert, seberoth, hitmanhimself
+
+mods:
+  label: Moderators
+  description: Protectors of peace.
+  discord_role: [Moderator, Moderator+, Moderator++]
+  icon: /cat_mod.webp
+
+redcore:
+  label: Team REDCore
+  description: Uhm... they make the core red?
+  discord_role: Team-REDCore
+  color: "#ff0000"
+
+cet:
+  label: Team CET
+  description: Unresolved hash
+  discord_role: Team-CET
+  color: "#005bf9"
+
+wkit:
+  label: Team WolvenKit
+  description: Developers of THE modding tool for Cyberpunk 2077.
+  discord_role: Team-WKit
+  color: "#ff4c6f"
+
+website:
+  label: Team Website
+  description: Haha
+  discord_role: Team-Website
+  color: "#7119f8"
+
+wiki:
+  label: Team Wiki
+  description: Helpers of our custom LLM AI Mana.
+  discord_role: Team-Wiki
+  color: "#00d7fd"

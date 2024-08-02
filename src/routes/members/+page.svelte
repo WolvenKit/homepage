@@ -1,12 +1,12 @@
 <script lang="ts">
-  import wopss from "$assets/members/cyberwopps.png";
-  import fuzzo from "$assets/members/fuzzo.png";
-  import trade from "$assets/members/live_trade_reaction.gif";
   import Heading from "$components/elements/Heading.svelte";
   import Section from "$components/parts/Section.svelte";
   import Divider from "$lib/components/elements/Divider.svelte";
+  import { teams } from "$lib/content/teams";
   import MemberItem from "./MemberItem.svelte";
   import TeamSection from "./TeamSection.svelte";
+
+  export let data;
 </script>
 
 <Section>
@@ -18,141 +18,14 @@
     If you want to join our team you have to contribute to... idk what to write here, someone help me.
   </p>
 
-  <TeamSection team="admin" title="Primary members" description="The leaders, the masters, the god">
-    <MemberItem
-      member={{
-        name: "Fuzzo",
-        bio: "The primary leader of the free world.",
-        image: fuzzo,
-        teams: ["admin", "WolvenKit", "REDcore"],
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "Trade",
-        bio: "The trade of the rain.",
-        image: trade,
-        teams: ["admin", "wiki", "WolvenKit", "REDcore", "Website"],
-        theme: "Witcher",
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "CyberWopps",
-        bio: "The",
-        image: wopss,
-        teams: ["wiki", "CET", "WolvenKit", "REDcore", "Website"],
-        theme: "Cyberpunk",
-      }}
-    />
-  </TeamSection>
+  {#each Object.entries(data.teamMembers) as [teamId, members], i (i)}
+    {@const team = teams[teamId]}
+    {#if i}<Divider class="m-0 -mb-8" />{/if}
 
-  <Divider class="m-0 -mb-8" />
-
-  <TeamSection team="REDcore">
-    <MemberItem
-      member={{
-        name: "NotFuzzo",
-        bio: "The primary leader of the.",
-        image: fuzzo,
-        teams: ["WolvenKit", "REDcore"],
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "NotFuzzo",
-        bio: "The primary leader of the.",
-        image: fuzzo,
-        teams: ["WolvenKit", "REDcore"],
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "NotFuzzo",
-        bio: "The primary leader of the.",
-        image: fuzzo,
-        teams: ["WolvenKit", "REDcore"],
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "NotFuzzo",
-        bio: "The primary leader of the.",
-        image: fuzzo,
-        teams: ["WolvenKit", "REDcore"],
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "CyberWopps",
-        bio: "The the cat with the cyber ",
-        image: wopss,
-        teams: ["wiki", "CET", "WolvenKit", "REDcore", "Website"],
-        theme: "Cyberpunk",
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "NotFuzzo",
-        bio: "The primary leader of the.",
-        image: fuzzo,
-        teams: ["WolvenKit", "REDcore"],
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "Trade",
-        bio: "The trade of the rain.",
-        image: trade,
-        teams: ["wiki", "WolvenKit", "REDcore", "Website"],
-        theme: "Witcher",
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "NotFuzzo",
-        bio: "The primary leader of the.",
-        image: fuzzo,
-        teams: ["WolvenKit", "REDcore"],
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "NotFuzzo",
-        bio: "The primary leader of the.",
-        image: fuzzo,
-        teams: ["WolvenKit", "REDcore"],
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "NotFuzzo",
-        bio: "The primary leader of the.",
-        image: fuzzo,
-        teams: ["WolvenKit", "REDcore"],
-      }}
-    />
-    <MemberItem
-      member={{
-        name: "CyberWopps",
-        bio: "The",
-        image: wopss,
-        teams: ["wiki", "CET", "WolvenKit", "REDcore", "Website"],
-        theme: "Cyberpunk",
-      }}
-    />
-  </TeamSection>
-
-  <Divider class="m-0 -mb-8" />
-
-  <TeamSection team="Website">
-    <MemberItem
-      member={{
-        name: "NotFuzzo",
-        bio: "The primary leader of the.",
-        image: fuzzo,
-        teams: ["WolvenKit", "REDcore"],
-      }}
-    />
-  </TeamSection>
+    <TeamSection {team}>
+      {#each members as member (member.ID)}
+        <MemberItem {member} />
+      {/each}
+    </TeamSection>
+  {/each}
 </Section>

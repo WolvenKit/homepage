@@ -1,24 +1,29 @@
 import { tw, type Corner, type CornerConfig, type Point } from "./utils";
 
-export type Theme = "Cyberpunk" | "Witcher";
+export type GameTheme = "cyberpunk" | "witcher";
 
-export const THEME_COLORS = {
+export type Theme = "default" | GameTheme;
+
+export const THEME_COLORS: Record<
+  Theme | "default",
+  { border: Record<"text" | "border", string>; background: string }
+> = {
   default: {
     border: { text: tw`text-red-dark`, border: tw`border-red-dark` },
     background: tw`bg-zinc-800`,
   },
-  Cyberpunk: {
+  cyberpunk: {
     border: { text: tw`text-red`, border: tw`border-red` },
     background: tw`bg-black`,
   },
-  Witcher: {
+  witcher: {
     border: { text: tw`text-zinc-400`, border: tw`border-zinc-400` },
     background: tw`bg-zinc-700`,
   },
-} satisfies Record<Theme | "default", { border: Record<"text" | "border", string>; background: string }>;
+};
 
-export const THEME_CORNERS = {
-  Cyberpunk: {
+export const THEME_CORNERS: Partial<Record<Theme, Record<"points" | "outline", Point[]>>> = {
+  cyberpunk: {
     points: [
       [0, 15],
       [0, 14],
@@ -33,7 +38,7 @@ export const THEME_CORNERS = {
     ],
   },
 
-  Witcher: {
+  witcher: {
     points: [
       [0, 15],
       [0, 5],
@@ -53,7 +58,7 @@ export const THEME_CORNERS = {
       [15, 0],
     ],
   },
-} satisfies Record<Theme, Record<"points" | "outline", Point[]>>;
+};
 
 function toRelativeCorner(points: Point[], corner: Corner) {
   if (corner == "tr" || corner == "bl") points = points.toReversed();
