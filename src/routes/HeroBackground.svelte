@@ -39,11 +39,11 @@
     <Image src={malorian} />
   </video>
 
-  <div class="crt absolute right-0 top-24 max-w-screen-sm bg-red/90 bg-clip-text p-8 text-right text-transparent">
-    {#if autoplayDisabled}
-      <div class="text-lg">Auto-play is disabled. Click to play animation.</div>
-    {/if}
+  {#if autoplayDisabled}
+    <div class="absolute right-0 top-16 p-4 text-lg text-red">Auto-play is disabled. Click to play animation.</div>
+  {/if}
 
+  <div class="crt absolute right-0 top-24 max-w-screen-sm bg-red/90 bg-clip-text p-8 text-right text-transparent">
     <div class="text-black/25">
       <h1 class="text-2xl leading-none">Malorian Arms</h1>
 
