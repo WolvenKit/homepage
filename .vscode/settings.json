@@ -1,3 +1,8 @@
 {
-  "tailwindCSS.experimental.classRegex": ["tw`([^`]+)`"]
+  "tailwindCSS.experimental.classRegex": [
+    "tw`([^`]+)`"
+  ],
+  "yaml.schemas": {
+    "https://json.schemastore.org/yamllint.json": "file:///home/adam/Projects/Svelte/RedModding/content/site.yaml"
+  }
 }

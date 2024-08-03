@@ -1,4 +1,4 @@
-import { fetchTeams, type TeamMember } from "$lib/server/lizzy";
+import { fetchTeams, type TeamMember } from "$lib/server/services/lizzy";
 import type { PageServerLoad } from "./$types";
 
 let cache: Record<string, TeamMember[]> | null = null;

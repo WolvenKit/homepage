@@ -19,6 +19,7 @@
   import { beforeNavigate } from "$app/navigation";
   import sammy from "$assets/sammy.png";
   import Button from "$components/elements/Button.svelte";
+  import { site } from "$lib/content/site";
 
   let scrollY = 2;
   let navOpen = false;
@@ -62,7 +63,7 @@
       isOnTop && "script:lg:translate-y-1/2 script:lg:text-6xl",
     )}
   >
-    Red Modding
+    {site.name}
   </a>
 
   <nav id="mainNav" aria-label="Main navigation" class="group ml-auto">
@@ -87,10 +88,9 @@
         navClosed && browser && "max-lg:invisible",
       )}
     >
-      <li><Button class="text-xl" href="https://wiki.redmodding.org">Wiki</Button></li>
-      <li><Button class="text-xl" href="/projects">Projects</Button></li>
-      <li><Button class="text-xl" href="/members">Members</Button></li>
-      <li><Button class="text-xl" href="/about">About us</Button></li>
+      {#each Object.entries(site.menu) as [label, link], i (i)}
+        <li><Button class="text-xl" href={link}>{label}</Button></li>
+      {/each}
     </ul>
   </nav>
 </header>
@@ -99,9 +99,21 @@
   <slot />
 </main>
 
-<footer class="mt-8 flex w-full flex-wrap items-start justify-center p-8">
-  <a href="https://wiki.redmodding.org/" class="cyber-text text-3xl">Link Harder</a>
-  TODO: Footer
+<footer class="flex w-full flex-wrap items-start justify-between bg-zinc-950 p-8">
+  <a href="/" class="text-2xl font-bold uppercase text-red transition-all duration-500 sm:text-4xl">{site.name}</a>
 
-  <noscript>JavaScript is not required but it is recommended for this website to work it's best!</noscript>
+  <div class="text-center">
+    <!-- <noscript> -->
+    <div class="text-red">JavaScript is not required but it is recommended for this website to work it's best!</div>
+    <!-- </noscript> -->
+
+    <div class="leading-none">
+      Website created by <Button inline hideExternal href="https://zhincore.eu/">@Zhincore</Button>.
+      <div class="text-zinc-400">Ping him on Discord about feedback or complaints.</div>
+    </div>
+  </div>
+
+  <div>
+    <Button class="text-xl" href={site.menu.wiki}>Wiki</Button>
+  </div>
 </footer>

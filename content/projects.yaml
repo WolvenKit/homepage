@@ -3,3 +3,5 @@ wolvenkit:
   description: Community Mod editor/creator for REDengine games.
   image: /projects/wkit.png
   github: WolvenKit/WolvenKit
+  theme: cyberpunk
+  featured: true
