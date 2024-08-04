@@ -5,6 +5,6 @@
   export { classes as class };
 </script>
 
-<section class={twMerge("relative my-8 flex w-full flex-grow flex-col items-center gap-16 p-2 py-8", classes)}>
+<div class={twMerge("relative my-8 flex w-full flex-grow flex-col items-center gap-16 p-2 py-8", classes)}>
   <slot></slot>
-</section>
+</div>

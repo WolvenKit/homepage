@@ -108,7 +108,7 @@
         </div>
 
         <div class="relative z-10 -mb-1 -mr-2 ml-auto">
-          <!-- <ThemeButton href="/members/{member.Username}" theme={themeName} size="sm">detail</ThemeButton> -->
+          <ThemeButton href="/members/{member.Username}" theme={themeName} size="sm">detail</ThemeButton>
         </div>
       </div>
     </div>

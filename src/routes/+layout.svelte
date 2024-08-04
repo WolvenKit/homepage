@@ -95,7 +95,7 @@
   </nav>
 </header>
 
-<main class="flex-grow">
+<main class="flex flex-grow flex-col">
   <slot />
 </main>
 

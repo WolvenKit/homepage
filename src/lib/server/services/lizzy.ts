@@ -27,15 +27,18 @@ export interface DiscordMember {
   };
 }
 
-function fetchLizzy(path: string, init?: RequestInit) {
+async function fetchLizzy(path: string, init?: RequestInit) {
   const url = new URL(path, LIZZY_API_URL);
-  return fetch(url, {
+  const result = await fetch(url, {
     ...init,
     headers: {
       Authorization: `Bearer ${LIZZY_API_TOKEN}`,
       ...init?.headers,
     },
   });
+
+  if (!result.ok) throw result;
+  return result;
 }
 
 let memberCache: Promise<DiscordMember[]> | null = null;
