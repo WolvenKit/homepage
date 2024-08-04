@@ -6,7 +6,7 @@
 
   export let inline = false;
   export let href = "";
-  export let external = !href.startsWith("/");
+  export let external = ![".", "/"].includes(href[0]);
   export let icon: IconDefinition | undefined = undefined;
   export let element: HTMLElement | undefined = undefined;
   export let iconOnly = false;
@@ -16,8 +16,10 @@
   export { classes as class };
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <svelte:element
   this={href ? "a" : "button"}
+  on:click
   bind:this={element}
   {href}
   rel={external ? "noopener noreferrer" : undefined}

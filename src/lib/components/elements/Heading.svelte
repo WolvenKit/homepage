@@ -14,4 +14,4 @@
   export { classes as class };
 </script>
 
-<h2 class={twMerge(LEVELS[level], classes)}><slot></slot></h2>
+<h2 class={twMerge("-mb-8", LEVELS[level], classes)}><slot></slot></h2>

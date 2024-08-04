@@ -15,7 +15,7 @@
 
   <DotsSidesBackground class="fixed" />
 
-  <p class="-mt-8 max-w-3xl text-center">
+  <p class="max-w-3xl text-center">
     Here are the members of our Red Modding team.<br />
     This includes people who <code class="text-sm">[INSERT_REQUIREMENT_LIST_HERE]</code>, etc.<br />
     If you want to join our team you have to contribute to... idk what to write here, someone help me.

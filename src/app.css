@@ -41,7 +41,7 @@
   }
 
   .text-shadow {
-    text-shadow: 0.3ex 0.2ex 0.3rem rgba(0, 0, 0, 0.9);
+    text-shadow: 0.3ex 0.2ex 0.15rem rgba(0, 0, 0, 0.9);
   }
 
   .hover-glow:hover,

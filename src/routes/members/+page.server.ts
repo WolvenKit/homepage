@@ -1,6 +1,7 @@
-import { fetchTeams } from "$lib/server/members";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async () => {
-  return { teamMembers: await fetchTeams() };
+export const load = (async ({ parent }) => {
+  const data = await parent();
+
+  return { teamMembers: data.teamMembers };
 }) satisfies PageServerLoad;

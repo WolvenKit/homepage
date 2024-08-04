@@ -1,9 +1,14 @@
 <script lang="ts">
+  import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
+  import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
+  import Button from "$lib/components/elements/Button.svelte";
   import Heading from "$lib/components/elements/Heading.svelte";
   import Image from "$lib/components/elements/Image.svelte";
+  import Card from "$lib/components/parts/Card.svelte";
   import Section from "$lib/components/parts/Section.svelte";
   import { teams } from "$lib/content/teams";
   import TeamBadge from "../TeamBadge.svelte";
+  import DataEntry from "./DataEntry.svelte";
 
   export let data;
 </script>
@@ -11,34 +16,27 @@
 <Section>
   <Heading>Member detail</Heading>
 
-  <div class="flex w-full max-w-screen-lg flex-wrap gap-8">
-    <div>
-      <Image src={data.member.Image} width={128} height={128} />
-    </div>
+  <header class="relative w-full max-w-screen-lg text-left max-md:mt-4">
+    <Button href="." icon={faArrowLeft} class="absolute bottom-full text-opacity-75 md:mb-4">See all members</Button>
 
-    <div class="flex flex-grow flex-col gap-4">
-      <Heading level={2} class="text-white">{data.member.Displayname}</Heading>
-      {#if data.member.CustomData?.description}
-        <p>{data.member.CustomData.description}</p>
-      {/if}
+    <div class="mb-4 inline-flex gap-4">
+      <div class="flex-shrink-0">
+        <Image src={data.member.Image} width={128} height={128} />
+      </div>
 
-      <dl>
-        <!-- {#if data.nexus?.user.country}
-          <dt>Country</dt>
-          <dd>{data.nexus.user.country}</dd>
+      <div class="flex flex-grow flex-col justify-around gap-2 p-2">
+        <Heading level={2} class="m-0 leading-none text-white">{data.member.Displayname}</Heading>
+
+        {#if data.member.CustomData?.description}
+          <p class="max-w-screen-sm">{data.member.CustomData.description}</p>
         {/if}
-
-        {#if data.nexus?.user.kudos}
-          <dt>Kudos</dt>
-          <dd>{data.nexus.user.kudos}</dd>
-        {/if} -->
-      </dl>
+      </div>
     </div>
 
-    <div>
-      <Heading level={3}>Teams</Heading>
+    <div class="mb-8 ml-8 max-md:text-center md:float-right">
+      <Heading level={3} class="mb-2">Teams</Heading>
 
-      <ul class="flex flex-col gap-2">
+      <ul class="inline-flex flex-col gap-2">
         {#each data.member.Teams as teamId (teamId)}
           {@const team = teams[teamId]}
           <li class="flex items-center gap-2 text-xl font-semibold leading-none text-zinc-400">
@@ -48,5 +46,67 @@
         {/each}
       </ul>
     </div>
-  </div>
+
+    <dl class="clear-left my-4 flex flex-wrap justify-between gap-6 px-4 text-center">
+      {#if data.nexus?.user.country}
+        <DataEntry key="Country">{data.nexus.user.country}</DataEntry>
+      {/if}
+
+      {#if data.nexus?.user.kudos}
+        <DataEntry key="Kudos">{data.nexus.user.kudos.toLocaleString()}</DataEntry>
+      {/if}
+
+      {#if data.nexus?.user.uniqueModDownloads}
+        <DataEntry key="Mod downloads">{data.nexus.user.uniqueModDownloads.toLocaleString()}</DataEntry>
+      {/if}
+
+      {#if data.nexus?.mods.length}
+        <DataEntry key="Mods released">{data.nexus.mods.length.toLocaleString()}</DataEntry>
+      {/if}
+
+      {#if data.member.CustomData?.github}
+        <DataEntry key="GitHub">
+          <Button inline hideExternal href="https://github.com/{data.member.CustomData?.github}" class="text-lg">
+            @{data.member.CustomData?.github}
+          </Button>
+        </DataEntry>
+      {/if}
+
+      {#if data.member.CustomData?.nexusmods}
+        <DataEntry key="NexusMods">
+          <Button
+            inline
+            hideExternal
+            href="{PUBLIC_NEXUS_PROFILE_URL}/{data.member.CustomData?.github}"
+            class="text-lg"
+          >
+            @{data.member.CustomData?.nexusmods}
+          </Button>
+        </DataEntry>
+      {/if}
+    </dl>
+  </header>
+
+  {#if data.nexus?.mods.length}
+    <Section as="section" class="m-0">
+      <Heading level={2} class="w-full max-w-screen-lg">Best released mods</Heading>
+
+      <ul class="flex flex-wrap justify-center gap-2">
+        {#each data.nexus.mods as mod}
+          <li>
+            <Card title={mod.name} href="https://www.nexusmods.com/{mod.game.domainName}/mods/{mod.modId}">
+              <Image slot="logo" src={mod.thumbnailUrl} width={385} height={216} />
+              {mod.summary}
+            </Card>
+          </li>
+        {/each}
+      </ul>
+    </Section>
+  {/if}
+
+  {#if data.contributions?.length}
+    <Section as="section" class="m-0">
+      <Heading level={2} class="w-full max-w-screen-lg">Project contributions</Heading>
+    </Section>
+  {/if}
 </Section>

@@ -20,14 +20,14 @@ interface ProcessedMembers {
 let cache: ProcessedMembers | null = null;
 
 export async function fetchMembers() {
-  return _getCachedMembers().then((v) => v.memberMap);
+  return getCachedMembers().then((v) => v.memberMap);
 }
 
 export async function fetchTeams() {
-  return _getCachedMembers().then((v) => v.teamMembers);
+  return getCachedMembers().then((v) => v.teamMembers);
 }
 
-async function _getCachedMembers() {
+export async function getCachedMembers() {
   if (!cache) cache = await _fetchMembers();
   return cache;
 }

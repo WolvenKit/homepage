@@ -59,7 +59,7 @@
 <Section class="m-0 bg-zinc-950">
   <Heading level={2}>Our Main Projects</Heading>
 
-  <nav class="-mt-8 flex flex-wrap justify-center gap-4">
+  <nav class="flex flex-wrap justify-center gap-4">
     <Card title="WolvenKit" href="https://github.com/WolvenKit/WolvenKit/releases/latest">
       <Image slot="logo" src={wkit} />
 

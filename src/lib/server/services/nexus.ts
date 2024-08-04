@@ -1,5 +1,6 @@
 import pThrottle from "p-throttle";
-import { NEXUS_GAME_IDS, NEXUS_URL } from "$env/static/private";
+import { NEXUS_GAME_IDS } from "$env/static/private";
+import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
 
 const GAME_IDS = new Set(NEXUS_GAME_IDS.split(",").map((v) => v.trim()));
 const throttle = pThrottle({
@@ -34,7 +35,7 @@ export interface NexusProfile {
 }
 
 export function getNexusProfileURL(name: string) {
-  return new URL(`/profile/${name}`, NEXUS_URL);
+  return new URL(`/profile/${name}`, PUBLIC_NEXUS_PROFILE_URL);
 }
 
 export const fetchNexusProfile = throttle(_fetchNexusProfile);
@@ -62,7 +63,7 @@ async function _fetchNexusProfile(name: string): Promise<NexusProfile> {
     }
   }
 
-  queries.mods = (queries.mods as { nodes: NexusMod[] }).nodes.filter((mod) => {
+  queries.mods = (queries.mods as { nodes: NexusMod[] }).nodes.slice(0, 4).filter((mod) => {
     const gameId = mod.id.split(",")[0];
     return GAME_IDS.has(gameId);
   });

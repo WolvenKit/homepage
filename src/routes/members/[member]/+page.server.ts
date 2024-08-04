@@ -6,20 +6,18 @@ import type { PageServerLoad } from "./$types";
 
 export const prerender = "auto";
 
-export const load = (async ({ params }) => {
-  const members = await fetchMembers();
-  const member = members[params.member];
+export const load = (async ({ params, parent }) => {
+  const { memberMap } = await parent();
+  const member = memberMap[params.member];
 
   if (!member) error(404, "Member not found");
 
-  return { member };
+  const [contributions, nexus] = await Promise.all([
+    (member.CustomData?.github && fetchGithubContributions(member.CustomData.github)) || undefined,
+    (member.CustomData?.nexusmods && fetchNexusProfile(member.CustomData.nexusmods)) || undefined,
+  ]);
 
-  // const [contributions, nexus] = await Promise.all([
-  //   (member.CustomData?.github && fetchGithubContributions(member.CustomData.github)) || undefined,
-  //   (member.CustomData?.nexusmods && fetchNexusProfile(member.CustomData.nexusmods)) || undefined,
-  // ]);
-
-  // return { member, contributions, nexus };
+  return { member, contributions, nexus };
 }) satisfies PageServerLoad;
 
 export const entries = async () => {
