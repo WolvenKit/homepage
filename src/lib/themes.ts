@@ -77,6 +77,10 @@ function toRelativeCorner(points: Point[], corner: Corner) {
   });
 }
 
+export function scalePath(path: Point[], scale: number): Point[] {
+  return path.map((p) => [p[0] * scale, p[1] * scale]);
+}
+
 export function outlineToPath(
   outline: Point[],
   { tl, tr, br, bl }: CornerConfig = { tl: true, tr: true, br: true, bl: true },

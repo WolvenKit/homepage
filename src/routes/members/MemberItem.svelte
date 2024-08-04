@@ -2,12 +2,11 @@
   import { faDiscord } from "@fortawesome/free-brands-svg-icons/faDiscord";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
-  import fuzz from "$assets/members/fuzzo.png";
   import Image from "$components/elements/Image.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
-  import ThemeFrameSmall from "$components/theme/ThemeFrameSmall.svelte";
   import WitcherDivider from "$components/theme/WitcherDivider.svelte";
   import ThemeButton from "$lib/components/theme/ThemeButton.svelte";
+  import WitcherFrame from "$lib/components/theme/WitcherFrame.svelte";
   import type { Team } from "$lib/content/teams";
   import type { TeamMember } from "$lib/server/members";
   import { outlineToPath, THEME_COLORS, THEME_CORNERS, type GameTheme } from "$lib/themes";
@@ -32,10 +31,10 @@
     },
     witcher: {
       base: tw`bg-zinc-800`,
-      header: tw`border-none px-6`,
+      header: tw`border-transparent px-6`,
       name: tw`small-caps font-[Metamorphous] text-witcher-gold`,
-      image: tw`mt-px drop-shadow-px`,
-      content: tw`pb-4`,
+      image: tw`border-transparent drop-shadow-px`,
+      content: tw``,
       links: tw`mr-1`,
       frame: tw`drop-shadow-px`,
     },
@@ -43,7 +42,7 @@
 
   const CORNERS: Record<GameTheme, CornerConfig> = {
     cyberpunk: { tr: true, bl: true },
-    witcher: { tl: true, tr: true, br: true },
+    witcher: { tl: true, tr: true },
   };
 
   $: themeName = member.CustomData?.theme ?? "default";
@@ -88,17 +87,17 @@
     {/if}
   </h3>
 
-  <div class="flex w-full">
-    <div class={twMerge("relative flex-shrink-0", theme?.image)}>
-      <Image src={member.Image} width={96} height={96} class="size-32 object-cover" />
+  <div class="h-full w-full">
+    <div class={twMerge("relative float-left -mt-0.5 border-2", colors.border.border, theme?.image)}>
+      <Image src={member.Image + "?size=128"} width={128} height={128} class="size-32 object-cover" />
 
-      {#if themeName}
-        <ThemeFrameSmall theme={themeName} />
+      {#if themeName == "witcher"}
+        <WitcherFrame class="-inset-px" />
       {/if}
     </div>
 
     <div class={twMerge("relative flex h-full flex-grow flex-col p-2 text-zinc-300", theme?.content)}>
-      <p class={twMerge("pl-2 pt-1 leading-tight")}>
+      <p class={twMerge("line-clamp-3 pl-2 pt-1 leading-tight")}>
         {member.CustomData?.description || `Member of the ${team.label}.`}
       </p>
 
@@ -109,7 +108,7 @@
         </div>
 
         <div class="relative z-10 -mb-1 -mr-2 ml-auto">
-          <ThemeButton href="/members/{member.Username}" theme={themeName} size="sm">detail</ThemeButton>
+          <!-- <ThemeButton href="/members/{member.Username}" theme={themeName} size="sm">detail</ThemeButton> -->
         </div>
       </div>
     </div>

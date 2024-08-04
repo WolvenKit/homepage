@@ -2,14 +2,13 @@
   import Button from "$components/elements/Button.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import Section from "$components/parts/Section.svelte";
-  import DotsBackground from "$lib/components/parts/DotsBackground.svelte";
+  import DotsSidesBackground from "$lib/components/parts/DotsSidesBackground.svelte";
 </script>
 
-<Section class="relative">
+<Section>
   <Heading>About us</Heading>
 
-  <DotsBackground repeats={1} duration="4s" class="left-2/3 max-lg:hidden" />
-  <DotsBackground repeats={1} duration="4s" class="right-2/3 rotate-180 max-lg:hidden" />
+  <DotsSidesBackground />
 
   <div class="flex max-w-3xl flex-col gap-8 text-justify text-xl leading-relaxed text-zinc-300">
     <p>

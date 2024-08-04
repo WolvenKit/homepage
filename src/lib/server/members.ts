@@ -12,15 +12,29 @@ export type TeamMember = DiscordMember & {
 
 export type Teams = Record<string, TeamMember[]>;
 
-let cache: Teams | null = null;
+interface ProcessedMembers {
+  teamMembers: Teams;
+  memberMap: Record<string, TeamMember>;
+}
+
+let cache: ProcessedMembers | null = null;
 
 export async function fetchMembers() {
+  return _getCachedMembers().then((v) => v.memberMap);
+}
+
+export async function fetchTeams() {
+  return _getCachedMembers().then((v) => v.teamMembers);
+}
+
+async function _getCachedMembers() {
   if (!cache) cache = await _fetchMembers();
   return cache;
 }
 
 async function _fetchMembers() {
   const members = await fetchDiscordMembers();
+
   const { team2manyMembers, memberMap } = processMembers(members);
   const teamMembers = assignMembersToTeams(team2manyMembers, memberMap);
 
@@ -30,7 +44,7 @@ async function _fetchMembers() {
     output[key] = Array.from(value).sort((a, b) => a.Username.localeCompare(b.Username));
   }
 
-  return output;
+  return { teamMembers: output, memberMap };
 }
 
 // async function fetchMembersGithubs(members: DiscordMember[]) {

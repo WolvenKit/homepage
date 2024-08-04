@@ -2,6 +2,7 @@
   import Heading from "$components/elements/Heading.svelte";
   import Section from "$components/parts/Section.svelte";
   import Divider from "$lib/components/elements/Divider.svelte";
+  import DotsSidesBackground from "$lib/components/parts/DotsSidesBackground.svelte";
   import { teams } from "$lib/content/teams";
   import MemberItem from "./MemberItem.svelte";
   import TeamSection from "./TeamSection.svelte";
@@ -11,6 +12,8 @@
 
 <Section>
   <Heading>Our Members</Heading>
+
+  <DotsSidesBackground class="fixed" />
 
   <p class="max-w-3xl text-center">
     Here are the members of our Red Modding team.<br />

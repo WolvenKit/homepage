@@ -1,8 +1,12 @@
+import { error } from "@sveltejs/kit";
 import { fetchMembers } from "$lib/server/members";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ params }) => {
-  return { member: {} };
-}) satisfies PageServerLoad;
+  const members = await fetchMembers();
+  const member = members[params.member];
 
-export const entries = "auto";
+  if (!member) error(404, "Member not found");
+
+  return { member };
+}) satisfies PageServerLoad;

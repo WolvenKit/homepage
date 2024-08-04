@@ -17,7 +17,7 @@ redcore:
 
 cet:
   label: CET Team
-  description: Unresolved hash
+  description: The unresolved hash gang
   discord_role: Team-CET
   color: "#005bf9"
 
