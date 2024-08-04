@@ -24,6 +24,9 @@ export interface NexusMod {
 
 export interface NexusProfile {
   mods: NexusMod[];
+  "user-collections-count": { collections: { totalCount: number } };
+  "user-media-count": { legacyMedia: { totalCount: number } };
+  "user-mods-count": { mods: { totalCount: number } };
   user: {
     about: string | null;
     country: string | null;

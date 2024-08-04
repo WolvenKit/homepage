@@ -21,7 +21,7 @@
       overlay && "blur-sm transition group-hover-focus:blur-none",
     )}
   >
-    <div class={twMerge("h-full w-full transition", "saturate-50 group-hover-focus:saturate-100")}>
+    <div class={twMerge("h-full w-full transition", overlay && "saturate-50 group-hover-focus:saturate-100")}>
       <slot name="logo" />
     </div>
   </div>

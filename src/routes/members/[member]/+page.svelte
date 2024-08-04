@@ -51,7 +51,7 @@
       </ul>
     </div>
 
-    <dl class="clear-left my-4 flex flex-wrap justify-between gap-6 px-4 text-center">
+    <dl class="clear-left my-4 flex flex-wrap justify-around gap-x-6 gap-y-4 px-4 text-center">
       {#if data.nexus?.user.country}
         <DataEntry key="Country">{data.nexus.user.country}</DataEntry>
       {/if}

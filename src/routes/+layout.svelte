@@ -110,6 +110,7 @@
     <div class="leading-none">
       Website created by <Button inline hideExternal href="https://zhincore.eu/">@Zhincore</Button>.
       <div class="text-zinc-400">Ping him on Discord about feedback or complaints.</div>
+      <Button href={site.source}>Source code</Button>
     </div>
   </div>
 

@@ -1,5 +1,8 @@
 # Red Modding root website
 
+Website for Red Modding community.
+
+My Trello with TODOs: <https://trello.com/b/aBt38ps7/redmodding-web>
 
 ## Features
 
