@@ -9,13 +9,13 @@
   import ThemeFrameSmall from "$components/theme/ThemeFrameSmall.svelte";
   import WitcherDivider from "$components/theme/WitcherDivider.svelte";
   import type { Team } from "$lib/content/teams";
-  import type { TeamMember } from "$lib/server/services/lizzy";
+  import type { Member } from "$lib/server/members";
   import { outlineToPath, THEME_COLORS, THEME_CORNERS, type GameTheme } from "$lib/themes";
   import { tw, type CornerConfig } from "$lib/utils";
   import TeamBadge from "./TeamBadge.svelte";
 
   export let team: Team;
-  export let member: TeamMember;
+  export let member: Member;
 
   const THEMES: Record<
     GameTheme,
@@ -77,7 +77,7 @@
 >
   <h3
     class={twMerge(
-      "relative flex flex-wrap items-center justify-between gap-x-4 border-b-2 p-2 pl-4 text-white",
+      "relative flex flex-wrap items-center justify-between gap-x-4 border-b-2 p-2 pb-1.5 pl-4 text-white",
       colors.border.border,
       colors.background,
       theme?.header,

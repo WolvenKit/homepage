@@ -16,10 +16,36 @@ export interface GithubRepository {
   html_url: string;
 }
 
-export async function findUsers(names: string[]): Promise<Record<string, GithubUser>> {
-  const url = new URL("/search/users", GITHUB_API_URL);
-  url.searchParams.set("q", names.map((v) => "user:" + v).join(" "));
+export async function fetchGithubUsers(names: string[]): Promise<GithubUser[]> {
+  // Clone the array
+  names = [...names];
 
+  const users: GithubUser[] = [];
+
+  const baseUrl = new URL("/search/users", GITHUB_API_URL);
+
+  // Generate requests with URL length less than too much
+  while (names.length) {
+    const url = new URL(baseUrl);
+    let q = "";
+
+    while (url.href.length < 7000) {
+      const name = names.shift();
+      if (!name) break;
+
+      if (q) q += " ";
+      q += `user:${name}`;
+      url.searchParams.set("q", q);
+    }
+
+    const result = await _fetchGithubUsers(url);
+    users.push(...result);
+  }
+
+  return users;
+}
+
+async function _fetchGithubUsers(url: URL): Promise<GithubUser[]> {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error("Could not fetch GitHub users: " + response.status + ": " + response.statusText);
@@ -27,17 +53,12 @@ export async function findUsers(names: string[]): Promise<Record<string, GithubU
 
   const result = await response.json();
 
-  if (result.incomplete_results) console.warn("GITHUB FIND USERS INCOMPLETE RESULTS!!");
+  if (result.incomplete_results) console.warn("GITHUB FETCH USERS INCOMPLETE RESULTS!!");
 
-  const users: Record<string, GithubUser> = {};
-  for (const user of result.items) {
-    users[user.login] = user;
-  }
-
-  return users;
+  return result.items;
 }
 
-export async function findContributions(author: string): Promise<GithubRepository[]> {
+export async function fetchGithubContributions(author: string): Promise<GithubRepository[]> {
   const url = new URL(`/search/commits`, GITHUB_API_URL);
   url.searchParams.set("q", `org:${GITHUB_ORG} author:${author}`);
 
@@ -48,7 +69,7 @@ export async function findContributions(author: string): Promise<GithubRepositor
 
   const result = await response.json();
 
-  if (result.incomplete_results) console.warn("GITHUB FIND CONTRIBUTIONS INCOMPLETE RESULTS!!");
+  if (result.incomplete_results) console.warn("GITHUB FETCH CONTRIBUTIONS INCOMPLETE RESULTS!!");
 
   const repositories: Record<string, GithubRepository> = {};
   for (const commit of result.items) {

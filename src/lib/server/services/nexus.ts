@@ -1,4 +1,11 @@
+import pThrottle from "p-throttle";
 import { NEXUS_GAME_IDS, NEXUS_URL } from "$env/static/private";
+
+const GAME_IDS = new Set(NEXUS_GAME_IDS.split(",").map((v) => v.trim()));
+const throttle = pThrottle({
+  limit: 10,
+  interval: 1000,
+});
 
 export interface NexusMod {
   author: string;
@@ -26,13 +33,13 @@ export interface NexusProfile {
   };
 }
 
-const GAME_IDS = new Set(NEXUS_GAME_IDS.split(",").map((v) => v.trim()));
-
 export function getNexusProfileURL(name: string) {
   return new URL(`/profile/${name}`, NEXUS_URL);
 }
 
-export async function fetchNexusProfile(name: string): Promise<NexusProfile> {
+export const fetchNexusProfile = throttle(_fetchNexusProfile);
+
+async function _fetchNexusProfile(name: string): Promise<NexusProfile> {
   const url = getNexusProfileURL(name);
   url.pathname += "/mods";
   url.searchParams.set("sortBy", "endorsements");
