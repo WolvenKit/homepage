@@ -7,7 +7,7 @@
 <Section>
   <Heading>Our Projects</Heading>
 
-  <p class="max-w-3xl text-center">Stuff we've created and what we work on.</p>
+  <p class="-mt-8 max-w-3xl text-center">Stuff we've created and what we work on.</p>
 
   <ul>
     {#each Object.entries(projects) as [projectId, project], i (i)}

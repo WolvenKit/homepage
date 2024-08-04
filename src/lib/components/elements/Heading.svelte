@@ -6,7 +6,7 @@
   const LEVELS = {
     1: "text-5xl uppercase text-white font-bold",
     2: "text-4xl uppercase text-zinc-300",
-    3: "",
+    3: "text-2xl uppercase text-zinc-300",
   } satisfies Record<Level, string>;
 
   export let level: Level = 1;
@@ -14,4 +14,4 @@
   export { classes as class };
 </script>
 
-<h2 class={twMerge("-mb-8", LEVELS[level], classes)}><slot></slot></h2>
+<h2 class={twMerge(LEVELS[level], classes)}><slot></slot></h2>

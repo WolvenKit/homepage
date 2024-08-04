@@ -1,6 +1,7 @@
 leaders:
   label: Primary members
   description: The leaders, the masters, the OGs. Ping @Zhincore if you're annoyed.
+  icon: /cat_crown.webp
   members: [rfuzzo, traderain, moonded, wopss, yamashi, jackhumbert, seberoth, hitmanhimself]
 
 mods:
