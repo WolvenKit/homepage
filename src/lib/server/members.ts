@@ -1,24 +1,18 @@
-import merge from "merge";
-import { teams } from "$lib/content/teams";
-import type { Combine } from "$lib/utils";
-import { fetchGithubUsers, type GithubUser } from "./services/github";
-import {
-  fetchDiscordDetails,
-  fetchDiscordRoles,
-  type MemberDetails,
-  type Role,
-  type RoleMember,
-  type TeamMember,
-} from "./services/lizzy";
-import { fetchNexusProfile, type NexusProfile } from "./services/nexus";
+import { teams, type Team } from "$lib/content/teams";
+import { type GithubUser } from "./services/github";
+import { fetchDiscordMembers, type DiscordMember } from "./services/lizzy";
+import { type NexusProfile } from "./services/nexus";
 
-type MergedDetails = Partial<MemberDetails>;
-//| (MemberDetails & Combine<{ githubProfile: GithubUser }, { nexusProfile: NexusProfile }>);
+export type TeamMember = DiscordMember & {
+  Teams: Set<string>;
+  Displayname: string;
+  NexusProfile?: NexusProfile;
+  GithubProfile?: GithubUser;
+};
 
-export type Member = TeamMember & MergedDetails;
-export type Teams<T = TeamMember> = Record<string, T[]>;
+export type Teams = Record<string, TeamMember[]>;
 
-let cache: Teams<Member> | null = null;
+let cache: Teams | null = null;
 
 export async function fetchMembers() {
   if (!cache) cache = await _fetchMembers();
@@ -26,129 +20,142 @@ export async function fetchMembers() {
 }
 
 async function _fetchMembers() {
-  const roles = await fetchDiscordRoles();
-  const [team2manyMembers, members] = processRoles(roles);
+  const members = await fetchDiscordMembers();
+  const { team2manyMembers, memberMap } = processMembers(members);
+  const teamMembers = assignMembersToTeams(team2manyMembers, memberMap);
 
-  const details = await fetchDiscordDetails(Object.keys(members)).then(mapDetailsById);
-  // const [githubs, nexus] = await Promise.all([fetchMembersGithubs(details), fetchMembersNexus(details)]);
+  const output: Teams = {};
 
-  // const memberDetails: Record<string, MergedDetails> = merge.recursive(details, githubs, nexus);
-
-  return assignMembersToTeams(team2manyMembers, details, (member) => {
-    if (member.nexusmods) member.Displayname = member.nexusmods;
-    else if (member.github) member.Displayname = member.github;
-
-    return member;
-  });
-}
-
-async function fetchMembersGithubs(details: Record<string, MemberDetails>) {
-  const names: Record<string, string> = {};
-
-  // Collect map of github names to usernames
-  for (const [username, member] of Object.entries(details)) {
-    if (member.github) names[member.github] = username;
-  }
-
-  // Fetch
-  const githubs = await fetchGithubUsers(Object.keys(names));
-
-  // Map github names back to usernames
-  const output: Record<string, { githubProfile: GithubUser }> = {};
-  for (const githubProfile of githubs) {
-    if (!names[githubProfile.login]) continue;
-    output[names[githubProfile.login]] = { githubProfile };
+  for (const [key, value] of Object.entries(teamMembers)) {
+    output[key] = Array.from(value).sort((a, b) => a.Username.localeCompare(b.Username));
   }
 
   return output;
 }
 
-async function fetchMembersNexus(details: Record<string, MemberDetails>) {
-  const output: Record<string, { nexusProfile: NexusProfile }> = {};
-  const promises = [];
+// async function fetchMembersGithubs(members: DiscordMember[]) {
+//   const names: Record<string, string> = {};
 
-  for (const [username, member] of Object.entries(details)) {
-    if (!member.nexusmods) continue;
+//   // Collect map of github names to usernames
+//   for (const member of members) {
+//     if (member.CustomData?.github) names[member.CustomData.github] = member.Username;
+//   }
 
-    promises.push(
-      fetchNexusProfile(member.nexusmods).then((nexusProfile) => {
-        output[username] = { nexusProfile };
-      }),
-    );
-  }
+//   // Fetch
+//   const githubs = await fetchGithubUsers(Object.keys(names));
 
-  await Promise.all(promises);
-  return output;
-}
+//   // Map github names back to usernames
+//   const output: Record<string, { githubProfile: GithubUser }> = {};
+//   for (const githubProfile of githubs) {
+//     if (!names[githubProfile.login]) continue;
+//     output[names[githubProfile.login]] = { githubProfile };
+//   }
 
-function processRoles(roles: Role[]) {
+//   return output;
+// }
+
+// async function fetchMembersNexus(members: DiscordMember[]) {
+//   const output: Record<string, { nexusProfile: NexusProfile }> = {};
+//   const promises = [];
+
+//   for (const  member of members) {
+//     if (!member.CustomData?.nexusmods) continue;
+
+//     promises.push(
+//       fetchNexusProfile(member.CustomData.nexusmods).then((nexusProfile) => {
+//         output[member.Username] = { nexusProfile };
+//       }),
+//     );
+//   }
+
+//   await Promise.all(promises);
+//   return output;
+// }
+
+function processMembers(members: DiscordMember[]) {
   const role2Team = getRole2TeamMap();
-  const members: Record<string, TeamMember> = {};
-  const team2manyMembers: Teams<TeamMember> = {};
+  const memberMap: Record<string, TeamMember> = {};
+  const team2manyMembers: Teams = {};
 
-  for (const role of roles) {
-    const team = role2Team[role.Role];
-    if (!team) continue;
+  for (const member of members) {
+    if (member.Bot) continue;
 
-    for (const member of role.Members) {
-      if (member.Bot) continue;
+    for (const role of member.Roles) {
+      const team = role2Team[role.Role];
+      if (!team) continue;
 
       if (!team2manyMembers[team]) {
         team2manyMembers[team] = [];
       }
 
-      if (!members[member.ID]) {
-        members[member.ID] = createTeamMember(member);
+      if (!memberMap[member.Username]) {
+        memberMap[member.Username] = createTeamMember(member);
       }
 
-      team2manyMembers[team].push(members[member.ID]);
+      team2manyMembers[team].push(memberMap[member.Username]);
     }
   }
 
-  return [team2manyMembers, members] as const;
+  return { team2manyMembers, memberMap };
 }
 
-function createTeamMember(member: RoleMember): TeamMember {
+function createTeamMember(discordMember: DiscordMember): TeamMember {
   return {
-    ...member,
+    ...discordMember,
     Teams: new Set(),
-    Displayname: member.Username.split(/(?<![a-z])/gim)
-      .map((v) => v[0].toUpperCase() + v.slice(1))
-      .join(""),
+    Displayname:
+      discordMember.CustomData?.nexusmods ||
+      discordMember.CustomData?.github ||
+      discordMember.Username.split(/(?<![a-z])/gim)
+        .map((v) => v[0].toUpperCase() + v.slice(1))
+        .join(""),
   };
 }
 
-function mapDetailsById(details: MemberDetails[]): Record<string, MemberDetails> {
-  return details.reduce(
-    (acc, detail) => {
-      acc[detail.userid] = detail;
-      return acc;
-    },
-    {} as Record<string, MemberDetails>,
-  );
-}
+function assignMembersToTeams(team2manyMembers: Teams, memberMap: Record<string, TeamMember>) {
+  const teamMembers: Record<string, Set<TeamMember>> = {};
+  const member2Team: Record<string, string> = {};
 
-function assignMembersToTeams<Details>(
-  team2manyMembers: Teams,
-  memberDetails: Record<string, Details>,
-  processMember: (member: TeamMember & Details) => TeamMember & Details,
-): Teams<TeamMember & Details> {
-  const assignedMembers = new Set<string>();
-  const teamMembers: Teams<TeamMember & Details> = {};
+  function getMembers(teamId: string, team: Team) {
+    const members = team2manyMembers[teamId] ?? [];
+    let forcedMembers: Set<string> | null = null;
 
-  for (const teamId of Object.keys(teams)) {
-    if (!team2manyMembers[teamId]?.length) continue;
+    // Add forced members
+    if ("members" in team) {
+      forcedMembers = new Set();
+      for (const username of team.members) {
+        const member = memberMap[username];
+        if (member) {
+          members.push(member);
+          forcedMembers.add(username);
+        }
+      }
+    }
 
-    for (const member of team2manyMembers[teamId]) {
+    return { members, forcedMembers };
+  }
+
+  for (const [teamId, team] of Object.entries(teams)) {
+    const { members, forcedMembers } = getMembers(teamId, team);
+
+    // Skip empty teams, just in case
+    if (!members.length) continue;
+
+    teamMembers[teamId] = new Set();
+
+    for (const member of members) {
       member.Teams.add(teamId);
 
-      if (assignedMembers.has(member.ID)) continue;
-      assignedMembers.add(member.ID);
+      const currentTeam = member2Team[member.Username];
 
-      if (!teamMembers[teamId]) teamMembers[teamId] = [];
+      // If already has team, skip
+      if (currentTeam && !forcedMembers?.has(member.Username)) continue;
 
-      const processedMember = processMember(Object.assign(member, memberDetails[member.ID]));
-      teamMembers[teamId].push(processedMember);
+      // If already had a team, remove them from it
+      teamMembers[currentTeam]?.delete(member);
+
+      member2Team[member.Username] = teamId;
+      teamMembers[teamId].add(member);
     }
   }
 

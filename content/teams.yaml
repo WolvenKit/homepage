@@ -1,7 +1,7 @@
 leaders:
   label: Primary members
-  description: The leaders, the masters, the god.
-  members: rfuzzo, traderain, moonded, wopss, yamashi, jackhumbert, seberoth, hitmanhimself
+  description: The leaders, the masters, the OGs. Ping @Zhincore if you're annoyed.
+  members: [rfuzzo, traderain, moonded, wopss, yamashi, jackhumbert, seberoth, hitmanhimself]
 
 mods:
   label: Moderator Team

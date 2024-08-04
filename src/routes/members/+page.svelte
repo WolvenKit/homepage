@@ -23,7 +23,7 @@
     {#if i}<Divider class="m-0 -mb-8" />{/if}
 
     <TeamSection {team}>
-      {#each members.sort((a, b) => a.Username.localeCompare(b.Username)) as member (member.ID)}
+      {#each members as member (member.ID)}
         <MemberItem {member} {team} />
       {/each}
     </TeamSection>

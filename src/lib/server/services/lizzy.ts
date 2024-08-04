@@ -1,31 +1,30 @@
+import { dev } from "$app/environment";
 import { DISCORD_SERVER_ID, LIZZY_API_TOKEN, LIZZY_API_URL } from "$env/static/private";
 import type { Theme } from "$lib/themes";
 
-export interface MemberDetails {
-  id: string;
-  user: string;
-  userid: string;
-  nexusmods: string;
-  github: string;
-  theme: Lowercase<Theme>;
-  description: string;
-}
-
-export interface RoleMember {
-  Username: string;
-  Discriminator: string;
-  ID: string;
-  Bot: boolean;
-}
-
-export type TeamMember = RoleMember & {
-  Displayname: string;
-  Teams: Set<string>;
-};
-
 export interface Role {
   Role: string;
-  Members: RoleMember[];
+  ID: string;
+  Icon: null;
+  Position: number;
+}
+
+export interface DiscordMember {
+  Username: string;
+  Nickname: string | null;
+  Image: string;
+  ID: string;
+  Bot: boolean;
+  Roles: Role[];
+  CustomData: null | {
+    id: string;
+    user: string;
+    userid: string;
+    nexusmods: string;
+    github: string;
+    theme: Theme;
+    description: string;
+  };
 }
 
 function fetchLizzy(path: string, init?: RequestInit) {
@@ -39,23 +38,28 @@ function fetchLizzy(path: string, init?: RequestInit) {
   });
 }
 
-export async function fetchA(): Promise<Role[]> {
-  const result = await fetchLizzy("/api/experimental/web?server=" + DISCORD_SERVER_ID);
-  return await result.json();
+let memberCache: Promise<DiscordMember[]> | null = null;
+
+export async function fetchDiscordMembers(): Promise<DiscordMember[]> {
+  // Cache in development
+  if (!dev || !memberCache) {
+    memberCache = fetchLizzy("/api/experimental/web?server=" + DISCORD_SERVER_ID).then((r) => r.json());
+  }
+  return memberCache;
 }
 
-export async function fetchDiscordDetails(members: string[]): Promise<MemberDetails[]> {
-  const result = await fetchLizzy("/api/discord/user/details?server=" + DISCORD_SERVER_ID, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(members),
-  });
-  return await result.json();
-}
+// export async function fetchDiscordDetails(members: string[]): Promise<MemberDetails[]> {
+//   const result = await fetchLizzy("/api/discord/user/details?server=" + DISCORD_SERVER_ID, {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(members),
+//   });
+//   return await result.json();
+// }
 
-export async function fetchDiscordRoles(): Promise<Role[]> {
-  const result = await fetchLizzy("/api/discord/roles?server=" + DISCORD_SERVER_ID);
-  return (await result.json())[0];
-}
+// export async function fetchDiscordRoles(): Promise<Role[]> {
+//   const result = await fetchLizzy("/api/discord/roles?server=" + DISCORD_SERVER_ID);
+//   return (await result.json())[0];
+// }

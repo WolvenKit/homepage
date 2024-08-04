@@ -1,8 +1,8 @@
 import { fetchMembers } from "$lib/server/members";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({}) => {
-  const members = await fetchMembers();
-
-  return { member: await fetchMembers() };
+export const load = (async ({ params }) => {
+  return { member: {} };
 }) satisfies PageServerLoad;
+
+export const entries = "auto";
