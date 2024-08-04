@@ -3,10 +3,10 @@
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
   import Image from "$components/elements/Image.svelte";
+  import ThemeButton from "$components/theme/ThemeButton.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import WitcherDivider from "$components/theme/WitcherDivider.svelte";
-  import ThemeButton from "$lib/components/theme/ThemeButton.svelte";
-  import WitcherFrame from "$lib/components/theme/WitcherFrame.svelte";
+  import WitcherFrame from "$components/theme/WitcherFrame.svelte";
   import type { Team } from "$lib/content/teams";
   import type { TeamMember } from "$lib/server/members";
   import { outlineToPath, THEME_COLORS, THEME_CORNERS, type GameTheme } from "$lib/themes";

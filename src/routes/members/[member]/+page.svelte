@@ -1,11 +1,13 @@
 <script lang="ts">
   import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
+  import Button from "$components/elements/Button.svelte";
+  import Heading from "$components/elements/Heading.svelte";
+  import Image from "$components/elements/Image.svelte";
+  import Card from "$components/parts/Card.svelte";
+  import Section from "$components/parts/Section.svelte";
   import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
-  import Button from "$lib/components/elements/Button.svelte";
-  import Heading from "$lib/components/elements/Heading.svelte";
-  import Image from "$lib/components/elements/Image.svelte";
-  import Card from "$lib/components/parts/Card.svelte";
-  import Section from "$lib/components/parts/Section.svelte";
+  import DotsSidesBackground from "$lib/components/parts/DotsSidesBackground.svelte";
+  import { projects } from "$lib/content/projects";
   import { teams } from "$lib/content/teams";
   import TeamBadge from "../TeamBadge.svelte";
   import DataEntry from "./DataEntry.svelte";
@@ -15,6 +17,8 @@
 
 <Section>
   <Heading>Member detail</Heading>
+
+  <DotsSidesBackground />
 
   <header class="relative w-full max-w-screen-lg text-left max-md:mt-4">
     <Button href="." icon={faArrowLeft} class="absolute bottom-full text-opacity-75 md:mb-4">See all members</Button>
@@ -56,12 +60,12 @@
         <DataEntry key="Kudos">{data.nexus.user.kudos.toLocaleString()}</DataEntry>
       {/if}
 
-      {#if data.nexus?.user.uniqueModDownloads}
-        <DataEntry key="Mod downloads">{data.nexus.user.uniqueModDownloads.toLocaleString()}</DataEntry>
-      {/if}
-
       {#if data.nexus?.mods.length}
         <DataEntry key="Mods released">{data.nexus.mods.length.toLocaleString()}</DataEntry>
+      {/if}
+
+      {#if data.nexus?.user.uniqueModDownloads}
+        <DataEntry key="Unique mod downloads">{data.nexus.user.uniqueModDownloads.toLocaleString()}</DataEntry>
       {/if}
 
       {#if data.member.CustomData?.github}
@@ -89,7 +93,7 @@
 
   {#if data.nexus?.mods.length}
     <Section as="section" class="m-0">
-      <Heading level={2} class="w-full max-w-screen-lg">Best released mods</Heading>
+      <Heading level={2}>Best released mods</Heading>
 
       <ul class="flex flex-wrap justify-center gap-2">
         {#each data.nexus.mods as mod}
@@ -106,7 +110,19 @@
 
   {#if data.contributions?.length}
     <Section as="section" class="m-0">
-      <Heading level={2} class="w-full max-w-screen-lg">Project contributions</Heading>
+      <Heading level={2}>Project contributions</Heading>
+
+      <ul class="flex flex-wrap justify-center gap-2">
+        {#each data.contributions as contribution}
+          {@const project = projects[contribution.projectId]}
+          <li>
+            <Card title={project.name} href="https://github.com/{contribution.full_name}">
+              <Image slot="logo" src={project.image} width={385} height={216} />
+              {project.description}
+            </Card>
+          </li>
+        {/each}
+      </ul>
     </Section>
   {/if}
 </Section>

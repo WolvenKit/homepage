@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Image from "$lib/components/elements/Image.svelte";
+  import Image from "$components/elements/Image.svelte";
   import { teams, type Team } from "$lib/content/teams";
 
   export let team: Team | string;

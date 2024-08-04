@@ -1,4 +1,5 @@
 import { GITHUB_ORG } from "$env/static/private";
+import { githubToProject } from "$lib/content/projects";
 
 const GITHUB_API_URL = "https://api.github.com";
 
@@ -14,6 +15,7 @@ export interface GithubRepository {
   full_name: string;
   description: string;
   html_url: string;
+  projectId: string;
 }
 
 export async function fetchGithubUsers(names: string[]): Promise<GithubUser[]> {
@@ -73,7 +75,18 @@ export async function fetchGithubContributions(author: string): Promise<GithubRe
 
   const repositories: Record<string, GithubRepository> = {};
   for (const commit of result.items) {
-    repositories[commit.repository.id] = commit.repository;
+    const repo = commit.repository;
+    const projectId = githubToProject[repo.full_name];
+    if (!projectId) continue;
+
+    repositories[commit.repository.id] = {
+      description: repo.description,
+      full_name: repo.full_name,
+      html_url: repo.html_url,
+      id: repo.id,
+      name: repo.name,
+      projectId,
+    };
   }
 
   return Object.values(repositories);

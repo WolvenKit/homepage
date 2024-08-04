@@ -1,7 +1,7 @@
 <script>
   import { page } from "$app/stores";
-  import Heading from "$lib/components/elements/Heading.svelte";
-  import Section from "$lib/components/parts/Section.svelte";
+  import Heading from "$components/elements/Heading.svelte";
+  import Section from "$components/parts/Section.svelte";
 </script>
 
 <Section class="mt-16">

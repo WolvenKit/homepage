@@ -2,7 +2,7 @@
   import Button from "$components/elements/Button.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import Section from "$components/parts/Section.svelte";
-  import DotsSidesBackground from "$lib/components/parts/DotsSidesBackground.svelte";
+  import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
 </script>
 
 <Section>
