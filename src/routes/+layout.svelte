@@ -103,9 +103,9 @@
   <a href="/" class="text-2xl font-bold uppercase text-red transition-all duration-500 sm:text-4xl">{site.name}</a>
 
   <div class="text-center">
-    <!-- <noscript> -->
-    <div class="text-red">JavaScript is not required but it is recommended for this website to work it's best!</div>
-    <!-- </noscript> -->
+    <noscript>
+      <div class="text-red">JavaScript is not required but it is recommended for this website to work it's best!</div>
+    </noscript>
 
     <div class="leading-none">
       Website created by <Button inline hideExternal href="https://zhincore.eu/">@Zhincore</Button>.

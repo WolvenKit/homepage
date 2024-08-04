@@ -3,14 +3,15 @@
   import { THEME_COLORS, type Theme } from "$lib/themes";
   import { tw } from "$lib/utils";
 
-  export let theme: Theme | undefined;
+  export let theme: Theme = "default";
   let classes = "";
   export { classes as class };
 
-  const THEME = {
-    Cyberpunk: tw`ring-2 ring-current`,
-    Witcher: tw`border p-1`,
-  } satisfies Record<Theme, string>;
+  const THEME: Record<Theme, string> = {
+    default: "",
+    cyberpunk: tw`ring-2 ring-current`,
+    witcher: tw`border p-1`,
+  };
 </script>
 
 <div
@@ -21,7 +22,7 @@
     classes,
   )}
 >
-  {#if theme == "Witcher"}
+  {#if theme == "witcher"}
     <div
       class="h-full w-full border-y-2 border-current before:rotate-0 after:rotate-180 pseudo:inline-block pseudo:h-full pseudo:w-1/2 pseudo:bg-current pseudo:clip-[var(--witcher-border-caret)]"
     />

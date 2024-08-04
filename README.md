@@ -3,7 +3,22 @@
 
 ## Features
 
-- None
+- Content in YAML (`content` folder)
+  - General site info (`content/site.yaml`)
+  - Teams (`content/teams.yaml`)
+  - Projects (`content/projects.yaml`)
+- Integrations
+  - [LizzyFuzzy bot](https://github.com/Moonded/lizzyfuzzy)
+    - Fetching members and their additional details from Discord 
+  - GitHub
+    - Fetching members' info and contributions to an organization
+    - Fetching details of projects
+  - NexusMods
+    - Fetching info and mods of members
+
+## Notes
+
+This project is not meant to be run as a server but rather as serverless function or static website due to extensive caching during the build process.
 
 ## Building
 

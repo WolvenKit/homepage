@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
-  import { faEnvelope } from "@fortawesome/free-solid-svg-icons/faEnvelope";
+  import { faDiscord } from "@fortawesome/free-brands-svg-icons/faDiscord";
+  import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
   import fuzz from "$assets/members/fuzzo.png";
   import Button from "$components/elements/Button.svelte";
@@ -8,11 +8,13 @@
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import ThemeFrameSmall from "$components/theme/ThemeFrameSmall.svelte";
   import WitcherDivider from "$components/theme/WitcherDivider.svelte";
-  import type { TeamMember } from "$lib/server/lizzy";
+  import type { Team } from "$lib/content/teams";
+  import type { TeamMember } from "$lib/server/services/lizzy";
   import { outlineToPath, THEME_COLORS, THEME_CORNERS, type GameTheme } from "$lib/themes";
   import { tw, type CornerConfig } from "$lib/utils";
   import TeamBadge from "./TeamBadge.svelte";
 
+  export let team: Team;
   export let member: TeamMember;
 
   const THEMES: Record<
@@ -33,7 +35,7 @@
       header: tw`border-none px-6`,
       name: tw`small-caps font-[Metamorphous] text-witcher-gold`,
       image: tw`mt-px drop-shadow-px`,
-      content: tw``,
+      content: tw`pb-4`,
       links: tw`mr-1`,
       frame: tw`drop-shadow-px`,
     },
@@ -64,19 +66,24 @@
 <li
   bind:this={container}
   bind:clientWidth
-  class={twMerge("witcher-clip relative flex flex-col", colors.background, theme?.base)}
+  class={twMerge(
+    "witcher-clip relative flex w-full flex-shrink flex-grow flex-col",
+    "md:max-w-[48%] lg:max-w-[30%] 2xl:max-w-[24%]",
+    colors.background,
+    theme?.base,
+  )}
   style:clip-path={clipPath}
   style:padding-right="{compensateWidth}px"
 >
   <h3
     class={twMerge(
-      "relative flex flex-wrap items-center justify-between gap-x-4 border-b-2 p-2 pl-4",
+      "relative flex flex-wrap items-center justify-between gap-x-4 border-b-2 p-2 pl-4 text-white",
       colors.border.border,
       colors.background,
       theme?.header,
     )}
   >
-    <span class={twMerge("text-2xl leading-none", theme?.name)}>{member.Displayname}</span>
+    <span class={twMerge("text-2xl font-semibold leading-none", theme?.name)}>{member.Displayname}</span>
 
     {#if member.Teams.size}
       <ul class="flex flex-wrap gap-px">
@@ -94,8 +101,8 @@
     {/if}
   </h3>
 
-  <div class="flex">
-    <div class={twMerge("relative", theme?.image)}>
+  <div class="flex w-full">
+    <div class={twMerge("relative flex-shrink-0", theme?.image)}>
       <Image src={fuzz} width={96} height={96} class="size-32 object-cover" />
 
       {#if member.theme}
@@ -103,17 +110,17 @@
       {/if}
     </div>
 
-    <div class={twMerge("relative flex h-full flex-shrink-0 flex-grow flex-col p-4", theme?.content)}>
-      {#if member.description}<p class={twMerge("leading-tight ")}>{member.description}</p>{/if}
+    <div class={twMerge("relative flex h-full flex-grow flex-col p-2 text-zinc-300", theme?.content)}>
+      <p class={twMerge("pl-2 pt-1 leading-tight")}>{member.description || `Member of the ${team.label}.`}</p>
 
-      <ul class={twMerge("-mb-4 -mr-3 ml-auto mt-auto flex gap-1", theme?.links)}>
-        <li>
-          <Button iconOnly hideExternal icon={faGithub} label="GitHub" />
-        </li>
-        <li>
-          <Button iconOnly hideExternal icon={faEnvelope} label="Email" />
-        </li>
-      </ul>
+      <div class="mt-auto flex items-end gap-2">
+        <div class="hyphens-auto text-sm leading-none">
+          <FontAwesomeIcon icon={faDiscord} class="mr-0.5 mt-px" />
+          @{member.Username}
+        </div>
+
+        <Button inline href="/" class="ml-auto mr-1 leading-none">detail</Button>
+      </div>
     </div>
   </div>
 
