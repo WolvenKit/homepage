@@ -12,7 +12,7 @@ My Trello with TODOs: <https://trello.com/b/aBt38ps7/redmodding-web>
   - Projects (`content/projects.yaml`)
 - Integrations
   - [LizzyFuzzy bot](https://github.com/Moonded/lizzyfuzzy)
-    - Fetching members and their additional details from Discord 
+    - Fetching members and their additional details from Discord
   - GitHub
     - Fetching members' info and contributions to an organization
     - Fetching details of projects

@@ -6,7 +6,7 @@ interface TeamBase {
 }
 
 type TeamByRole = TeamBase & {
-  discord_role: string | string[];
+  discordRole: string | string[];
 };
 
 type TeamByMembers = TeamBase & {

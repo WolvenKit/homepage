@@ -180,9 +180,9 @@ function getRole2TeamMap() {
   const map: Record<string, string> = {};
 
   for (const [teamId, team] of Object.entries(teams)) {
-    if (!("discord_role" in team)) continue;
+    if (!("discordRole" in team)) continue;
 
-    for (const role of Array.isArray(team.discord_role) ? team.discord_role : [team.discord_role]) {
+    for (const role of Array.isArray(team.discordRole) ? team.discordRole : [team.discordRole]) {
       map[role] = teamId;
     }
   }

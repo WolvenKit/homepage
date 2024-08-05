@@ -7,9 +7,9 @@
   import Heading from "$components/elements/Heading.svelte";
   import Image from "$components/elements/Image.svelte";
   import Card from "$components/parts/Card.svelte";
+  import DotsBackground from "$components/parts/DotsBackground.svelte";
   import Section from "$components/parts/Section.svelte";
   import Socials from "$components/parts/Socials.svelte";
-  import DotsBackground from "$components/parts/DotsBackground.svelte";
   import HeroBackground from "./HeroBackground.svelte";
 
   let video: HTMLVideoElement;

@@ -3,8 +3,8 @@
   import malorianHEVC from "$assets/malorian-explosion_chart.hevc?url";
   import malorianMP4 from "$assets/malorian-explosion_chart.mp4";
   import malorianAV1 from "$assets/malorian-explosion_chart.webm";
-  import { mediaReady } from "$lib/actions/mediaReady";
   import Image from "$components/elements/Image.svelte";
+  import { mediaReady } from "$lib/actions/mediaReady";
 
   export let video: HTMLVideoElement;
   let bgLoaded = false;

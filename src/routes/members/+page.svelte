@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Heading from "$components/elements/Heading.svelte";
-  import Section from "$components/parts/Section.svelte";
   import Divider from "$components/elements/Divider.svelte";
+  import Heading from "$components/elements/Heading.svelte";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
+  import Section from "$components/parts/Section.svelte";
   import { teams } from "$lib/content/teams";
   import MemberItem from "./MemberItem.svelte";
   import TeamSection from "./TeamSection.svelte";
