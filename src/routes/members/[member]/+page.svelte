@@ -6,7 +6,6 @@
   import Card from "$components/parts/Card.svelte";
   import Section from "$components/parts/Section.svelte";
   import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
-  import DotsSidesBackground from "$lib/components/parts/DotsSidesBackground.svelte";
   import { projects } from "$lib/content/projects";
   import { teams } from "$lib/content/teams";
   import TeamBadge from "../TeamBadge.svelte";
@@ -17,8 +16,6 @@
 
 <Section>
   <Heading>Member detail</Heading>
-
-  <DotsSidesBackground />
 
   <header class="relative w-full max-w-screen-lg text-left max-md:mt-4">
     <Button href="." icon={faArrowLeft} class="absolute bottom-full text-opacity-75 md:mb-4">See all members</Button>
@@ -93,7 +90,7 @@
 
   {#if data.nexus?.mods.length}
     <Section as="section" class="m-0">
-      <Heading level={2}>Best released mods</Heading>
+      <Heading level={2}>Top rated released mods</Heading>
 
       <ul class="flex flex-wrap justify-center gap-2">
         {#each data.nexus.mods as mod}

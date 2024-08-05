@@ -7,7 +7,6 @@
   import Heading from "$components/elements/Heading.svelte";
   import Image from "$components/elements/Image.svelte";
   import Card from "$components/parts/Card.svelte";
-  import DotsBackground from "$components/parts/DotsBackground.svelte";
   import Section from "$components/parts/Section.svelte";
   import Socials from "$components/parts/Socials.svelte";
   import HeroBackground from "./HeroBackground.svelte";
@@ -18,8 +17,6 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <header class="relative flex min-h-[calc(100svh-4rem)] flex-col items-center" on:click={() => video?.play()}>
-  <DotsBackground />
-
   <HeroBackground bind:video />
 
   <div

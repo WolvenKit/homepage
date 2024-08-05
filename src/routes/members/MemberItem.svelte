@@ -69,7 +69,9 @@
       theme?.header,
     )}
   >
-    <span class={twMerge("text-2xl font-semibold leading-none", theme?.name)}>{member.Displayname}</span>
+    <a href="/members/{member.Username}" class={twMerge("text-2xl font-semibold leading-none", theme?.name)}>
+      {member.Displayname}
+    </a>
 
     {#if member.Teams.size}
       <ul class="flex flex-wrap gap-px">

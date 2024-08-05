@@ -1,8 +1,5 @@
 <script lang="ts">
   import malorian from "$assets/malorian-explosion_chart.avif";
-  import malorianHEVC from "$assets/malorian-explosion_chart.hevc?url";
-  import malorianMP4 from "$assets/malorian-explosion_chart.mp4";
-  import malorianAV1 from "$assets/malorian-explosion_chart.webm";
   import Image from "$components/elements/Image.svelte";
   import { mediaReady } from "$lib/actions/mediaReady";
 
@@ -33,9 +30,17 @@
     preload=""
     poster={malorian}
   >
-    <source media="(min-width: 1024px)" src={malorianHEVC} type="video/hevc; codecs=hevc" />
-    <source media="(min-width: 1024px)" src={malorianAV1} type="video/webm; codecs=av1" />
-    <source media="(min-width: 1024px)" src={malorianMP4} type="video/mp4; codecs=avc1.640028" />
+    <!-- <source media="(min-width: 1024px)" src={malorianHEVC} type="video/hevc; codecs=hevc" /> -->
+    <source
+      media="(min-width: 1024px)"
+      src="https://files.moonded.com/RedModding/malorian-explosion_chart.webm"
+      type="video/webm; codecs=av1"
+    />
+    <source
+      media="(min-width: 1024px)"
+      src="https://files.moonded.com/RedModding/malorian-explosion_chart.mp4"
+      type="video/mp4; codecs=avc1.640028"
+    />
     <Image src={malorian} />
   </video>
 

@@ -1,14 +1,11 @@
 <script lang="ts">
   import Button from "$components/elements/Button.svelte";
   import Heading from "$components/elements/Heading.svelte";
-  import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Section from "$components/parts/Section.svelte";
 </script>
 
 <Section>
   <Heading>About us</Heading>
-
-  <DotsSidesBackground />
 
   <div class="flex max-w-3xl flex-col gap-8 text-justify text-xl leading-relaxed text-zinc-300">
     <p>

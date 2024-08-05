@@ -17,8 +17,10 @@
   import { twMerge } from "tailwind-merge";
   import { browser } from "$app/environment";
   import { beforeNavigate } from "$app/navigation";
+  import { page } from "$app/stores";
   import sammy from "$assets/sammy.png";
   import Button from "$components/elements/Button.svelte";
+  import DotsSidesBackground from "$lib/components/parts/DotsSidesBackground.svelte";
   import { site } from "$lib/content/site";
 
   let scrollY = 2;
@@ -94,6 +96,8 @@
     </ul>
   </nav>
 </header>
+
+<DotsSidesBackground landing={$page.route.id == "/"} class="fixed" />
 
 <main class="flex flex-grow flex-col">
   <slot />

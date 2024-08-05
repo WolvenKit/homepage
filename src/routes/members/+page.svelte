@@ -1,7 +1,6 @@
 <script lang="ts">
   import Divider from "$components/elements/Divider.svelte";
   import Heading from "$components/elements/Heading.svelte";
-  import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Section from "$components/parts/Section.svelte";
   import { teams } from "$lib/content/teams";
   import MemberItem from "./MemberItem.svelte";
@@ -12,8 +11,6 @@
 
 <Section>
   <Heading>Our Members</Heading>
-
-  <DotsSidesBackground class="fixed" />
 
   <p class="max-w-3xl text-center">
     Here are the members of our Red Modding team.<br />
@@ -31,4 +28,11 @@
       {/each}
     </TeamSection>
   {/each}
+
+  <Divider class="m-0 -mb-8" />
+  <p class="max-w-3xl text-center">
+    Members are by default categorized by the highest team role they have on Discord. Use LizzyFuzzy bot's
+    <code>/link</code> command to modify your profile. Displayed name is taken from NexusMods or GitHub or generated from
+    Discord username. If you wish to change your primary team, name or something else, ping @Zhincore.
+  </p>
 </Section>
