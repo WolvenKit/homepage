@@ -1,23 +1,32 @@
 import { error } from "@sveltejs/kit";
-import { fetchMembers } from "$lib/server/members";
-import { fetchGithubContributions } from "$lib/server/services/github";
-import { fetchNexusProfile } from "$lib/server/services/nexus";
+import { fetchMembers, getCachedMembers, type TeamMember } from "$lib/server/members";
+import { fetchGithubContributions, type GithubRepository } from "$lib/server/services/github";
+import { fetchNexusProfile, type NexusProfile } from "$lib/server/services/nexus";
 import type { PageServerLoad } from "./$types";
 
 export const prerender = "auto";
 
-export const load = (async ({ params, parent }) => {
-  const { memberMap } = await parent();
-  const member = memberMap[params.member];
+export const load = (async ({ params, isDataRequest }) => {
+  const promise = getCachedMembers().then(async ({ memberMap }) => {
+    const member = memberMap[params.member];
 
-  if (!member) error(404, "Member not found");
+    if (!member) error(404, "Member not found");
 
-  const [contributions, nexus] = await Promise.all([
-    (member.CustomData?.github && fetchGithubContributions(member.CustomData.github)) || undefined,
-    (member.CustomData?.nexusmods && fetchNexusProfile(member.CustomData.nexusmods)) || undefined,
-  ]);
+    const [contributions, nexus] = await Promise.all([
+      (member.CustomData?.github && fetchGithubContributions(member.CustomData.github)) || undefined,
+      (member.CustomData?.nexusmods && fetchNexusProfile(member.CustomData.nexusmods)) || undefined,
+    ]);
 
-  return { member, contributions, nexus };
+    return { member, contributions, nexus };
+  });
+
+  return isDataRequest
+    ? (promise.catch(console.error) as Promise<{
+        member: TeamMember;
+        contributions: GithubRepository[] | undefined;
+        nexus: NexusProfile | undefined;
+      }>)
+    : await promise;
 }) satisfies PageServerLoad;
 
 export const entries = async () => {

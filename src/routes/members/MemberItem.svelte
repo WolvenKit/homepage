@@ -54,7 +54,7 @@
 
 <li
   class={twMerge(
-    "witcher-clip relative flex w-full flex-shrink flex-grow flex-col",
+    "item relative flex w-full flex-shrink flex-grow flex-col",
     "max-w-[round(100%,1px)] md:max-w-[round(48%,1px)] lg:max-w-[round(30%,1px)] 2xl:max-w-[round(24%,1px)]",
     colors.background,
     theme?.base,
@@ -120,6 +120,10 @@
 </li>
 
 <style>
+  .item {
+    content-visibility: auto;
+  }
+
   .cyberborder::before,
   .cyberborder::after {
     content: "";
