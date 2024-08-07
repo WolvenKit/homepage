@@ -6,7 +6,7 @@
   export let team: Team;
 </script>
 
-<Heading level={2} class="flex flex-wrap items-center justify-center gap-2">
+<Heading level={2} class="-mb-4 mt-0 flex flex-wrap items-center justify-center gap-2">
   <TeamBadge {team} class="size-10" />
   {team.label}
 </Heading>

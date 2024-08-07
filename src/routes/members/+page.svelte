@@ -20,7 +20,7 @@
 
   {#each Object.entries(data.teamMembers) as [teamId, members], i (i)}
     {@const team = teams[teamId]}
-    {#if i}<Divider class="m-0 -mb-8" />{/if}
+    {#if i}<Divider class="m-0" />{/if}
 
     <TeamSection {team}>
       {#each members as member (member.ID)}

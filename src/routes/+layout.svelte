@@ -103,8 +103,8 @@
   <slot />
 </main>
 
-<footer class="flex w-full flex-wrap items-start justify-between bg-zinc-950 p-8">
-  <a href="/" class="text-2xl font-bold uppercase text-red transition-all duration-500 sm:text-4xl">{site.name}</a>
+<footer class="flex w-full flex-wrap items-start justify-center gap-8 bg-zinc-950 p-8 md:justify-between">
+  <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
 
   <div class="text-center">
     <noscript>

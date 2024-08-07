@@ -20,13 +20,21 @@
   <header class="relative w-full max-w-screen-lg text-left max-md:mt-4">
     <Button href="." icon={faArrowLeft} class="absolute bottom-full text-opacity-75 md:mb-4">See all members</Button>
 
-    <div class="mb-4 inline-flex gap-4">
+    <div class="mb-4 inline-flex flex-wrap gap-4 px-2">
       <div class="flex-shrink-0">
         <Image src={data.member.Image} width={128} height={128} />
       </div>
 
-      <div class="flex flex-grow flex-col justify-around gap-2 p-2">
-        <Heading level={2} class="m-0 leading-none text-white">{data.member.Displayname}</Heading>
+      <div class="flex max-w-full flex-grow flex-col justify-around gap-2">
+        <div>
+          <Heading level={2} class="small-caps m-0 normal-case leading-none text-white">
+            {data.member.Nickname || data.member.Displayname}
+          </Heading>
+
+          {#if data.member.Nickname}
+            <p class="small-caps -mt-1 text-xl text-zinc-300">{data.member.Displayname}</p>
+          {/if}
+        </div>
 
         {#if data.member.CustomData?.description}
           <p class="max-w-screen-sm">{data.member.CustomData.description}</p>
@@ -57,8 +65,8 @@
         <DataEntry key="Kudos">{data.nexus.user.kudos.toLocaleString()}</DataEntry>
       {/if}
 
-      {#if data.nexus?.mods.length}
-        <DataEntry key="Mods released">{data.nexus.mods.length.toLocaleString()}</DataEntry>
+      {#if data.nexus?.["user-mods-count"].mods.totalCount}
+        <DataEntry key="Mods released">{data.nexus?.["user-mods-count"].mods.totalCount.toLocaleString()}</DataEntry>
       {/if}
 
       {#if data.nexus?.user.uniqueModDownloads}
