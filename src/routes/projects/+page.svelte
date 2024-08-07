@@ -2,6 +2,7 @@
   import Heading from "$components/elements/Heading.svelte";
   import Section from "$components/parts/Section.svelte";
   import { projects } from "$lib/content/projects";
+  import ProjectItem from "./ProjectItem.svelte";
 </script>
 
 <Section>
@@ -9,12 +10,9 @@
 
   <p class="max-w-3xl text-center">Stuff we've created and what we work on.</p>
 
-  <ul>
-    {#each Object.entries(projects) as [projectId, project], i (i)}
-      <li>
-        {project.name} &ndash;
-        {project.description}
-      </li>
+  <ul class="flex flex-col gap-6">
+    {#each Object.values(projects) as project, i (i)}
+      <ProjectItem {project} />
     {/each}
   </ul>
 </Section>

@@ -5,3 +5,16 @@ wolvenkit:
   github: WolvenKit/WolvenKit
   theme: cyberpunk
   featured: true
+
+wolvenkit7:
+  name: WolvenKit 7
+  description: Community Mod editor/creator for REDengine games.
+  image: /projects/wkit.png
+  github: WolvenKit/WolvenKit-7
+  theme: witcher
+
+wolvenkit69:
+  name: WolvenKit 69
+  description: Community Mod editor/creator for engine games.
+  image: /projects/wkit.png
+  link: https://youtu.be/dQw4w9WgXcQ

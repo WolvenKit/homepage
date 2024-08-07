@@ -109,7 +109,7 @@
           @{member.Username}
         </div>
 
-        <div class="relative z-10 -mb-1 -mr-2 ml-auto">
+        <div class="relative z-10 -mb-1.5 -mr-2 ml-auto translate-y-0.5">
           <ThemeButton href="/members/{member.Username}" theme={themeName} size="sm">detail</ThemeButton>
         </div>
       </div>
