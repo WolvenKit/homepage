@@ -13,7 +13,7 @@ export const THEME_COLORS: Record<
     background: tw`bg-zinc-800`,
   },
   cyberpunk: {
-    border: { text: tw`text-red`, border: tw`border-red` },
+    border: { text: tw`text-yellow`, border: tw`border-yellow` },
     background: tw`bg-black`,
   },
   witcher: {

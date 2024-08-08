@@ -19,7 +19,7 @@
   $: corners = project.theme && CORNERS[project.theme];
   $: colors = THEME_COLORS[themeName];
   $: clipPath = THEME_CORNERS[themeName] && outlineToPath(THEME_CORNERS[themeName]!.outline, corners);
-  $: link = project.link || project.github ? "https://github.com/" + project.github : undefined;
+  $: link = project.link || (project.github ? "https://github.com/" + project.github : undefined);
 </script>
 
 <li class={twMerge("relative flex flex-wrap", colors.background)} style:clip-path={clipPath}>

@@ -6,15 +6,56 @@ wolvenkit:
   theme: cyberpunk
   featured: true
 
-wolvenkit7:
-  name: WolvenKit 7
-  description: Community Mod editor/creator for REDengine games.
-  image: /projects/wkit.png
-  github: WolvenKit/WolvenKit-7
-  theme: witcher
+cet:
+  name: Cyber Engine Tweaks
+  description: Cyberpunk 2077 tweaks, hacks and scripting framework.
+  image: /projects/cet.png
+  github: maximegmd/CyberEngineTweaks
+  theme: cyberpunk
+  featured: true
 
-wolvenkit69:
-  name: WolvenKit 69
-  description: Community Mod editor/creator for engine games.
+blender-addon:
+  name: Cyberpunk 2077 Blender Add-on
+  description: Bridging the gap between WolvenKit and Blender.
+  image: /projects/blender-addon.png
+  github: WolvenKit/Cyberpunk-Blender-add-on
+  theme: cyberpunk
+  featured: true
+
+pisskit:
+  name: RedKit for Cyberpunk 2077
+  description: PissKit
   image: /projects/wkit.png
   link: https://youtu.be/dQw4w9WgXcQ
+
+lizzy:
+  name: Lizzy Fuzzy
+  description: The bot
+  github: Moonded/lizzyfuzzy
+
+mlsetupbuilder:
+  name: MLsetupBuilder
+  description: The
+  github: Neurolinked/MlsetupBuilder
+  theme: cyberpunk
+
+nativedb:
+  name: NativeDB
+  description: Database of Cyberpunk 2077 native methods
+  link: https://nativedb.red4ext.com
+  theme: cyberpunk
+
+sounddb:
+  name: SoundDB
+  description: The
+  theme: cyberpunk
+  link: https://sounddb.redmodding.org
+
+entity-spwaner:
+  name: Wheezy's entity spawner?
+  description: The
+  theme: cyberpunk
+
+psiberix:
+  name: Psiberix
+  description: The ultimate

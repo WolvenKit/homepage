@@ -22,10 +22,10 @@
   > = {
     cyberpunk: {
       base: tw``,
-      header: tw`pl-2`,
-      name: tw`cyber-text`,
+      header: tw``,
+      name: tw`text-yellow`,
       image: tw``,
-      content: THEME_COLORS.cyberpunk.border.text,
+      content: tw`text-cyan`,
       links: tw``,
       frame: tw``,
     },

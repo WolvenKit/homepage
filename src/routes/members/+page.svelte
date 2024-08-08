@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { page } from "$app/stores";
   import Divider from "$components/elements/Divider.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import Section from "$components/parts/Section.svelte";
