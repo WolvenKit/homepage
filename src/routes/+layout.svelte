@@ -31,6 +31,8 @@
 
   $: isOnTop = scrollY < 2;
 
+  $: isLanding = $page.route.id == "/";
+
   beforeNavigate(() => {
     navOpen = false;
   });
@@ -97,16 +99,18 @@
   </nav>
 </header>
 
-<DotsSidesBackground landing={$page.route.id == "/"} class="fixed" />
+<DotsSidesBackground landing={isLanding} class={isLanding ? "" : "fixed"} />
 
 <main class="flex flex-grow flex-col">
   <slot />
 </main>
 
-<footer class="flex w-full flex-wrap items-start justify-center gap-8 bg-zinc-950 p-8 md:justify-between">
-  <div class="gridr-rows-2 grid grid-cols-1">
+<footer class="relative z-10 flex w-full flex-wrap items-start justify-center gap-8 bg-zinc-950 p-8 md:justify-between">
+  <div class="grid grid-cols-1">
     <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
-    <div class="text-sm text-gray-600"><a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms and Conditions</a></div>
+    <div class="text-sm text-gray-600">
+      <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms and Conditions</a>
+    </div>
   </div>
 
   <div class="text-center">

@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { fetchMembers, getCachedMembers, type TeamMember } from "$lib/server/members";
+import { getCachedMembers, type TeamMember } from "$lib/server/members";
 import { fetchGithubContributions, type GithubRepository } from "$lib/server/services/github";
 import { fetchNexusProfile, type NexusProfile } from "$lib/server/services/nexus";
 import type { PageServerLoad } from "./$types";
@@ -30,7 +30,7 @@ export const load = (async ({ params, isDataRequest }) => {
 }) satisfies PageServerLoad;
 
 export const entries = async () => {
-  const members = await fetchMembers();
+  const { memberMap } = await getCachedMembers();
 
-  return Object.keys(members).map((member) => ({ member }));
+  return Object.keys(memberMap).map((member) => ({ member }));
 };
