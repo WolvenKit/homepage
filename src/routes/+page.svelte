@@ -1,14 +1,16 @@
 <script lang="ts">
-  import blenderAddon from "$assets/projects/blender-addon.png";
-  import cet from "$assets/projects/cet.png";
-  import wkit from "$assets/projects/wkit.png";
+  import { faAnglesLeft } from "@fortawesome/free-solid-svg-icons/faAnglesLeft";
+  import { faAnglesRight } from "@fortawesome/free-solid-svg-icons/faAnglesRight";
+  import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
+  import { twMerge } from "tailwind-merge";
   import Button from "$components/elements/Button.svelte";
   import Divider from "$components/elements/Divider.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import Image from "$components/elements/Image.svelte";
-  import Card from "$components/parts/Card.svelte";
   import Section from "$components/parts/Section.svelte";
   import Socials from "$components/parts/Socials.svelte";
+  import ThemeButton from "$components/theme/ThemeButton.svelte";
+  import { projects, getProjectLink } from "$lib/content/projects";
   import HeroBackground from "./HeroBackground.svelte";
 
   let video: HTMLVideoElement;
@@ -17,22 +19,23 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <header class="relative flex min-h-[calc(100svh-4rem)] flex-col items-center" on:click={() => video?.play()}>
-  <HeroBackground bind:video />
+  <HeroBackground bind:video fadeDelay={1} />
 
   <div
     class="relative z-10 mx-[5vw] mt-auto flex max-w-screen-2xl flex-wrap items-end justify-between gap-2 pb-4 pt-16 max-v-md:flex-grow v-md:gap-8 max-sm:flex-col md:pb-16 lg:gap-16"
   >
     <div class="w-full text-5xl font-bold uppercase text-zinc-200 sm:text-6xl">
-      <div class="header-bg relative -ml-1 inline-block">
-        Community of
+      <div class="header-bg relative -ml-1 inline-block" style:--fade-duration="1s">
+        <span class="fade-in" style:--fade-delay="0.1s">Community of</span>
         <div class="-ml-0.5 text-7xl text-red sm:text-8xl">
-          RED<span class="text-zinc-400">engine</span> modding
+          <span class="fade-in" style:--fade-delay="0.3s">RED<span class="text-zinc-400">engine</span> </span>
+          <span class="fade-in" style:--fade-delay="0.4s">modding</span>
         </div>
-        enthusiasts
+        <span class="fade-in" style:--fade-delay="0.6s">enthusiasts</span>
       </div>
     </div>
 
-    <div>
+    <div class="fade-in" style:--fade-delay="0.8s">
       <Divider class="justify-start" />
       <p class="header-bg max-w-3xl text-left text-2xl">
         We are a community formed around modding <strong>The Witcher 3</strong>, significantly expanded by the release
@@ -53,29 +56,38 @@
   </Card>
 </Section> -->
 
-<Section class="m-0 bg-zinc-950">
-  <Heading level={2}>Our Main Projects</Heading>
+<Section class="gap-0 p-0">
+  <Heading level={2} class="mb-8">Featured Projects</Heading>
 
-  <nav class="flex flex-wrap justify-center gap-4">
-    <Card title="WolvenKit" href="https://github.com/WolvenKit/WolvenKit/releases/latest">
-      <Image slot="logo" src={wkit} />
+  {#each Object.values(projects).filter((v) => v.featured) as project, i (i)}
+    {@const link = getProjectLink(project)}
+    <div
+      class={twMerge(
+        "flex w-full max-w-[1920px] flex-wrap gap-x-16 gap-y-8 bg-zinc-950 p-8 md:px-16",
+        i % 2 && "bg-zinc-900 md:flex-row-reverse md:text-right",
+      )}
+    >
+      <Image src={project.image} class="h-full max-h-96 w-auto sm:max-w-[75vw] md:max-w-[50vw] lg:max-w-[40vw]" />
 
-      Community mod editor/creator for REDengine games.
-    </Card>
+      <div class="flex flex-grow flex-col gap-4 md:items-start" class:md:items-end={i % 2}>
+        <div class="my-auto">
+          <h3 class="text-4xl font-semibold sm:text-6xl md:text-7xl">{project.name}</h3>
+          <p class="md:text-4xl">{project.description}</p>
+        </div>
 
-    <Card title="Cyber Engine Tweaks" href="https://github.com/maximegmd/CyberEngineTweaks/releases/latest">
-      <Image slot="logo" src={cet} />
-      Cyberpunk 2077 tweaks, hacks and scripting framework.
-    </Card>
+        {#if link}
+          <ThemeButton href={link[1]}>Visit project</ThemeButton>
+        {/if}
+      </div>
+    </div>
+  {/each}
 
-    <Card title="Cyberpunk Blender Add-on" href="https://github.com/WolvenKit/Cyberpunk-Blender-add-on/releases">
-      <Image slot="logo" src={blenderAddon} />
-      Bridging the gap between WolvenKit and Blender.
-    </Card>
-  </nav>
+  <Button href="/projects" class="mt-8 text-3xl">
+    <FontAwesomeIcon icon={faAnglesRight} />
+    See all projects
+    <FontAwesomeIcon icon={faAnglesLeft} />
+  </Button>
 </Section>
-
-<Section>Don't forget to put something here.</Section>
 
 <style>
   .header-bg {

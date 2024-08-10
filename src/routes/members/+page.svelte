@@ -46,8 +46,8 @@
       {#if i}<Divider class="m-0" />{/if}
 
       <TeamSection {team}>
-        {#each members as member (member.ID)}
-          <MemberItem {member} {team} />
+        {#each members as member, j (member.ID)}
+          <MemberItem {member} {team} fadeInDelay={j * 0.05} />
         {/each}
       </TeamSection>
     {/each}

@@ -15,6 +15,7 @@
 
   export let team: Team;
   export let member: TeamMember;
+  export let fadeInDelay = 0;
 
   const THEMES: Record<
     GameTheme,
@@ -54,12 +55,14 @@
 
 <li
   class={twMerge(
-    "item relative flex w-full flex-shrink flex-grow flex-col",
+    "item fade-in relative flex w-full flex-shrink flex-grow flex-col",
     "max-w-[round(100%,1px)] md:max-w-[round(48%,1px)] lg:max-w-[round(30%,1px)] 2xl:max-w-[round(24%,1px)]",
     colors.background,
     theme?.base,
   )}
   style:clip-path={clipPath}
+  style:--fade-delay="{fadeInDelay}s"
+  style:--fade-duration="0.5s"
 >
   <h3
     class={twMerge(

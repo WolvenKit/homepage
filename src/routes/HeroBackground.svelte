@@ -1,18 +1,28 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { browser } from "$app/environment";
   import malorian from "$assets/malorian-explosion_chart.avif";
   import Image from "$components/elements/Image.svelte";
   import { mediaReady } from "$lib/actions/mediaReady";
 
+  export let fadeDelay = 0;
   export let video: HTMLVideoElement;
   let bgLoaded = false;
   let autoplayDisabled = false;
 
-  $: video?.play().catch(() => (autoplayDisabled = true));
+  onMount(() => {
+    // Cancel autoplay
+    video.pause();
+    video.currentTime = 0;
+
+    setTimeout(() => video.play().catch(() => (autoplayDisabled = true)), (fadeDelay + 1) * 1000);
+  });
 </script>
 
 <div
-  class="pointer-events-none absolute -top-16 right-0 max-w-[75vw] overflow-hidden bg-red opacity-90 mix-blend-lighten transition max-lg:hidden 2xl:bottom-0"
+  class="fade-in pointer-events-none absolute -top-16 right-0 max-w-[75vw] overflow-hidden bg-red opacity-90 mix-blend-lighten transition max-lg:hidden 2xl:bottom-0"
   class:opacity-0={!bgLoaded}
+  style:--fade-delay="{fadeDelay}s"
 >
   <div class="crt absolute inset-0" />
   <div class="wave absolute inset-0 text-red" />
@@ -21,7 +31,7 @@
     use:mediaReady={() => (bgLoaded = true)}
     on:play={() => (autoplayDisabled = false)}
     class="h-full w-full bg-black object-contain mix-blend-multiply"
-    autoplay
+    autoplay={!browser}
     loop
     muted
     playsinline

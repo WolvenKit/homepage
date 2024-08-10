@@ -24,7 +24,7 @@
 
   const THEME: Record<Theme, string> = {
     default: "",
-    cyberpunk: tw`bg-red-darkest hover-focus:bg-red-darker`,
+    cyberpunk: tw`bg-red-darkest hover-focus:bg-cyan-darker`,
     witcher: tw`hover-focus:bg-zinc-600`,
   };
 

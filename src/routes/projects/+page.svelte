@@ -12,7 +12,7 @@
 
   <ul class="flex flex-col gap-6">
     {#each Object.values(projects) as project, i (i)}
-      <ProjectItem {project} />
+      <ProjectItem {project} fadeInDelay={i * 0.2} />
     {/each}
   </ul>
 </Section>

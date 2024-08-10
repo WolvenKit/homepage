@@ -54,4 +54,14 @@
   .small-caps {
     font-variant: small-caps;
   }
+
+  .fade-in {
+    animation: fade-in var(--fade-duration, 2s) var(--fade-delay, 0s) both;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }
