@@ -7,6 +7,7 @@
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import WitcherDivider from "$components/theme/WitcherDivider.svelte";
   import WitcherFrame from "$components/theme/WitcherFrame.svelte";
+  import GlitchingImage from "$lib/components/elements/GlitchingImage.svelte";
   import type { Team } from "$lib/content/teams";
   import type { TeamMember } from "$lib/server/members";
   import { outlineToPath, THEME_COLORS, THEME_CORNERS, type GameTheme } from "$lib/themes";
@@ -92,9 +93,15 @@
     {/if}
   </h3>
 
-  <div class="h-full w-full">
+  <div>
     <div class={twMerge("relative float-left -mt-0.5 border-2", colors.border.border, theme?.image)}>
-      <Image src={member.Image + "?size=128"} width={128} height={128} class="size-32 object-cover" />
+      <svelte:component
+        this={themeName == "cyberpunk" ? GlitchingImage : Image}
+        src={member.Image + "?size=128"}
+        width={128}
+        height={128}
+        class="size-32 object-cover"
+      />
 
       {#if themeName == "witcher"}
         <WitcherFrame class="-inset-px" />
