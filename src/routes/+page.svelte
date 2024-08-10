@@ -61,23 +61,25 @@
 
   {#each Object.values(projects).filter((v) => v.featured) as project, i (i)}
     {@const link = getProjectLink(project)}
-    <div
-      class={twMerge(
-        "flex w-full max-w-[1920px] flex-wrap gap-x-16 gap-y-8 bg-zinc-950 p-8 md:px-16",
-        i % 2 && "bg-zinc-900 md:flex-row-reverse md:text-right",
-      )}
-    >
-      <Image src={project.image} class="h-full max-h-96 w-auto sm:max-w-[75vw] md:max-w-[50vw] lg:max-w-[40vw]" />
+    <div class={twMerge("w-full bg-zinc-950", i % 2 && "bg-zinc-900")}>
+      <div
+        class={twMerge(
+          "mx-auto flex w-full max-w-[1920px] flex-wrap gap-x-16 gap-y-8 p-8 md:px-16",
+          i % 2 && "md:flex-row-reverse md:text-right",
+        )}
+      >
+        <Image src={project.image} class="h-full max-h-96 w-auto sm:max-w-[75vw] md:max-w-[50vw] lg:max-w-[40vw]" />
 
-      <div class="flex flex-grow flex-col gap-4 md:items-start" class:md:items-end={i % 2}>
-        <div class="my-auto">
-          <h3 class="text-4xl font-semibold sm:text-6xl md:text-7xl">{project.name}</h3>
-          <p class="md:text-4xl">{project.description}</p>
+        <div class="flex flex-grow flex-col gap-4 md:items-start" class:md:items-end={i % 2}>
+          <div class="my-auto">
+            <h3 class="text-4xl font-semibold sm:text-6xl md:text-7xl">{project.name}</h3>
+            <p class="md:text-4xl">{project.description}</p>
+          </div>
+
+          {#if link}
+            <ThemeButton href={link[1]}>Visit project</ThemeButton>
+          {/if}
         </div>
-
-        {#if link}
-          <ThemeButton href={link[1]}>Visit project</ThemeButton>
-        {/if}
       </div>
     </div>
   {/each}

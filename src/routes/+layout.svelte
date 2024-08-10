@@ -18,8 +18,10 @@
   import { browser } from "$app/environment";
   import { beforeNavigate } from "$app/navigation";
   import { page } from "$app/stores";
+  import catLove from "$assets/cat_love.webp";
   import sammy from "$assets/sammy.png";
   import Button from "$components/elements/Button.svelte";
+  import Image from "$lib/components/elements/Image.svelte";
   import DotsSidesBackground from "$lib/components/parts/DotsSidesBackground.svelte";
   import { site } from "$lib/content/site";
 
@@ -109,7 +111,9 @@
   <div class="grid grid-cols-1">
     <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
     <div class="text-sm text-gray-600">
-      <a href="/privacy">Privacy Policy</a> | <a href="/terms">Terms and Conditions</a>
+      <div>© 2024 Red Modding Tools. All Rights Reserved.</div>
+      <a href="/privacy" class="underline hover:text-zinc-400">Privacy Policy</a> |
+      <a href="/terms" class="underline hover:text-zinc-400">Terms and Conditions</a>
     </div>
   </div>
 
@@ -119,7 +123,9 @@
     </noscript>
 
     <div class="leading-none">
-      Website created by <Button inline hideExternal href="https://zhincore.eu/">@Zhincore</Button>.
+      Website made with
+      <Image src={catLove} alt="love" title="love" width={22} height={22} class="inline" />
+      by <Button inline hideExternal href="https://zhincore.eu/">@Zhincore</Button>.
       <div class="text-zinc-400">Ping him on Discord about feedback or complaints.</div>
       <Button href={site.source}>Source code</Button>
     </div>
