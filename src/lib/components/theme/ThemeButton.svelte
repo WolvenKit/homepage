@@ -12,8 +12,9 @@
   export let hideExternal = false;
   export let leftmost = true;
   export let href = "";
-  export let external = !href.startsWith("/");
+  export let external = href && ![".", "/"].includes(href[0]);
   export let label = "";
+  export let cornerClass = "";
   let classes = "";
   export { classes as class };
 
@@ -35,8 +36,10 @@
     : undefined;
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <svelte:element
   this={href ? "a" : "button"}
+  on:click
   {href}
   rel={external ? "noopener noreferrer" : undefined}
   target={external ? "_blank" : undefined}
@@ -54,7 +57,7 @@
 >
   {#if theme == "cyberpunk"}
     <ThemeCorner
-      class={twMerge("absolute -left-0.5 -top-0.5 -translate-y-px", THEME_COLORS[theme ?? "default"].border.text)}
+      class={twMerge("absolute -left-0.5 -top-0.5", THEME_COLORS[theme ?? "default"].border.text, cornerClass)}
       theme="cyberpunk"
       scale={cornerScale}
     />

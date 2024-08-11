@@ -10,19 +10,25 @@
 </script>
 
 <div class={twMerge("pointer-events-none absolute inset-0 overflow-hidden max-lg:hidden", classes)}>
-  <DotsBackground
-    {repeats}
-    duration="4s"
-    class={twMerge("transition-all duration-700", "left-2/3 translate-x-6 skew-x-6", landing && "left-0")}
-  />
+  <div class="perspective h-full w-full">
+    <DotsBackground
+      {repeats}
+      duration="4s"
+      maskPos={[75, 50]}
+      class={twMerge("transition-all duration-700", "-right-1/4 left-2/3 translate-x-6", landing && "left-0")}
+    />
 
-  <DotsBackground
-    {repeats}
-    duration="4s"
-    class={twMerge(
-      "transition-all duration-700",
-      "right-2/3 -translate-x-6 rotate-180 -skew-x-6",
-      landing && "right-full",
-    )}
-  />
+    <DotsBackground
+      {repeats}
+      duration="4s"
+      maskPos={[75, 50]}
+      class={twMerge("transition-all duration-700", "-left-1/4 right-2/3 rotate-180", landing && "right-full")}
+    />
+  </div>
 </div>
+
+<style>
+  .perspective {
+    transform: perspective(48rem) rotateX(15deg);
+  }
+</style>

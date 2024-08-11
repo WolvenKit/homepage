@@ -4,6 +4,7 @@
   import type { Corner } from "$lib/utils";
   import ThemeCorner from "./ThemeCorner.svelte";
 
+  export let scale = 1;
   export let theme: Theme = "default";
   export let corners: Partial<Record<Corner, boolean>> =
     theme == "cyberpunk" ? { tr: true, bl: true } : { tl: true, tr: true, bl: true, br: true };
@@ -20,16 +21,16 @@
 >
   {#if theme != "default"}
     {#if corners.tl}
-      <ThemeCorner {theme} class="absolute -left-0.5 -top-0.5" />
+      <ThemeCorner {theme} {scale} class="absolute -left-0.5 -top-0.5" />
     {/if}
     {#if corners.tr}
-      <ThemeCorner {theme} class="absolute -right-0.5 -top-0.5 rotate-90" />
+      <ThemeCorner {theme} {scale} class="absolute -right-0.5 -top-0.5 rotate-90" />
     {/if}
     {#if corners.br}
-      <ThemeCorner {theme} class="absolute -bottom-0.5 -right-0.5 rotate-180" />
+      <ThemeCorner {theme} {scale} class="absolute -bottom-0.5 -right-0.5 rotate-180" />
     {/if}
     {#if corners.bl}
-      <ThemeCorner {theme} class="absolute -bottom-0.5 -left-0.5 -rotate-90" />
+      <ThemeCorner {theme} {scale} class="absolute -bottom-0.5 -left-0.5 -rotate-90" />
     {/if}
   {/if}
 </div>

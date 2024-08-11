@@ -23,6 +23,7 @@
   import Button from "$components/elements/Button.svelte";
   import Image from "$components/elements/Image.svelte";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
+  import IdleBlackwall from "$lib/components/parts/BlackwallScreensaver";
   import { site } from "$lib/content/site";
 
   let scrollY = 2;
@@ -46,6 +47,8 @@
 
 <svelte:window bind:scrollY on:keydown={onKeyDown} />
 
+<IdleBlackwall />
+
 <header
   class={twMerge(
     "sticky top-0 z-40 flex h-16 w-full items-center gap-8 bg-zinc-900 pr-4 shadow-xl transition duration-500 xl:px-[10svw]",
@@ -55,7 +58,7 @@
   <a
     href="/"
     class={twMerge(
-      "relative z-10 mt-auto flex-shrink-0 rounded-full bg-zinc-900 p-4 shadow-xl transition duration-500",
+      "relative z-10 mt-auto flex-shrink-0 rounded-b-full bg-zinc-900 p-4 shadow-xl transition duration-500",
       isOnTop && "script:bg-transparent script:shadow-none",
     )}
   >

@@ -14,6 +14,7 @@
   use:mediaReady={() => (loaded = true)}
   decoding="async"
   loading="lazy"
+  crossorigin="anonymous"
   {...$$restProps}
   alt={$$props.alt ?? ""}
   class={twMerge("transition", !loaded && browser && "opacity-0", $$restProps.class)}

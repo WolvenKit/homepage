@@ -6,7 +6,7 @@
 
   export let inline = false;
   export let href = "";
-  export let external = ![".", "/"].includes(href[0]);
+  export let external = href && ![".", "/"].includes(href[0]);
   export let icon: IconDefinition | undefined = undefined;
   export let element: HTMLElement | undefined = undefined;
   export let iconOnly = false;
