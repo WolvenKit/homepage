@@ -47,45 +47,6 @@ async function _fetchMembers() {
   return { teamMembers: output, memberMap };
 }
 
-// async function fetchMembersGithubs(members: DiscordMember[]) {
-//   const names: Record<string, string> = {};
-
-//   // Collect map of github names to usernames
-//   for (const member of members) {
-//     if (member.CustomData?.github) names[member.CustomData.github] = member.Username;
-//   }
-
-//   // Fetch
-//   const githubs = await fetchGithubUsers(Object.keys(names));
-
-//   // Map github names back to usernames
-//   const output: Record<string, { githubProfile: GithubUser }> = {};
-//   for (const githubProfile of githubs) {
-//     if (!names[githubProfile.login]) continue;
-//     output[names[githubProfile.login]] = { githubProfile };
-//   }
-
-//   return output;
-// }
-
-// async function fetchMembersNexus(members: DiscordMember[]) {
-//   const output: Record<string, { nexusProfile: NexusProfile }> = {};
-//   const promises = [];
-
-//   for (const  member of members) {
-//     if (!member.CustomData?.nexusmods) continue;
-
-//     promises.push(
-//       fetchNexusProfile(member.CustomData.nexusmods).then((nexusProfile) => {
-//         output[member.Username] = { nexusProfile };
-//       }),
-//     );
-//   }
-
-//   await Promise.all(promises);
-//   return output;
-// }
-
 function processMembers(members: DiscordMember[]) {
   const role2Team = getRole2TeamMap();
   const memberMap: Record<string, TeamMember> = {};

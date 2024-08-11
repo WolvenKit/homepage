@@ -10,6 +10,7 @@ const config = {
   kit: {
     adapter: adapter({
       isr: { expiration: 60 * 60 * 24 },
+      supportsResponseStreaming: true,
     }),
     alias: {
       $lib: "./src/lib",

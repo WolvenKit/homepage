@@ -50,19 +50,3 @@ export async function fetchDiscordMembers(): Promise<DiscordMember[]> {
   }
   return memberCache;
 }
-
-// export async function fetchDiscordDetails(members: string[]): Promise<MemberDetails[]> {
-//   const result = await fetchLizzy("/api/discord/user/details?server=" + DISCORD_SERVER_ID, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(members),
-//   });
-//   return await result.json();
-// }
-
-// export async function fetchDiscordRoles(): Promise<Role[]> {
-//   const result = await fetchLizzy("/api/discord/roles?server=" + DISCORD_SERVER_ID);
-//   return (await result.json())[0];
-// }

@@ -2,12 +2,12 @@
   import { faDiscord } from "@fortawesome/free-brands-svg-icons/faDiscord";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
+  import GlitchingImage from "$components/elements/GlitchingImage.svelte";
   import Image from "$components/elements/Image.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import WitcherDivider from "$components/theme/WitcherDivider.svelte";
   import WitcherFrame from "$components/theme/WitcherFrame.svelte";
-  import GlitchingImage from "$lib/components/elements/GlitchingImage.svelte";
   import type { Team } from "$lib/content/teams";
   import type { TeamMember } from "$lib/server/members";
   import { outlineToPath, THEME_COLORS, THEME_CORNERS, type GameTheme } from "$lib/themes";

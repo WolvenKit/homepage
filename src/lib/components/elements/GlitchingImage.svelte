@@ -11,11 +11,13 @@
     class?: string;
   }
 
-  function random(_: number) {
-    return Math.random();
+  function random(r: number) {
+    // I hope this will be good for performance
+    // since we only use random when in use?
+    return r ? Math.random() : 0.5;
   }
 
-  let rand = Math.random();
+  let rand = 0;
   let reRandTimeout = 0;
 
   function startReRandom() {
@@ -38,6 +40,8 @@
 
   $: if (always && browser) startReRandom();
   else stopReRandom();
+
+  // Config-ish
   $: glitchLength = always ? 1 : 0.4;
   $: shakeLength = always ? 2 : 0.5;
 </script>
@@ -60,12 +64,13 @@
   on:mouseover={() => (rand = Math.random())}
 >
   <Image {...$$restProps} class="col-start-1 row-start-1 h-full w-full" />
+  <slot />
   <Image {...$$restProps} class="pointer-events-none col-start-1 row-start-1 hidden h-full w-full transition-none" />
 </div>
 
 <style>
-  .glitch:hover > :global(img:nth-child(2)),
-  .glitch.always > :global(img:nth-child(2)) {
+  .glitch:hover > :global(img:last-of-type),
+  .glitch.always > :global(img:last-of-type) {
     display: inline;
     animation:
       glitch var(--glitch-length) steps(3, jump-start) var(--glitch-offset) var(--repeat) var(--glitch-dir),

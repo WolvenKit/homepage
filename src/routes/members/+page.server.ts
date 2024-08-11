@@ -1,9 +1,11 @@
-import type { Teams } from "$lib/content/teams";
 import { getCachedMembers } from "$lib/server/members";
+import { wrapCatch } from "$lib/utils";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ isDataRequest }) => {
-  const promise = getCachedMembers().then((v) => v.teamMembers);
+  const promise = getCachedMembers()
+    .then((v) => v.teamMembers)
+    .catch(wrapCatch({ description: "Fetching member data failed. Please try again later." }));
 
-  return { teamMembers: isDataRequest ? (promise.catch(console.error) as unknown as Promise<Teams>) : await promise };
+  return { teamMembers: isDataRequest ? promise : await promise };
 }) satisfies PageServerLoad;

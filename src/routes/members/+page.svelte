@@ -2,8 +2,9 @@
   import { onMount } from "svelte";
   import Divider from "$components/elements/Divider.svelte";
   import Heading from "$components/elements/Heading.svelte";
+  import ErrorAlert from "$components/parts/ErrorAlert.svelte";
+  import Loading from "$components/parts/Loading.svelte";
   import Section from "$components/parts/Section.svelte";
-  import Loading from "$lib/components/parts/Loading.svelte";
   import { teams } from "$lib/content/teams";
   import MemberItem from "./MemberItem.svelte";
   import TeamSection from "./TeamSection.svelte";
@@ -58,5 +59,7 @@
       <code>/link</code> command to modify your profile. Displayed name is taken from NexusMods or GitHub or generated from
       Discord username. If you wish to change your primary team, name or something else, ping @Zhincore.
     </p>
+  {:catch error}
+    <ErrorAlert {error} />
   {/await}
 </Section>

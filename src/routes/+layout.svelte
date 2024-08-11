@@ -21,8 +21,8 @@
   import catLove from "$assets/cat_love.webp";
   import sammy from "$assets/sammy.png";
   import Button from "$components/elements/Button.svelte";
-  import Image from "$lib/components/elements/Image.svelte";
-  import DotsSidesBackground from "$lib/components/parts/DotsSidesBackground.svelte";
+  import Image from "$components/elements/Image.svelte";
+  import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import { site } from "$lib/content/site";
 
   let scrollY = 2;

@@ -4,9 +4,10 @@
   import Heading from "$components/elements/Heading.svelte";
   import Image from "$components/elements/Image.svelte";
   import Card from "$components/parts/Card.svelte";
+  import Loading from "$components/parts/Loading.svelte";
   import Section from "$components/parts/Section.svelte";
   import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
-  import Loading from "$lib/components/parts/Loading.svelte";
+  import ErrorAlert from "$lib/components/parts/ErrorAlert.svelte";
   import { projects } from "$lib/content/projects";
   import { teams } from "$lib/content/teams";
   import TeamBadge from "../TeamBadge.svelte";
@@ -134,5 +135,7 @@
         </ul>
       </Section>
     {/if}
+  {:catch error}
+    <ErrorAlert {error} />
   {/await}
 </Section>

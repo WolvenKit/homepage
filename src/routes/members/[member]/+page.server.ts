@@ -1,32 +1,27 @@
 import { error } from "@sveltejs/kit";
-import { getCachedMembers, type TeamMember } from "$lib/server/members";
-import { fetchGithubContributions, type GithubRepository } from "$lib/server/services/github";
-import { fetchNexusProfile, type NexusProfile } from "$lib/server/services/nexus";
+import { getCachedMembers } from "$lib/server/members";
+import { fetchGithubContributions } from "$lib/server/services/github";
+import { fetchNexusProfile } from "$lib/server/services/nexus";
+import { wrapCatch } from "$lib/utils";
 import type { PageServerLoad } from "./$types";
 
-export const prerender = "auto";
-
 export const load = (async ({ params, isDataRequest }) => {
-  const promise = getCachedMembers().then(async ({ memberMap }) => {
-    const member = memberMap[params.member];
+  const promise = getCachedMembers()
+    .then(async ({ memberMap }) => {
+      const member = memberMap[params.member];
 
-    if (!member) error(404, "Member not found");
+      if (!member) error(404, "Member not found");
 
-    const [contributions, nexus] = await Promise.all([
-      (member.CustomData?.github && fetchGithubContributions(member.CustomData.github)) || undefined,
-      (member.CustomData?.nexusmods && fetchNexusProfile(member.CustomData.nexusmods)) || undefined,
-    ]);
+      const [contributions, nexus] = await Promise.all([
+        (member.CustomData?.github && fetchGithubContributions(member.CustomData.github)) || undefined,
+        (member.CustomData?.nexusmods && fetchNexusProfile(member.CustomData.nexusmods)) || undefined,
+      ]);
 
-    return { member, contributions, nexus };
-  });
+      return { member, contributions, nexus };
+    })
+    .catch(wrapCatch({ description: "Fetching member data failed. Please try again later." }));
 
-  return isDataRequest
-    ? (promise.catch(console.error) as Promise<{
-        member: TeamMember;
-        contributions: GithubRepository[] | undefined;
-        nexus: NexusProfile | undefined;
-      }>)
-    : await promise;
+  return isDataRequest ? promise : await promise;
 }) satisfies PageServerLoad;
 
 export const entries = async () => {

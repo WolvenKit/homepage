@@ -48,6 +48,10 @@
   .hover-glow:focus {
     filter: drop-shadow(0 0 0.4rem theme("colors.cyan.dark"));
   }
+
+  .absolutely-centered {
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
 }
 
 @layer utilities {
