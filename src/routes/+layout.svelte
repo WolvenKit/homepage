@@ -19,11 +19,11 @@
   import { beforeNavigate } from "$app/navigation";
   import { page } from "$app/stores";
   import catLove from "$assets/cat_love.webp";
-  import sammy from "$assets/sammy.png";
   import Button from "$components/elements/Button.svelte";
   import Image from "$components/elements/Image.svelte";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import IdleBlackwall from "$lib/components/parts/BlackwallScreensaver";
+  import Sammy from "$lib/components/parts/Sammy.svelte";
   import { site } from "$lib/content/site";
 
   let scrollY = 2;
@@ -55,15 +55,7 @@
     isOnTop && "script:bg-transparent script:shadow-none",
   )}
 >
-  <a
-    href="/"
-    class={twMerge(
-      "relative z-10 mt-auto flex-shrink-0 rounded-b-full bg-zinc-900 p-4 shadow-xl transition duration-500",
-      isOnTop && "script:bg-transparent script:shadow-none",
-    )}
-  >
-    <img src={sammy} width="128" height="128" alt="" class="h-24 w-auto" />
-  </a>
+  <Sammy {isOnTop} />
 
   <a
     href="/"
