@@ -16,7 +16,7 @@ export interface DiscordMember {
   ID: string;
   Bot: boolean;
   Roles: Role[];
-  CustomData: null | {
+  CustomData: null | Partial<{
     id: string;
     user: string;
     userid: string;
@@ -24,7 +24,7 @@ export interface DiscordMember {
     github: string;
     theme: Theme;
     description: string;
-  };
+  }>;
 }
 
 async function fetchLizzy(path: string, init?: RequestInit) {

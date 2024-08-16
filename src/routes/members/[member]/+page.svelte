@@ -1,5 +1,6 @@
 <script lang="ts">
   import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
+  import { twMerge } from "tailwind-merge";
   import Button from "$components/elements/Button.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import Image from "$components/elements/Image.svelte";
@@ -14,6 +15,8 @@
   import DataEntry from "./DataEntry.svelte";
 
   export let data;
+
+  $: background = data.member.CustomData?.background;
 </script>
 
 <Section>
@@ -22,10 +25,21 @@
   {#await data}
     <Loading />
   {:then data}
-    <header class="relative w-full max-w-screen-lg text-left max-md:mt-4">
+    <header class="relative w-full max-w-screen-lg pt-16 text-left max-md:mt-4" class:text-shadow={background}>
       <Button href="." icon={faArrowLeft} class="absolute bottom-full text-opacity-75 md:mb-4">See all members</Button>
 
-      <div class="mb-4 inline-flex flex-wrap gap-4 px-2">
+      {#if background}
+        <Image
+          src={background}
+          class={twMerge(
+            "member-profile-background",
+            "absolute -left-8 -right-8 -top-4 -z-10 h-auto max-h-96 w-[calc(100%+4rem)] max-w-[unset] object-cover",
+            "rounded-t-3xl opacity-50",
+          )}
+        />
+      {/if}
+
+      <div class="mb-8 inline-flex flex-wrap gap-4 px-2">
         <div class="flex-shrink-0">
           <Image src={data.member.Image} width={128} height={128} />
         </div>
@@ -47,7 +61,7 @@
         </div>
       </div>
 
-      <div class="mb-8 ml-8 max-md:text-center md:float-right">
+      <div class="mb-16 ml-8 max-md:text-center md:float-right">
         <Heading level={3} class="mb-2">Teams</Heading>
 
         <ul class="inline-flex flex-col gap-2">
@@ -61,7 +75,7 @@
         </ul>
       </div>
 
-      <dl class="clear-left my-4 flex flex-wrap justify-around gap-x-6 gap-y-4 px-4 text-center">
+      <dl class="clear-left my-8 flex flex-wrap justify-around gap-x-6 gap-y-4 px-4 text-center">
         {#if data.nexus?.user.country}
           <DataEntry key="Country">{data.nexus.user.country}</DataEntry>
         {/if}
@@ -139,3 +153,11 @@
     <ErrorAlert {error} />
   {/await}
 </Section>
+
+<style>
+  :global(.member-profile-background) {
+    mask-image: linear-gradient(to bottom, transparent, white 2rem, transparent),
+      linear-gradient(to right, transparent, white 2rem, white calc(100% - 2rem), transparent);
+    mask-composite: intersect;
+  }
+</style>

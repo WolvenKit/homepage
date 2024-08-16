@@ -1,13 +1,19 @@
+import { members } from "$lib/content/members";
 import { teams, type Team } from "$lib/content/teams";
 import { type GithubUser } from "./services/github";
 import { fetchDiscordMembers, type DiscordMember } from "./services/lizzy";
 import { type NexusProfile } from "./services/nexus";
+
+interface CustomCustomData {
+  background?: string;
+}
 
 export type TeamMember = DiscordMember & {
   Teams: Set<string>;
   Displayname: string;
   NexusProfile?: NexusProfile;
   GithubProfile?: GithubUser;
+  CustomData: CustomCustomData | null;
 };
 
 export type Teams = Record<string, TeamMember[]>;
@@ -75,15 +81,29 @@ function processMembers(members: DiscordMember[]) {
 }
 
 function createTeamMember(discordMember: DiscordMember): TeamMember {
+  const override = members[discordMember.Username];
+
   return {
     ...discordMember,
     Teams: new Set(),
+
+    // generate displayname
     Displayname:
+      override?.Displayname ||
       discordMember.CustomData?.nexusmods ||
       discordMember.CustomData?.github ||
       discordMember.Username.split(/(?<![a-z])/gim)
         .map((v) => v[0].toUpperCase() + v.slice(1))
         .join(""),
+
+    // Override
+    ...override,
+
+    // Merge custom data with override
+    CustomData:
+      discordMember.CustomData || override?.CustomData
+        ? { ...discordMember.CustomData, ...override?.CustomData }
+        : null,
   };
 }
 
