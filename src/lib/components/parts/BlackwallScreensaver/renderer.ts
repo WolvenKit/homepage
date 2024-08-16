@@ -6,11 +6,12 @@ export async function renderElement(ctx: Ctx, root: HTMLElement, skipRoot = fals
   const bbox = root.getBoundingClientRect();
 
   if (
-    style.maskImage != "none" ||
-    style.mixBlendMode != "normal" ||
-    style.visibility == "hidden" ||
-    style.display == "none" ||
-    style.opacity == "0"
+    (style.maskImage != "none" ||
+      style.mixBlendMode != "normal" ||
+      style.visibility == "hidden" ||
+      style.display == "none" ||
+      style.opacity == "0") &&
+    !root.hasAttribute("data-force-glitch")
   ) {
     return; // Skip masked and invisible elements
   }

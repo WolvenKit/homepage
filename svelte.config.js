@@ -12,6 +12,9 @@ const config = {
       isr: { expiration: 60 * 60 * 24 },
       supportsResponseStreaming: true,
     }),
+    prerender: {
+      origin: process.env.VERCEL_PROJECT_PRODUCTION_URL,
+    },
     alias: {
       $lib: "./src/lib",
       $assets: "./src/assets",

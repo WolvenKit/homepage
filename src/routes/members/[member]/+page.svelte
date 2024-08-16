@@ -38,11 +38,16 @@
       ].filter((v) => v),
     },
   })}
+
+  <meta property="profile:username" content={data.member.Username} />
 </svelte:head>
 
 <PageRoot
   title={[data.member.Displayname, "Member detail"]}
   description={data.member.CustomData?.description || "Member of the RedModding community"}
+  image={data.member.Image}
+  card="summary"
+  type="profile"
   hideDescription
 >
   {#await data}
