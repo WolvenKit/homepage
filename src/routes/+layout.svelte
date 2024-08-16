@@ -103,12 +103,16 @@
 </main>
 
 <footer class="relative z-10 flex w-full flex-wrap items-start justify-center gap-8 bg-black p-8 md:justify-between">
-  <div class="grid grid-cols-1">
-    <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
-    <div class="text-sm text-gray-600">
-      <div>© 2024 Red Modding Tools. All Rights Reserved.</div>
-      <a href="/privacy" class="underline hover:text-zinc-400">Privacy Policy</a> |
-      <a href="/terms" class="underline hover:text-zinc-400">Terms and Conditions</a>
+  <div class="flex flex-wrap items-center justify-center gap-4 md:w-1/4">
+    <Sammy isOnTop />
+
+    <div class="grid grid-cols-1">
+      <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
+      <div class="text-sm text-gray-600">
+        <div>© 2024 Red Modding Tools. All Rights Reserved.</div>
+        <a href="/privacy" class="underline hover:text-zinc-400">Privacy Policy</a> |
+        <a href="/terms" class="underline hover:text-zinc-400">Terms and Conditions</a>
+      </div>
     </div>
   </div>
 
@@ -126,7 +130,7 @@
     </div>
   </div>
 
-  <div>
+  <div class="text-right md:w-1/4">
     <Button class="text-xl" href={site.menu.wiki}>Wiki</Button>
   </div>
 </footer>

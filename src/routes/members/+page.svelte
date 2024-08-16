@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import Divider from "$components/elements/Divider.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import ErrorAlert from "$components/parts/ErrorAlert.svelte";
@@ -10,24 +9,6 @@
   import TeamSection from "./TeamSection.svelte";
 
   export let data;
-
-  // Render only portions of the teams to prevent lag
-  let limit = -1;
-
-  onMount(() => {
-    if (data.teamMembers instanceof Promise) {
-      limit = 0;
-      data.teamMembers.then((teams) => {
-        let maxLimit = Object.keys(teams).length;
-
-        function updateLimit() {
-          limit += 1;
-          if (limit < maxLimit) window.requestAnimationFrame(updateLimit);
-        }
-        updateLimit();
-      });
-    }
-  });
 </script>
 
 <Section>
@@ -42,7 +23,7 @@
   {#await data.teamMembers}
     <Loading />
   {:then teamMembers}
-    {#each Object.entries(teamMembers).slice(0, limit) as [teamId, members], i (teamId)}
+    {#each Object.entries(teamMembers) as [teamId, members], i (teamId)}
       {@const team = teams[teamId]}
       {#if i}<Divider class="m-0" />{/if}
 

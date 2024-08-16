@@ -16,7 +16,7 @@
   style:--mask-x="{maskPos[0]}%"
   style:--mask-y="{maskPos[1]}%"
 >
-  <slot><div class="dots-wave absolute inset-0 text-red" /></slot>
+  <slot><div class="dots-wave absolute inset-0 text-red motion-reduce:hidden" /></slot>
 </div>
 
 <style>

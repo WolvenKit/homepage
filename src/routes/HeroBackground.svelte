@@ -25,12 +25,16 @@
   style:--fade-delay="{fadeDelay}s"
 >
   <div class="crt absolute inset-0" />
-  <div class="wave absolute inset-0 text-red" />
+  <div class="wave absolute inset-0 text-red motion-reduce:hidden" />
+
+  <!-- Motion-reduced fallback -->
+  <Image src={malorian} class="h-full w-full bg-black object-contain mix-blend-multiply motion-safe:hidden" />
+
   <video
     bind:this={video}
     use:mediaReady={() => (bgLoaded = true)}
     on:play={() => (autoplayDisabled = false)}
-    class="h-full w-full bg-black object-contain mix-blend-multiply"
+    class="h-full w-full bg-black object-contain mix-blend-multiply motion-reduce:hidden"
     autoplay={!browser}
     loop
     muted
