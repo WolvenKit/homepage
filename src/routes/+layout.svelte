@@ -24,8 +24,9 @@
   import IdleBlackwall from "$components/parts/BlackwallScreensaver";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Sammy from "$components/parts/Sammy.svelte";
-  import { PUBLIC_VERCEL_GIT_COMMIT_SHA } from "$env/static/public";
   import { site } from "$lib/content/site";
+
+  export let data;
 
   let scrollY = 2;
   let navOpen = false;
@@ -129,7 +130,7 @@
       <div class="text-zinc-400">Ping him on Discord about feedback or complaints.</div>
       <Button href={site.source}>Source code</Button>
 
-      <code class="block text-sm text-zinc-600">{PUBLIC_VERCEL_GIT_COMMIT_SHA}</code>
+      <code class="block text-sm text-zinc-600">{data.commitSha}</code>
     </div>
   </div>
 
