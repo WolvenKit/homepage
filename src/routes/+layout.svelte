@@ -34,7 +34,7 @@
 
   $: isOnTop = scrollY < 2;
 
-  $: isLanding = $page.route.id == "/";
+  $: isLanding = $page.route?.id == "/";
 
   beforeNavigate(() => {
     navOpen = false;

@@ -4,7 +4,15 @@
   import { renderElement } from "./renderer";
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  type $$Props = HTMLCanvasAttributes;
+  interface $$Props extends HTMLCanvasAttributes {
+    updateChance?: number;
+    cleanChance?: number;
+    resetChanceMultiplier?: number;
+  }
+
+  export let updateChance = 0.8;
+  export let cleanChance = 0.4;
+  export let resetChanceMultiplier = 0.00001;
 
   let canvas: HTMLCanvasElement;
   let ctx: CanvasRenderingContext2D;
@@ -52,7 +60,7 @@
   function update() {
     animFrame = window.requestAnimationFrame(update);
 
-    if (!pageImage || !origData || Math.random() > 0.7) return;
+    if (!pageImage || !origData || Math.random() > updateChance) return;
 
     const pageArea = pageImage.width * pageImage.height;
 
@@ -62,11 +70,11 @@
     const slice = origData.slice(start, start + length);
 
     // random chance to do a cleaning paste
-    if (Math.random() < 0.4) {
+    if (Math.random() < cleanChance) {
       slice.fill(0);
-      resetChance -= (0.00001 * length) / pageArea;
+      resetChance -= resetChanceMultiplier * (length / pageArea);
     } else {
-      resetChance += (0.00001 * length) / pageArea;
+      resetChance += resetChanceMultiplier * (length / pageArea);
     }
 
     const sourceMid = start + length * 0.5;
@@ -90,4 +98,4 @@
 
 <svelte:window on:resize={() => resize()} />
 
-<canvas bind:this={canvas} {...$$restProps} />
+<canvas bind:this={canvas} {...$$restProps} class:pointer-events-none={true} />

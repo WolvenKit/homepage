@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
+  import { onMount } from "svelte";
 
   let idle = false;
 
@@ -19,8 +19,13 @@
     );
   }
 
-  onDestroy(() => {
-    if (timeout) clearTimeout(timeout);
+  onMount(() => {
+    resetTimeout();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (window as any).triggerScreensaver = () => (idle = true);
+
+    return () => timeout && clearTimeout(timeout);
   });
 </script>
 
