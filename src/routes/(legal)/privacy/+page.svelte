@@ -1,3 +1,9 @@
+<script lang="ts">
+  import Seo from "$components/parts/SEO.svelte";
+</script>
+
+<Seo title="Privacy Policy" />
+
 <h1>Privacy Policy</h1>
 <p>Last updated: Aug 09, 2024</p>
 <p>

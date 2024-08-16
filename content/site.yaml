@@ -1,4 +1,7 @@
 name: Red Modding
+color: "#ff003c"
+description: Community of REDengine modding enthusiasts.
+
 source: https://gitlab.com/Zhincore/red-modding
 
 menu:

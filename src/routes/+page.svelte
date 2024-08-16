@@ -7,6 +7,7 @@
   import Divider from "$components/elements/Divider.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import Image from "$components/elements/Image.svelte";
+  import Seo from "$components/parts/SEO.svelte";
   import Section from "$components/parts/Section.svelte";
   import Socials from "$components/parts/Socials.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
@@ -15,6 +16,8 @@
 
   let video: HTMLVideoElement;
 </script>
+
+<Seo />
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->

@@ -1,9 +1,8 @@
 <script lang="ts">
   import Divider from "$components/elements/Divider.svelte";
-  import Heading from "$components/elements/Heading.svelte";
   import ErrorAlert from "$components/parts/ErrorAlert.svelte";
   import Loading from "$components/parts/Loading.svelte";
-  import Section from "$components/parts/Section.svelte";
+  import PageRoot from "$components/parts/PageRoot.svelte";
   import { teams } from "$lib/content/teams";
   import MemberItem from "./MemberItem.svelte";
   import TeamSection from "./TeamSection.svelte";
@@ -11,14 +10,12 @@
   export let data;
 </script>
 
-<Section>
-  <Heading>Our Members</Heading>
-
-  <p class="max-w-3xl text-center">
-    Here are the members of our Red Modding team.<br />
+<PageRoot title="Our Members" description="List of member of our Red Modding community.">
+  <svelte:fragment slot="description">
+    Here are the members of our Red Modding community.<br />
     This includes people who <code class="text-sm">[INSERT_REQUIREMENT_LIST_HERE]</code>, etc.<br />
     If you want to join our team you have to contribute to... idk what to write here, someone help me.
-  </p>
+  </svelte:fragment>
 
   {#await data.teamMembers}
     <Loading />
@@ -43,4 +40,4 @@
   {:catch error}
     <ErrorAlert {error} />
   {/await}
-</Section>
+</PageRoot>

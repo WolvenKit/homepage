@@ -10,6 +10,10 @@ export type CornerConfig = Partial<Record<Corner, boolean>>;
 
 export type Combine<T extends object, U extends object> = T | U | (T & U);
 
+export function jsonLd(content: Record<string, unknown>) {
+  return '<script type="application/ld+json">' + JSON.stringify(content) + "</" + "script>";
+}
+
 export function logAndReturnError(e: Error, base?: Partial<App.Error>) {
   console.error(e);
 

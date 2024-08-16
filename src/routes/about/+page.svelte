@@ -1,12 +1,9 @@
 <script lang="ts">
   import Button from "$components/elements/Button.svelte";
-  import Heading from "$components/elements/Heading.svelte";
-  import Section from "$components/parts/Section.svelte";
+  import PageRoot from "$components/parts/PageRoot.svelte";
 </script>
 
-<Section>
-  <Heading>About us</Heading>
-
+<PageRoot title="About us" description="What is Red Modding? Who is it? When is it?">
   <div class="flex max-w-3xl flex-col gap-8 text-justify text-xl leading-relaxed text-zinc-300">
     <p>
       Our journey began with a&nbsp;shared obsession for tweaking <strong>REDengine</strong>, starting with
@@ -52,4 +49,4 @@
   </div>
 
   <div class="cyber-text text-4xl">WIP: to be done</div>
-</Section>
+</PageRoot>

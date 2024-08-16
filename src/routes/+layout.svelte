@@ -21,9 +21,9 @@
   import catLove from "$assets/cat_love.webp";
   import Button from "$components/elements/Button.svelte";
   import Image from "$components/elements/Image.svelte";
+  import IdleBlackwall from "$components/parts/BlackwallScreensaver";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
-  import IdleBlackwall from "$lib/components/parts/BlackwallScreensaver";
-  import Sammy from "$lib/components/parts/Sammy.svelte";
+  import Sammy from "$components/parts/Sammy.svelte";
   import { site } from "$lib/content/site";
 
   let scrollY = 2;

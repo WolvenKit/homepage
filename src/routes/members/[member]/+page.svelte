@@ -7,10 +7,12 @@
   import Card from "$components/parts/Card.svelte";
   import ErrorAlert from "$components/parts/ErrorAlert.svelte";
   import Loading from "$components/parts/Loading.svelte";
+  import PageRoot from "$components/parts/PageRoot.svelte";
   import Section from "$components/parts/Section.svelte";
   import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
   import { projects } from "$lib/content/projects";
   import { teams } from "$lib/content/teams";
+  import { jsonLd } from "$lib/utils";
   import TeamBadge from "../TeamBadge.svelte";
   import DataEntry from "./DataEntry.svelte";
 
@@ -19,9 +21,30 @@
   $: background = data.member.CustomData?.background;
 </script>
 
-<Section>
-  <Heading>Member detail</Heading>
+<svelte:head>
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+  {@html jsonLd({
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    mainEntity: {
+      "@type": "Person",
+      name: data.member.Displayname,
+      alternateName: data.member.Username,
+      description: data.member.CustomData?.description,
+      image: data.member.Image,
+      sameAs: [
+        data.member.CustomData?.nexusmods && `${PUBLIC_NEXUS_PROFILE_URL}/${data.member.CustomData?.nexusmods}`,
+        data.member.CustomData?.github && `https://github.com/${data.member.CustomData?.github}`,
+      ].filter((v) => v),
+    },
+  })}
+</svelte:head>
 
+<PageRoot
+  title={[data.member.Displayname, "Member detail"]}
+  description={data.member.CustomData?.description || "Member of the RedModding community"}
+  hideDescription
+>
   {#await data}
     <Loading />
   {:then data}
@@ -114,7 +137,7 @@
             <Button
               inline
               hideExternal
-              href="{PUBLIC_NEXUS_PROFILE_URL}/{data.member.CustomData?.github}"
+              href="{PUBLIC_NEXUS_PROFILE_URL}/{data.member.CustomData?.nexusmods}"
               class="text-lg"
             >
               @{data.member.CustomData?.nexusmods}
@@ -163,7 +186,7 @@
   {:catch error}
     <ErrorAlert {error} />
   {/await}
-</Section>
+</PageRoot>
 
 <style>
   :global(.member-profile-background) {
