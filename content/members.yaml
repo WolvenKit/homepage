@@ -1,6 +1,9 @@
+rfuzzo:
+  Displayname: rFuzzo
+
 manavortex:
   CustomData:
-    background: /manacats.webp
+    background: /members/manacats.webp
 
 moonded:
   CustomData:
