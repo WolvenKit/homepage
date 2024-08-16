@@ -13,7 +13,7 @@ const config = {
       supportsResponseStreaming: true,
     }),
     prerender: {
-      origin: process.env.VERCEL_PROJECT_PRODUCTION_URL,
+      origin: "https://" + (process.env.VERCEL_PROJECT_PRODUCTION_URL || "sveltekit-prerender"),
     },
     alias: {
       $lib: "./src/lib",
