@@ -71,7 +71,13 @@
           i % 2 && "md:flex-row-reverse md:text-right",
         )}
       >
-        <Image src={project.image} class="h-full max-h-96 w-auto sm:max-w-[75vw] md:max-w-[50vw] lg:max-w-[40vw]" />
+        <Image
+          src={project.image}
+          width="720"
+          height="405"
+          class="h-full max-h-96 w-auto sm:max-w-[75vw] md:max-w-[50vw] lg:max-w-[40vw]"
+          alt={project.name}
+        />
 
         <div class="flex flex-grow flex-col gap-4 md:items-start" class:md:items-end={i % 2}>
           <div class="my-auto">

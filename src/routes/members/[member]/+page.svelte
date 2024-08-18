@@ -2,6 +2,7 @@
   import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
   import { twMerge } from "tailwind-merge";
   import Button from "$components/elements/Button.svelte";
+  import GlitchingImage from "$components/elements/GlitchingImage.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import Image, { vercelImg } from "$components/elements/Image.svelte";
   import Card from "$components/parts/Card.svelte";
@@ -9,9 +10,8 @@
   import Loading from "$components/parts/Loading.svelte";
   import PageRoot from "$components/parts/PageRoot.svelte";
   import Section from "$components/parts/Section.svelte";
+  import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
-  import GlitchingImage from "$lib/components/elements/GlitchingImage.svelte";
-  import ThemeFrameBig from "$lib/components/theme/ThemeFrameBig.svelte";
   import { projects } from "$lib/content/projects";
   import { teams } from "$lib/content/teams";
   import { THEME_CLASSES } from "$lib/themes";
@@ -86,6 +86,7 @@
             src={data.member.Image + "?size=256"}
             width={192}
             height={192}
+            alt={data.member.Displayname}
           />
         </div>
 
@@ -94,7 +95,7 @@
             <Heading
               level={2}
               class={twMerge(
-                "small-caps m-0 text-4xl font-semibold normal-case leading-none text-white",
+                "small-caps m-0 text-4xl font-semibold normal-case leading-none text-white md:text-left",
                 themeName == "witcher" && "font-witcher text-3xl",
               )}
             >

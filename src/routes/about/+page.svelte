@@ -22,7 +22,12 @@
     </p>
 
     <figure class="m-8 max-w-[640px] text-center lg:float-right lg:-mr-32 xl:-mr-64 2xl:-mr-96">
-      <Image src={redengine} />
+      <Image
+        src={redengine}
+        width={640}
+        height={360}
+        alt="Psiberx and Wopss reverse-engineering REDengine, ca. 2024, colorized"
+      />
       <figcaption>Psiberx and Wopss reverse-engineering REDengine, ca. 2024, colorized</figcaption>
     </figure>
 

@@ -38,6 +38,7 @@
     width="720"
     height="405"
     src={project.image}
+    alt={project.name}
     class="h-auto w-96 object-cover max-md:w-full"
   />
 

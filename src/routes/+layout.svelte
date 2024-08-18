@@ -22,9 +22,9 @@
   import Button from "$components/elements/Button.svelte";
   import Image from "$components/elements/Image.svelte";
   import IdleBlackwall from "$components/parts/BlackwallScreensaver";
+  import CursorTrail from "$components/parts/CursorTrail.svelte";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Sammy from "$components/parts/Sammy.svelte";
-  import CursorTrail from "$lib/components/parts/CursorTrail.svelte";
   import { site } from "$lib/content/site";
 
   export let data;

@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { onDestroy } from "svelte";
-  import type { HTMLImgAttributes } from "svelte/elements";
+  import { onDestroy, type ComponentProps } from "svelte";
   import { twMerge } from "tailwind-merge";
   import { browser } from "$app/environment";
   import Image from "./Image.svelte";
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface $$Props extends Omit<HTMLImgAttributes, "class"> {
+  interface $$Props extends ComponentProps<Image> {
     always?: boolean;
     class?: string;
   }
@@ -63,9 +62,13 @@
   class:always
   on:mouseover={() => (rand = Math.random())}
 >
-  <Image {...$$restProps} class="col-start-1 row-start-1 h-full w-full" />
+  <Image src={$$restProps.src} {...$$restProps} class="col-start-1 row-start-1 h-full w-full" />
   <slot />
-  <Image {...$$restProps} class="pointer-events-none col-start-1 row-start-1 hidden h-full w-full transition-none" />
+  <Image
+    src={$$restProps.src}
+    {...$$restProps}
+    class="pointer-events-none col-start-1 row-start-1 hidden h-full w-full transition-none"
+  />
 </div>
 
 <style>

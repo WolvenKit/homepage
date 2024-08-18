@@ -12,8 +12,8 @@ const config = {
       isr: { expiration: 60 * 60 * 24 },
       supportsResponseStreaming: true,
       images: {
-        // Should match $lib/components/elements/Image.svelte
-        sizes: [128, 256, 720, 1280, 1920, 3840],
+        // Should match $components/elements/Image.svelte
+        sizes: [32, 128, 256, 640, 720],
         formats: ["image/avif", "image/webp"],
         minimumCacheTTL: 3600,
         domains: ["cdn.discordapp.com"],

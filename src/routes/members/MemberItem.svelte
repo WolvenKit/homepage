@@ -96,6 +96,7 @@
         width={128}
         height={128}
         class="size-32 object-cover"
+        alt={member.Displayname}
       />
 
       {#if themeName == "witcher"}
