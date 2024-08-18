@@ -21,6 +21,13 @@ const config = {
     }),
     prerender: {
       origin: "https://" + (process.env.VERCEL_PROJECT_PRODUCTION_URL || "sveltekit-prerender"),
+
+      handleHttpError: ({ path, message }) => {
+        if (path === "/_vercel/image") return;
+
+        // otherwise fail the build
+        throw new Error(message);
+      },
     },
     alias: {
       $lib: "./src/lib",
