@@ -3,7 +3,7 @@
   import { twMerge } from "tailwind-merge";
   import Button from "$components/elements/Button.svelte";
   import Heading from "$components/elements/Heading.svelte";
-  import Image from "$components/elements/Image.svelte";
+  import Image, { vercelImg } from "$components/elements/Image.svelte";
   import Card from "$components/parts/Card.svelte";
   import ErrorAlert from "$components/parts/ErrorAlert.svelte";
   import Loading from "$components/parts/Loading.svelte";
@@ -50,7 +50,7 @@
 <PageRoot
   title={[data.member.Displayname, "Member detail"]}
   description={data.member.CustomData?.description || "Member of the RedModding community"}
-  image={data.member.Image}
+  image={vercelImg(data.member.Image, 128, 100)}
   card="summary"
   type="profile"
   hideDescription

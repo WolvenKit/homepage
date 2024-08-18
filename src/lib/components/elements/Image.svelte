@@ -1,3 +1,8 @@
+<script lang="ts" context="module">
+  export const vercelImg = (sourceUrl: string, size: number, quality: number) =>
+    `/_vercel/image?url=${encodeURIComponent(sourceUrl)}&w=${size}&q=${quality}`;
+</script>
+
 <script lang="ts">
   import type { HTMLImgAttributes } from "svelte/elements";
   import { twMerge } from "tailwind-merge";
@@ -8,7 +13,7 @@
   const SIZES = [128, 256, 720, 1280, 1920, 3840];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface $$Props extends Omit<HTMLImgAttributes, "src" | "width"> {
+  interface $$Props extends Omit<HTMLImgAttributes, "src"> {
     optimize?: boolean;
     quality?: number;
     src: string;
@@ -17,10 +22,7 @@
   export let optimize = true;
   export let quality = 75;
   export let src: string;
-  export let width = null;
-
-  const vercelImg = (sourceUrl: string, size: number) =>
-    `/_vercel/image?url=${encodeURIComponent(sourceUrl)}&w=${size}&q=${quality}`;
+  export let width: string | number | null | undefined = null;
 
   let loaded = false;
 
@@ -34,7 +36,7 @@
         })(+width)
       : undefined;
 
-  $: _src = size ? vercelImg(src, size) : src;
+  $: _src = size ? vercelImg(src, size, quality) : src;
   $: classes = twMerge("transition", !loaded && browser && "opacity-0", $$restProps.class);
 </script>
 
