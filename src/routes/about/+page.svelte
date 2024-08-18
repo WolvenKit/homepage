@@ -1,10 +1,12 @@
 <script lang="ts">
+  import redengine from "$assets/redengine.webp";
   import Button from "$components/elements/Button.svelte";
+  import Image from "$components/elements/Image.svelte";
   import PageRoot from "$components/parts/PageRoot.svelte";
 </script>
 
 <PageRoot title="About us" description="What is Red Modding? Who is it? When is it?">
-  <div class="flex max-w-3xl flex-col gap-8 text-justify text-xl leading-relaxed text-zinc-300">
+  <div class="content text-xl leading-relaxed text-zinc-300">
     <p>
       Our journey began with a&nbsp;shared obsession for tweaking <strong>REDengine</strong>, starting with
       <strong>The&nbsp;Witcher&nbsp;3</strong>. This passion led to the creation of
@@ -18,6 +20,12 @@
       and <strong>mutual support</strong>. Here, modders and gamers come together to share knowledge, troubleshoot, and
       innovate.
     </p>
+
+    <figure class="m-8 max-w-[640px] text-center lg:float-right lg:-mr-32 xl:-mr-64 2xl:-mr-96">
+      <Image src={redengine} />
+      <figcaption>Psiberx and Wopss reverse-engineering REDengine, ca. 2024, colorized</figcaption>
+    </figure>
+
     <p>
       Our toolkit has grown alongside our ambitions. <Button inline href="/projects">Red4Ext</Button> allows us to expand
       <strong>Redscript</strong> scripts, enabling deeper and more intricate modifications. Our
@@ -48,5 +56,13 @@
     </p>
   </div>
 
-  <div class="cyber-text text-4xl">WIP: to be done</div>
+  <div class="-mt-12 text-center text-zinc-400">
+    Please note that the above content is of illustrative character and may not represent the real events accurately.
+  </div>
 </PageRoot>
+
+<style lang="postcss">
+  .content > p {
+    @apply mx-auto my-8 max-w-3xl text-justify;
+  }
+</style>
