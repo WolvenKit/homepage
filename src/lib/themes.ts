@@ -4,20 +4,29 @@ export type GameTheme = "cyberpunk" | "witcher";
 
 export type Theme = "default" | GameTheme;
 
-export const THEME_COLORS: Record<
+export const THEME_CLASSES: Record<
   Theme | "default",
-  { border: Record<"text" | "border", string>; background: string }
+  Record<"text" | "label" | "background" | "font", string> & { border: Record<"text" | "border", string> }
 > = {
   default: {
     border: { text: tw`text-red-dark`, border: tw`border-red-dark` },
+    text: tw`text-zinc-300`,
+    label: tw`text-zinc-300`,
+    font: tw``,
     background: tw`bg-zinc-800`,
   },
   cyberpunk: {
     border: { text: tw`text-yellow`, border: tw`border-yellow` },
+    text: tw`text-cyan`,
+    label: tw`text-yellow`,
+    font: tw`font-cyberpunk`,
     background: tw`bg-black`,
   },
   witcher: {
     border: { text: tw`text-zinc-400`, border: tw`border-zinc-400` },
+    text: tw`text-zinc-300`,
+    label: tw`text-witcher-gold`,
+    font: tw`font-witcher`,
     background: tw`bg-zinc-700`,
   },
 };

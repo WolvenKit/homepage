@@ -1,8 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
   import Heading from "$components/elements/Heading.svelte";
-  import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
+  import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import { outlineToPath, scalePath, THEME_CORNERS } from "$lib/themes";
   import Warning from "../Warning.svelte";
   import GlitchingWebsite from "./GlitchingWebsite.svelte";

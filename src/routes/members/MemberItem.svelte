@@ -10,7 +10,7 @@
   import WitcherFrame from "$components/theme/WitcherFrame.svelte";
   import type { Team } from "$lib/content/teams";
   import type { TeamMember } from "$lib/server/members";
-  import { outlineToPath, THEME_COLORS, THEME_CORNERS, type GameTheme } from "$lib/themes";
+  import { outlineToPath, THEME_CLASSES, THEME_CORNERS, type GameTheme } from "$lib/themes";
   import { tw, type CornerConfig } from "$lib/utils";
   import TeamBadge from "./TeamBadge.svelte";
 
@@ -18,25 +18,20 @@
   export let member: TeamMember;
   export let fadeInDelay = 0;
 
-  const THEMES: Record<
-    GameTheme,
-    Record<"base" | "header" | "name" | "image" | "content" | "links" | "frame", string>
-  > = {
+  const THEMES: Record<GameTheme, Record<"base" | "header" | "name" | "image" | "links" | "frame", string>> = {
     cyberpunk: {
       base: tw``,
       header: tw``,
       name: tw`text-yellow`,
       image: tw``,
-      content: tw`text-cyan`,
       links: tw``,
       frame: tw``,
     },
     witcher: {
       base: tw`bg-zinc-800`,
       header: tw`border-transparent px-6`,
-      name: tw`small-caps font-[Metamorphous] text-witcher-gold`,
+      name: tw`small-caps font-witcher text-witcher-gold`,
       image: tw`border-transparent drop-shadow-px`,
-      content: tw``,
       links: tw`mr-1`,
       frame: tw`drop-shadow-px`,
     },
@@ -48,7 +43,7 @@
   };
 
   $: themeName = member.CustomData?.theme ?? "default";
-  $: colors = THEME_COLORS[themeName];
+  $: themeClasses = THEME_CLASSES[themeName];
   $: theme = themeName != "default" ? THEMES[themeName] : undefined;
   $: corners = themeName != "default" ? CORNERS[themeName] : undefined;
   $: clipPath = THEME_CORNERS[themeName] && outlineToPath(THEME_CORNERS[themeName]!.outline, corners);
@@ -58,7 +53,7 @@
   class={twMerge(
     "item fade-in relative flex w-full flex-shrink flex-grow flex-col",
     "max-w-[round(100%,1px)] md:max-w-[round(48%,1px)] lg:max-w-[round(30%,1px)] 2xl:max-w-[round(24%,1px)]",
-    colors.background,
+    themeClasses.background,
     theme?.base,
   )}
   style:clip-path={clipPath}
@@ -68,8 +63,8 @@
   <h3
     class={twMerge(
       "relative flex flex-wrap items-center justify-between gap-x-4 border-b-2 p-2 pb-1.5 pl-4 text-white",
-      colors.border.border,
-      colors.background,
+      themeClasses.border.border,
+      themeClasses.background,
       theme?.header,
     )}
   >
@@ -94,7 +89,7 @@
   </h3>
 
   <div>
-    <div class={twMerge("relative float-left -mt-0.5 border-2", colors.border.border, theme?.image)}>
+    <div class={twMerge("relative float-left -mt-0.5 border-2", themeClasses.border.border, theme?.image)}>
       <svelte:component
         this={themeName == "cyberpunk" ? GlitchingImage : Image}
         src={member.Image + "?size=128"}
@@ -108,7 +103,7 @@
       {/if}
     </div>
 
-    <div class={twMerge("relative flex h-full flex-grow flex-col p-2 text-zinc-300", theme?.content)}>
+    <div class={twMerge("relative flex h-full flex-grow flex-col p-2", themeClasses.text)}>
       <p class={twMerge("line-clamp-3 pl-2 pt-1 leading-tight")}>
         {member.CustomData?.description || `Member of the ${team.label}.`}
       </p>

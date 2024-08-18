@@ -15,7 +15,11 @@ export const load = (async ({ params, isDataRequest }) => {
       const [contributions, nexus] = await Promise.all([
         (member.CustomData?.github && fetchGithubContributions(member.CustomData.github)) || undefined,
         (member.CustomData?.nexusmods && fetchNexusProfile(member.CustomData.nexusmods)) || undefined,
-      ]);
+      ]).catch((err) => {
+        // Fail additional data
+        console.error(err);
+        return [undefined, undefined] as const;
+      });
 
       return { member, contributions, nexus };
     })

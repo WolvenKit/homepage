@@ -1,6 +1,6 @@
 <script lang="ts">
   import { twMerge } from "tailwind-merge";
-  import { THEME_COLORS } from "$lib/themes";
+  import { THEME_CLASSES } from "$lib/themes";
 
   let classes = "";
   export { classes as class };
@@ -9,7 +9,7 @@
 <div
   class={twMerge(
     "pointer-events-none absolute inset-0 border border-current p-1",
-    THEME_COLORS.witcher.border.text,
+    THEME_CLASSES.witcher.border.text,
     classes,
   )}
 >

@@ -11,8 +11,8 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "@fontsource/metamorphous": "^5.0.20",
-    "@fontsource/rajdhani": "^5.0.13",
+    "@fontsource/metamorphous": "^5.0.21",
+    "@fontsource/rajdhani": "^5.0.14",
     "@fortawesome/fontawesome-common-types": "^6.6.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-brands-svg-icons": "^6.6.0",

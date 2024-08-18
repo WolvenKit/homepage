@@ -2,7 +2,7 @@
   import { faExternalLink } from "@fortawesome/free-solid-svg-icons/faExternalLink";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
-  import { outlineToPath, scalePath, THEME_COLORS, THEME_CORNERS, type Theme } from "$lib/themes";
+  import { outlineToPath, scalePath, THEME_CLASSES, THEME_CORNERS, type Theme } from "$lib/themes";
   import { tw } from "$lib/utils";
   import ThemeCorner from "./ThemeCorner.svelte";
   import WitcherFrame from "./WitcherFrame.svelte";
@@ -47,7 +47,7 @@
   class={twMerge(
     "relative inline-block border-2 text-center font-semibold uppercase",
     "transition hover-focus:bg-zinc-700 hover-focus:text-white",
-    THEME_COLORS[theme ?? "default"].border.border,
+    THEME_CLASSES[theme ?? "default"].border.border,
     SIZES[size],
     THEME[theme],
     theme == "witcher" && size != "sm" && "border-transparent",
@@ -57,7 +57,7 @@
 >
   {#if theme == "cyberpunk"}
     <ThemeCorner
-      class={twMerge("absolute -left-0.5 -top-0.5", THEME_COLORS[theme ?? "default"].border.text, cornerClass)}
+      class={twMerge("absolute -left-0.5 -top-0.5", THEME_CLASSES[theme ?? "default"].border.text, cornerClass)}
       theme="cyberpunk"
       scale={cornerScale}
     />

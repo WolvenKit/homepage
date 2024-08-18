@@ -1,6 +1,6 @@
 <script lang="ts">
   import { twMerge } from "tailwind-merge";
-  import { THEME_COLORS, type Theme } from "$lib/themes";
+  import { THEME_CLASSES, type Theme } from "$lib/themes";
   import type { Corner } from "$lib/utils";
   import ThemeCorner from "./ThemeCorner.svelte";
 
@@ -15,7 +15,7 @@
 <div
   class={twMerge(
     "pointer-events-none absolute inset-0 border-2 border-current p-1",
-    THEME_COLORS[theme ?? "default"].border.text,
+    THEME_CLASSES[theme ?? "default"].border.text,
     classes,
   )}
 >

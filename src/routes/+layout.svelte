@@ -111,7 +111,7 @@
     <div class="grid grid-cols-1">
       <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
       <div class="text-sm text-gray-600">
-        <div>© 2024 Red Modding Tools. All Rights Reserved.</div>
+        <div>&copy; {new Date().getFullYear()} Red Modding Tools. All Rights Reserved.</div>
         <a href="/privacy" class="underline hover:text-zinc-400">Privacy Policy</a> |
         <a href="/terms" class="underline hover:text-zinc-400">Terms and Conditions</a>
       </div>

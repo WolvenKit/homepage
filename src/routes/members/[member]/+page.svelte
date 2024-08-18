@@ -10,8 +10,11 @@
   import PageRoot from "$components/parts/PageRoot.svelte";
   import Section from "$components/parts/Section.svelte";
   import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
+  import GlitchingImage from "$lib/components/elements/GlitchingImage.svelte";
+  import ThemeFrameBig from "$lib/components/theme/ThemeFrameBig.svelte";
   import { projects } from "$lib/content/projects";
   import { teams } from "$lib/content/teams";
+  import { THEME_CLASSES } from "$lib/themes";
   import { jsonLd } from "$lib/utils";
   import TeamBadge from "../TeamBadge.svelte";
   import DataEntry from "./DataEntry.svelte";
@@ -19,6 +22,8 @@
   export let data;
 
   $: background = data.member.CustomData?.background;
+  $: themeName = data.member.CustomData?.theme ?? "default";
+  $: themeClasses = THEME_CLASSES[themeName];
 </script>
 
 <svelte:head>
@@ -53,7 +58,11 @@
   {#await data}
     <Loading />
   {:then data}
-    <header class="relative w-full max-w-screen-lg pt-16 text-left max-md:mt-4" class:text-shadow={background}>
+    <header
+      class="relative w-full max-w-screen-lg pt-16 text-left max-md:mt-4"
+      class:text-shadow={background}
+      style:--fade-duration="1s"
+    >
       <Button href="." icon={faArrowLeft} class="absolute bottom-full text-opacity-75 md:mb-4">See all members</Button>
 
       {#if background}
@@ -67,14 +76,28 @@
         />
       {/if}
 
-      <div class="mb-8 inline-flex flex-wrap gap-4 px-2">
-        <div class="fade-in flex-shrink-0" style:--fade-delay=".7s">
-          <Image src={data.member.Image} width={128} height={128} />
+      <div class="mb-8 inline-flex flex-wrap gap-4 gap-x-8 px-2 max-md:justify-center">
+        <div class="fade-in relative flex-shrink-0" style:--fade-delay=".7s">
+          <ThemeFrameBig theme={themeName} />
+
+          <svelte:component
+            this={themeName == "cyberpunk" ? GlitchingImage : Image}
+            class="size-48"
+            src={data.member.Image + "?size=256"}
+            width={192}
+            height={192}
+          />
         </div>
 
-        <div class="flex max-w-full flex-grow flex-col justify-around gap-2">
+        <div class="flex max-w-full flex-grow flex-col justify-center gap-4 max-md:text-center">
           <div class="fade-in">
-            <Heading level={2} class="small-caps m-0 normal-case leading-none text-white">
+            <Heading
+              level={2}
+              class={twMerge(
+                "small-caps m-0 text-4xl font-semibold normal-case leading-none text-white",
+                themeName == "witcher" && "font-witcher text-3xl",
+              )}
+            >
               {data.member.Nickname || data.member.Displayname}
             </Heading>
 
@@ -84,7 +107,7 @@
           </div>
 
           {#if data.member.CustomData?.description}
-            <p class="fade-in max-w-screen-sm" style:--fade-delay=".3s">
+            <p class={twMerge("fade-in max-w-screen-sm", themeClasses.text)} style:--fade-delay=".3s">
               {data.member.CustomData.description}
             </p>
           {/if}
@@ -114,23 +137,27 @@
         style:--fade-delay="1s"
       >
         {#if data.nexus?.user.country}
-          <DataEntry key="Country">{data.nexus.user.country}</DataEntry>
+          <DataEntry theme={themeName} key="Country">{data.nexus.user.country}</DataEntry>
         {/if}
 
         {#if data.nexus?.user.kudos}
-          <DataEntry key="Kudos">{data.nexus.user.kudos.toLocaleString()}</DataEntry>
+          <DataEntry theme={themeName} key="Kudos">{data.nexus.user.kudos.toLocaleString()}</DataEntry>
         {/if}
 
         {#if data.nexus?.["user-mods-count"].mods.totalCount}
-          <DataEntry key="Mods released">{data.nexus?.["user-mods-count"].mods.totalCount.toLocaleString()}</DataEntry>
+          <DataEntry theme={themeName} key="Mods released"
+            >{data.nexus?.["user-mods-count"].mods.totalCount.toLocaleString()}</DataEntry
+          >
         {/if}
 
         {#if data.nexus?.user.uniqueModDownloads}
-          <DataEntry key="Unique mod downloads">{data.nexus.user.uniqueModDownloads.toLocaleString()}</DataEntry>
+          <DataEntry theme={themeName} key="Unique mod downloads"
+            >{data.nexus.user.uniqueModDownloads.toLocaleString()}</DataEntry
+          >
         {/if}
 
         {#if data.member.CustomData?.github}
-          <DataEntry key="GitHub">
+          <DataEntry theme={themeName} key="GitHub">
             <Button inline hideExternal href="https://github.com/{data.member.CustomData?.github}" class="text-lg">
               @{data.member.CustomData?.github}
             </Button>
@@ -138,7 +165,7 @@
         {/if}
 
         {#if data.member.CustomData?.nexusmods}
-          <DataEntry key="NexusMods">
+          <DataEntry theme={themeName} key="NexusMods">
             <Button
               inline
               hideExternal
@@ -200,5 +227,6 @@
     mask-composite: intersect;
 
     --fade-delay: 2s;
+    --fade-duration: 2s;
   }
 </style>
