@@ -24,6 +24,7 @@
   import IdleBlackwall from "$components/parts/BlackwallScreensaver";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Sammy from "$components/parts/Sammy.svelte";
+  import CursorTrail from "$lib/components/parts/CursorTrail.svelte";
   import { site } from "$lib/content/site";
 
   export let data;
@@ -100,41 +101,43 @@
 
 <DotsSidesBackground landing={isLanding} class={isLanding ? "" : "fixed"} />
 
-<main class="flex flex-grow flex-col">
-  <slot />
-</main>
+<CursorTrail>
+  <main class="flex flex-grow flex-col">
+    <slot />
+  </main>
 
-<footer class="relative z-10 flex w-full flex-wrap items-start justify-center gap-8 bg-black p-8 md:justify-between">
-  <div class="flex flex-wrap items-center justify-center gap-4 md:w-1/4">
-    <Sammy isOnTop />
+  <footer class="relative z-10 flex w-full flex-wrap items-start justify-center gap-8 bg-black p-8 md:justify-between">
+    <div class="flex flex-wrap items-center justify-center gap-4 md:w-1/4">
+      <Sammy isOnTop />
 
-    <div class="grid grid-cols-1">
-      <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
-      <div class="text-sm text-gray-600">
-        <div>&copy; {new Date().getFullYear()} Red Modding Tools. All Rights Reserved.</div>
-        <a href="/privacy" class="underline hover:text-zinc-400">Privacy Policy</a> |
-        <a href="/terms" class="underline hover:text-zinc-400">Terms and Conditions</a>
+      <div class="grid grid-cols-1">
+        <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
+        <div class="text-sm text-gray-600">
+          <div>&copy; {new Date().getFullYear()} Red Modding Tools. All Rights Reserved.</div>
+          <a href="/privacy" class="underline hover:text-zinc-400">Privacy Policy</a> |
+          <a href="/terms" class="underline hover:text-zinc-400">Terms and Conditions</a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="text-center">
-    <noscript>
-      <div class="text-red">JavaScript is not required but it is recommended for this website to work it's best!</div>
-    </noscript>
+    <div class="text-center">
+      <noscript>
+        <div class="text-red">JavaScript is not required but it is recommended for this website to work it's best!</div>
+      </noscript>
 
-    <div class="leading-none">
-      Website made with
-      <Image src={catLove} alt="love" title="love" width={22} height={22} class="inline" />
-      by <Button inline hideExternal href="https://zhincore.eu/">@Zhincore</Button>.
-      <div class="text-zinc-400">Ping him on Discord about feedback or complaints.</div>
-      <Button href={site.source}>Source code</Button>
+      <div class="leading-none">
+        Website made with
+        <Image src={catLove} alt="love" title="love" width={22} height={22} class="inline" />
+        by <Button inline hideExternal href="https://zhincore.eu/">@Zhincore</Button>.
+        <div class="text-zinc-400">Ping him on Discord about feedback or complaints.</div>
+        <Button href={site.source}>Source code</Button>
 
-      <code class="block text-sm text-zinc-600">{data.commitSha}</code>
+        <code class="block text-sm text-zinc-600">{data.commitSha}</code>
+      </div>
     </div>
-  </div>
 
-  <div class="text-right md:w-1/4">
-    <Button class="text-xl" href={site.menu.wiki}>Wiki</Button>
-  </div>
-</footer>
+    <div class="text-right md:w-1/4">
+      <Button class="text-xl" href={site.menu.wiki}>Wiki</Button>
+    </div>
+  </footer>
+</CursorTrail>
