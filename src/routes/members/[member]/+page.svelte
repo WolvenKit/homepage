@@ -103,7 +103,7 @@
             </Heading>
 
             {#if data.member.Nickname}
-              <p class="small-caps -mt-1 text-xl text-zinc-300">{data.member.Displayname}</p>
+              <p class="-mt-1 text-xl uppercase text-zinc-300">@{data.member.Username}</p>
             {/if}
           </div>
 

@@ -1,6 +1,23 @@
 <script lang="ts" context="module">
-  export const vercelImg = (sourceUrl: string, size: number, quality: number) =>
-    `/_vercel/image?url=${encodeURIComponent(sourceUrl)}&w=${size}&q=${quality}`;
+  import type { Page } from "@sveltejs/kit";
+  import { page } from "$app/stores";
+
+  export const vercelImg = (sourceUrl: string, size: number, quality: number) => {
+    try {
+      const url = new URL(sourceUrl);
+      let pageData: Page | null = null as unknown as Page;
+
+      page.subscribe((d) => (pageData = d))();
+
+      if (url.origin == pageData?.url.origin) {
+        sourceUrl = url.pathname;
+      }
+    } catch {
+      //ignore
+    }
+
+    return `/_vercel/image?url=${encodeURIComponent(sourceUrl)}&w=${size}&q=${quality}`;
+  };
 </script>
 
 <script lang="ts">

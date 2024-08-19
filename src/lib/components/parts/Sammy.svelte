@@ -53,7 +53,7 @@
     width="128"
     height="128"
     alt=""
-    class="h-24 w-auto transition-opacity duration-1000"
+    class="h-16 w-auto transition-opacity duration-1000 md:h-24"
     class:opacity-0={easterEgg}
   />
 </a>
