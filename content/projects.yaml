@@ -2,15 +2,23 @@ wolvenkit:
   name: WolvenKit
   description: Community Mod editor/creator for REDengine games.
   image: /projects/wkit.png
-  github: WolvenKit/WolvenKit
-  theme: cyberpunk
+  githubs: WolvenKit/WolvenKit
+  link: https://github.com/WolvenKit/WolvenKit
+  featured: true
+
+wiki:
+  name: Community wiki
+  description: Community effort to document our collective knowledge and experience to help fellow mod-users and developers.
+  image: /projects/wiki.webp
+  link: https://wiki.redmodding.org
   featured: true
 
 cet:
   name: Cyber Engine Tweaks
-  description: Cyberpunk 2077 tweaks, hacks and scripting framework.
+  description: Framework giving Cyberpunk 2077 modders a way to script using Lua with all the internal scripting features. Comes with a Dear ImGui to provide GUI for mods, console and TweakDB editor. Also adds patches for quality of life.
   image: /projects/cet.png
-  github: maximegmd/CyberEngineTweaks
+  githubs: maximegmd/CyberEngineTweaks
+  link: https://github.com/maximegmd/CyberEngineTweaks
   theme: cyberpunk
   featured: true
 
@@ -18,25 +26,29 @@ blender-addon:
   name: Cyberpunk 2077 Blender Add-on
   description: Bridging the gap between WolvenKit and Blender.
   image: /projects/blender-addon.png
-  github: WolvenKit/Cyberpunk-Blender-add-on
+  githubs: WolvenKit/Cyberpunk-Blender-add-on
+  link: https://github.com/WolvenKit/Cyberpunk-Blender-add-on
   theme: cyberpunk
   featured: true
 
 pisskit:
   name: RedKit for Cyberpunk 2077
-  description: PissKit
-  image: /projects/wkit.png
+  description: Also called the YellowKit or the PissKit.
+  image: /projects/pisskit.webp
   link: https://youtu.be/dQw4w9WgXcQ
+  theme: cyberpunk
 
 lizzy:
   name: Lizzy Fuzzy
   description: The bot
-  github: Moonded/lizzyfuzzy
+  githubs: Moonded/lizzyfuzzy
+  link: https://github.com/Moonded/lizzyfuzzy
 
 mlsetupbuilder:
   name: MLsetupBuilder
-  description: The
-  github: Neurolinked/MlsetupBuilder
+  description: Cyberpunk 2077 modding tool to build json version of .mlsetup files
+  githubs: Neurolinked/MlsetupBuilder
+  link: https://github.com/Neurolinked/MlsetupBuilder
   theme: cyberpunk
 
 nativedb:
@@ -51,7 +63,7 @@ sounddb:
   theme: cyberpunk
   link: https://sounddb.redmodding.org
 
-entity-spwaner:
+entity-spawner:
   name: Wheezy's entity spawner?
   description: The
   theme: cyberpunk

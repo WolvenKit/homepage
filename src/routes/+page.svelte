@@ -11,7 +11,7 @@
   import Section from "$components/parts/Section.svelte";
   import Socials from "$components/parts/Socials.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
-  import { projects, getProjectLink } from "$lib/content/projects";
+  import { projects } from "$lib/content/projects";
   import HeroBackground from "./HeroBackground.svelte";
 
   let video: HTMLVideoElement;
@@ -22,7 +22,7 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <header class="relative flex min-h-[calc(100svh-4rem)] flex-col items-center" on:click={() => video?.play()}>
-  <HeroBackground bind:video fadeDelay={1} />
+  <HeroBackground bind:video fadeDelay={0.5} />
 
   <div
     class="relative z-10 mx-[5vw] mt-auto flex max-w-screen-2xl flex-wrap items-end justify-between gap-2 pb-4 pt-16 max-v-md:flex-grow v-md:gap-8 max-sm:flex-col md:pb-16 lg:gap-16"
@@ -63,12 +63,11 @@
   <Heading level={2} class="mb-8">Featured Projects</Heading>
 
   {#each Object.values(projects).filter((v) => v.featured) as project, i (i)}
-    {@const link = getProjectLink(project)}
     <div class={twMerge("w-full bg-zinc-950", i % 2 && "bg-zinc-900")}>
       <div
         class={twMerge(
-          "mx-auto flex w-full max-w-[1920px] flex-wrap gap-x-16 gap-y-8 p-8 md:px-16",
-          i % 2 && "md:flex-row-reverse md:text-right",
+          "mx-auto flex w-full max-w-[1920px] gap-x-16 gap-y-8 p-8 max-lg:flex-col md:px-16",
+          i % 2 && "md:text-right lg:flex-row-reverse",
         )}
       >
         <Image
@@ -85,8 +84,8 @@
             <p class="md:text-4xl">{project.description}</p>
           </div>
 
-          {#if link}
-            <ThemeButton href={link[1]}>Visit project</ThemeButton>
+          {#if project.link}
+            <ThemeButton href={project.link}>Visit project</ThemeButton>
           {/if}
         </div>
       </div>

@@ -5,7 +5,7 @@
   export const vercelImg = (sourceUrl: string, size: number, quality: number) => {
     try {
       const url = new URL(sourceUrl);
-      let pageData: Page | null = null as unknown as Page;
+      let pageData: Page|undefined;
 
       page.subscribe((d) => (pageData = d))();
 

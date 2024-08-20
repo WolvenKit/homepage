@@ -7,7 +7,7 @@ export interface Project {
   image: string;
   featured?: boolean;
   theme?: GameTheme;
-  github?: string | string[];
+  githubs?: string | string[];
   link?: string;
 }
 
@@ -17,18 +17,13 @@ export const projects = projectsRaw as Projects;
 
 export const githubToProject = getGithubToProjectMap();
 
-export function getProjectLink(project: Project): ["link" | "github", string] | undefined {
-  if (project.link) return ["link", project.link];
-  if (project.github) return ["github", "https://github.com/" + project.github];
-}
-
 function getGithubToProjectMap() {
   const map: Record<string, string> = {};
 
   for (const [projectId, project] of Object.entries(projects)) {
-    if (!project.github) continue;
+    if (!project.githubs) continue;
 
-    for (const github of Array.isArray(project.github) ? project.github : [project.github]) {
+    for (const github of Array.isArray(project.githubs) ? project.githubs : [project.githubs]) {
       map[github] = projectId;
     }
   }

@@ -16,7 +16,7 @@ const config = {
         sizes: [32, 128, 256, 640, 720],
         formats: ["image/avif", "image/webp"],
         minimumCacheTTL: 3600,
-        domains: ["cdn.discordapp.com"],
+        domains: ["cdn.discordapp.com","staticdelivery.nexusmods.com"],
       },
     }),
     prerender: {
