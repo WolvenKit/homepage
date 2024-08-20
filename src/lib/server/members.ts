@@ -1,8 +1,6 @@
 import { members } from "$lib/content/members";
 import { teams, type Team } from "$lib/content/teams";
-import { type GithubUser } from "./services/github";
 import { fetchDiscordMembers, type DiscordMember } from "./services/lizzy";
-import { type NexusProfile } from "./services/nexus";
 
 interface CustomCustomData {
   background?: string;
@@ -11,8 +9,6 @@ interface CustomCustomData {
 export type TeamMember = DiscordMember & {
   Teams: Set<string>;
   Displayname: string;
-  NexusProfile?: NexusProfile;
-  GithubProfile?: GithubUser;
   CustomData: CustomCustomData | null;
 };
 

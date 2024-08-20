@@ -14,11 +14,14 @@
 
 <div
   class={twMerge(
-    "pointer-events-none absolute inset-0 border-2 border-current p-1",
+    "border-2 border-current p-1",
+    !$$slots.default && "pointer-events-none absolute inset-0",
     THEME_CLASSES[theme ?? "default"].border.text,
     classes,
   )}
 >
+  <slot />
+
   {#if theme != "default"}
     {#if corners.tl}
       <ThemeCorner {theme} {scale} class="absolute -left-0.5 -top-0.5" />

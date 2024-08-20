@@ -8,6 +8,7 @@
   interface $$Props extends ComponentProps<Image> {
     always?: boolean;
     class?: string;
+    imageClass?: string;
   }
 
   function random(r: number) {
@@ -34,6 +35,7 @@
   onDestroy(stopReRandom);
 
   export let always = false;
+  export let imageClass = "";
   let classes = "";
   export { classes as class };
 
@@ -62,12 +64,19 @@
   class:always
   on:mouseover={() => (rand = Math.random())}
 >
-  <Image src={$$restProps.src} {...$$restProps} class="col-start-1 row-start-1 h-full w-full" />
+  <Image
+    src={$$restProps.src}
+    {...$$restProps}
+    class={twMerge("col-start-1 row-start-1 h-full w-full object-cover", imageClass)}
+  />
   <slot />
   <Image
     src={$$restProps.src}
     {...$$restProps}
-    class="pointer-events-none col-start-1 row-start-1 hidden h-full w-full transition-none"
+    class={twMerge(
+      "pointer-events-none col-start-1 row-start-1 hidden h-full w-full object-cover transition-none",
+      imageClass,
+    )}
   />
 </div>
 

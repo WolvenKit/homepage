@@ -1,5 +1,7 @@
 <script lang="ts">
+  import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
   import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
+  import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
   import Button from "$components/elements/Button.svelte";
   import GlitchingImage from "$components/elements/GlitchingImage.svelte";
@@ -21,9 +23,17 @@
 
   export let data;
 
-  $: background = data.member.CustomData?.background;
-  $: themeName = data.member.CustomData?.theme ?? "default";
+  $: member = data.member;
+
+  $: background = member.CustomData?.background;
+  $: themeName = member.CustomData?.theme ?? "default";
   $: themeClasses = THEME_CLASSES[themeName];
+
+  $: contributions = data.contributions && Object.values(data.contributions);
+  $: totalContributions = contributions?.reduce(
+    (acc, project) => acc + Object.values(project.repositoryCommits).reduce((acc2, repo) => acc2 + repo, 0),
+    0,
+  );
 </script>
 
 <svelte:head>
@@ -33,24 +43,24 @@
     "@type": "ProfilePage",
     mainEntity: {
       "@type": "Person",
-      name: data.member.Displayname,
-      alternateName: data.member.Username,
-      description: data.member.CustomData?.description,
-      image: data.member.Image,
+      name: member.Displayname,
+      alternateName: member.Username,
+      description: member.CustomData?.description,
+      image: member.Image,
       sameAs: [
-        data.member.CustomData?.nexusmods && `${PUBLIC_NEXUS_PROFILE_URL}/${data.member.CustomData?.nexusmods}`,
-        data.member.CustomData?.github && `https://github.com/${data.member.CustomData?.github}`,
+        member.CustomData?.nexusmods && `${PUBLIC_NEXUS_PROFILE_URL}/${member.CustomData?.nexusmods}`,
+        member.CustomData?.github && `https://github.com/${member.CustomData?.github}`,
       ].filter((v) => v),
     },
   })}
 
-  <meta property="profile:username" content={data.member.Username} />
+  <meta property="profile:username" content={member.Username} />
 </svelte:head>
 
 <PageRoot
-  title={[data.member.Displayname, "Member detail"]}
-  description={data.member.CustomData?.description || "Member of the RedModding community"}
-  image={vercelImg(data.member.Image, 128, 100)}
+  title={[member.Displayname, "Member detail"]}
+  description={member.CustomData?.description || "Member of the RedModding community"}
+  image={vercelImg(member.Image, 128, 100)}
   card="summary"
   type="profile"
   hideDescription
@@ -83,10 +93,10 @@
           <svelte:component
             this={themeName == "cyberpunk" ? GlitchingImage : Image}
             class="size-48"
-            src={data.member.Image + "?size=256"}
+            src={member.Image + "?size=256"}
             width={192}
             height={192}
-            alt={data.member.Displayname}
+            alt={member.Displayname}
           />
         </div>
 
@@ -99,17 +109,17 @@
                 themeName == "witcher" && "font-witcher text-3xl",
               )}
             >
-              {data.member.Nickname || data.member.Displayname}
+              {member.Nickname || member.Displayname}
             </Heading>
 
-            {#if data.member.Nickname}
-              <p class="-mt-1 text-xl uppercase text-zinc-300">@{data.member.Username}</p>
+            {#if member.Nickname}
+              <p class="-mt-1 text-xl uppercase text-zinc-300">@{member.Username}</p>
             {/if}
           </div>
 
-          {#if data.member.CustomData?.description}
+          {#if member.CustomData?.description}
             <p class={twMerge("fade-in max-w-screen-sm", themeClasses.text)} style:--fade-delay=".3s">
-              {data.member.CustomData.description}
+              {member.CustomData.description}
             </p>
           {/if}
         </div>
@@ -119,7 +129,7 @@
         <Heading level={3} class="mb-2">Teams</Heading>
 
         <ul class="inline-flex flex-col gap-2">
-          {#each data.member.Teams as teamId, i (teamId)}
+          {#each member.Teams as teamId, i (teamId)}
             {@const team = teams[teamId]}
             <li
               class="fade-in flex items-center gap-2 text-xl font-semibold leading-none text-zinc-400"
@@ -134,7 +144,7 @@
       </div>
 
       <dl
-        class="fade-in clear-left my-8 flex flex-wrap justify-around gap-x-6 gap-y-4 px-4 text-center"
+        class="fade-in clear-left mb-8 flex items-end justify-around gap-4 px-4 text-center max-lg:flex-wrap"
         style:--fade-delay="1s"
       >
         {#if data.nexus?.user.country}
@@ -152,28 +162,32 @@
         {/if}
 
         {#if data.nexus?.user.uniqueModDownloads}
-          <DataEntry theme={themeName} key="Unique mod downloads"
+          <DataEntry theme={themeName} key="Mod downloads"
             >{data.nexus.user.uniqueModDownloads.toLocaleString()}</DataEntry
           >
         {/if}
 
-        {#if data.member.CustomData?.github}
+        {#if totalContributions}
+          <DataEntry theme={themeName} key="Contributions">{totalContributions.toLocaleString()}</DataEntry>
+        {/if}
+
+        {#if member.CustomData?.github}
           <DataEntry theme={themeName} key="GitHub">
-            <Button inline hideExternal href="https://github.com/{data.member.CustomData?.github}" class="text-lg">
-              @{data.member.CustomData?.github}
+            <Button inline hideExternal href="https://github.com/{member.CustomData?.github}" class="text-lg">
+              @{member.CustomData?.github}
             </Button>
           </DataEntry>
         {/if}
 
-        {#if data.member.CustomData?.nexusmods}
+        {#if member.CustomData?.nexusmods}
           <DataEntry theme={themeName} key="NexusMods">
             <Button
               inline
               hideExternal
-              href="{PUBLIC_NEXUS_PROFILE_URL}/{data.member.CustomData?.nexusmods}"
+              href="{PUBLIC_NEXUS_PROFILE_URL}/{member.CustomData?.nexusmods}"
               class="text-lg"
             >
-              @{data.member.CustomData?.nexusmods}
+              @{member.CustomData?.nexusmods}
             </Button>
           </DataEntry>
         {/if}
@@ -198,18 +212,67 @@
         </Section>
       {/if}
 
-      {#if data.contributions?.length}
+      {#if contributions?.length}
         <Section as="section" class="fade-in m-0">
           <Heading level={2}>Project contributions</Heading>
 
-          <ul class="flex flex-wrap justify-center gap-2">
-            {#each data.contributions as contribution}
+          <ul class="flex flex-wrap justify-center gap-x-8 gap-y-4">
+            {#each contributions as contribution (contribution)}
               {@const project = projects[contribution.projectId]}
-              <li>
-                <Card title={project.name} href="https://github.com/{contribution.full_name}">
-                  <Image slot="logo" src={project.image} width={385} height={216} />
-                  {project.description}
-                </Card>
+              {@const projectTheme = project.theme ?? "default"}
+              <li class="max-md:w-full">
+                <ThemeFrameBig class={twMerge("flex flex-col gap-4 px-4", THEME_CLASSES[projectTheme].background)}>
+                  <div class="-mx-4 h-32 min-w-64 flex-shrink-0">
+                    {#if project.image}
+                      <Image
+                        width="720"
+                        height="405"
+                        src={project.image}
+                        alt={project.name}
+                        class="h-32 w-full object-cover"
+                      />
+                    {/if}
+                  </div>
+
+                  <Heading level={3} class="mb-0 text-left">{project.name}</Heading>
+
+                  <p class={twMerge("w-0 min-w-full", THEME_CLASSES[projectTheme].text)}>
+                    {project.description}
+                  </p>
+
+                  <ul class={twMerge(THEME_CLASSES[projectTheme].text)}>
+                    {#each Object.entries(contribution.repositoryCommits) as [repo, commits]}
+                      <li class="mb-2">
+                        <a
+                          href="https://github.com/{repo}/commits?author={member.CustomData?.github}"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="hover-glow group flex items-center gap-4"
+                        >
+                          <FontAwesomeIcon
+                            icon={faGithub}
+                            size="xl"
+                            class="text-zinc-400 transition group-hover-focus:text-cyan"
+                          />
+
+                          <div>
+                            <Button
+                              inline
+                              external
+                              class="text-pretty text-left hover-focus:text-cyan hover-focus:filter-none"
+                            >
+                              {repo.split("/")[1]}
+                            </Button>
+
+                            <div class="-mt-2 ml-2">
+                              &ndash; <strong>{commits}</strong> commit{#if commits > 1}s{/if}
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                    {/each}
+                  </ul>
+                </ThemeFrameBig>
               </li>
             {/each}
           </ul>

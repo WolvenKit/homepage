@@ -2,15 +2,16 @@ wolvenkit:
   name: WolvenKit
   description: Community Mod editor/creator for REDengine games.
   image: /projects/wkit.png
-  githubs: WolvenKit/WolvenKit
+  githubs: [WolvenKit/WolvenKit, WolvenKit/wolvenKit-7]
   link: https://github.com/WolvenKit/WolvenKit
   featured: true
 
 wiki:
-  name: Community wiki
+  name: Community Wiki
   description: Community effort to document our collective knowledge and experience to help fellow mod-users and developers.
   image: /projects/wiki.webp
   link: https://wiki.redmodding.org
+  githubs: CDPR-Modding-Documentation
   featured: true
 
 cet:
@@ -53,7 +54,8 @@ mlsetupbuilder:
 
 nativedb:
   name: NativeDB
-  description: Database of Cyberpunk 2077 native methods
+  description: Database of all script definitions of methods in Cyberpunk 2077 as found with RTTI.
+  githubs: rayshader/cp2077-nativedb
   link: https://nativedb.red4ext.com
   theme: cyberpunk
 

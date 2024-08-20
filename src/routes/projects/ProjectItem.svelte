@@ -50,17 +50,17 @@
   <div class="flex flex-grow flex-col items-start">
     <div class="px-6 py-4">
       <Heading level={2} class="m-0 text-left normal-case text-white">{project.name}</Heading>
-      <p class="leading-tight">{project.description}</p>
+      <p class="text-pretty leading-tight">{project.description}</p>
     </div>
 
-    <div class="mt-auto w-full">
+    <div class="mt-auto flex w-full items-end gap-2 max-lg:flex-wrap">
       {#if githubs}
-        <ul class="inline-flex flex-wrap p-2 pl-4">
+        <ul class="flex flex-wrap items-start gap-x-2 p-2 pl-3">
           {#each githubs as github (github)}
-            <li>
+            <li class="inline">
               <a
                 href="https://github.com/{github}"
-                class="text-cyan hover:underline"
+                class="inline-block text-pretty leading-none text-cyan transition hover:text-cyan-light hover:underline"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -73,7 +73,7 @@
       {/if}
 
       {#if project.link}
-        <ThemeButton class="float-right" href={project.link} theme={themeName}>Visit project</ThemeButton>
+        <ThemeButton class="ml-auto flex-shrink-0" href={project.link} theme={themeName}>Visit project</ThemeButton>
       {/if}
     </div>
   </div>

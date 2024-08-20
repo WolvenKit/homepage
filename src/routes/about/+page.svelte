@@ -3,10 +3,11 @@
   import Button from "$components/elements/Button.svelte";
   import Image from "$components/elements/Image.svelte";
   import PageRoot from "$components/parts/PageRoot.svelte";
+  import Divider from "$lib/components/elements/Divider.svelte";
 </script>
 
 <PageRoot title="About us" description="What is Red Modding? Who is it? When is it?">
-  <div class="content text-xl leading-relaxed text-zinc-300">
+  <div class="content -my-12 text-xl leading-relaxed text-zinc-300">
     <p>
       Our journey began with a&nbsp;shared obsession for tweaking <strong>REDengine</strong>, starting with
       <strong>The&nbsp;Witcher&nbsp;3</strong>. This passion led to the creation of
@@ -60,6 +61,8 @@
       <strong>Let’s make some nova mods together!</strong>
     </p>
   </div>
+
+  <Divider />
 
   <div class="-mt-12 text-center text-zinc-400">
     Please note that the above content is of illustrative character and may not represent the real events accurately.
