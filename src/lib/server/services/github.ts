@@ -1,101 +1,208 @@
 import { GITHUB_TOKEN } from "$env/static/private";
 import { githubToProject, projects } from "$lib/content/projects";
+import { gql, sleep } from "$lib/utils";
 
 const GITHUB_API_URL = "https://api.github.com";
-const NEXT_PATTERN = /(?<=<)(\S*)(?=>; rel="Next")/i;
+const GITHUB_HEADERS = {
+  Accept: "application/vnd.github+json",
+  ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
+  "X-GitHub-Api-Version": "2022-11-28",
+};
 
 export interface Contributions {
   projectId: string;
-  repositoryCommits: Record<string, number>;
+  repositories: Record<
+    string,
+    {
+      commits: number;
+      issues: number;
+    }
+  >;
 }
 
-const PROJECTS_FILTER = Object.values(projects)
-  .flatMap((project) => {
-    if (!project.githubs) return;
-    const githubs = Array.isArray(project.githubs) ? project.githubs : [project.githubs];
-    return githubs.map((github) => (github.includes("/") ? "repo:" + github : "org:" + github));
-  })
-  .filter((v) => v)
-  .join(" ");
+//
+// Base utility
+//
 
-export async function fetchGithubContributions(author: string) {
-  const url = new URL(`/search/commits`, GITHUB_API_URL);
-  url.searchParams.set("q", `${PROJECTS_FILTER} author:${author}`);
+async function fetchGithub<T>(path: string, init?: RequestInit, attempt = 1): Promise<T> {
+  const response = await fetch(new URL(path, GITHUB_API_URL), {
+    ...init,
+    headers: { ...GITHUB_HEADERS, ...init?.headers },
+  });
 
-  const results = await _fetchContributions(url);
+  const retry = async (delaySeconds: number) => {
+    if (attempt >= 3) {
+      throw new Error("Could not fetch GitHub after 3 retries: " + response.status + ": " + response.statusText);
+    }
+    await sleep(delaySeconds * 1000);
+    return fetchGithub<T>(path, init, attempt + 1);
+  };
 
-  return mergeContributions(results);
-}
+  if (!response.ok) {
+    // Check rate limit
+    const retryAfter = response.headers.get("retry-after");
+    if (retryAfter) {
+      // Wait for it, I guess?
+      return retry(parseFloat(retryAfter));
+    }
 
-function mergeContributions(results: Record<string, Contributions>[]) {
-  const contributions = results[0];
-
-  for (const contribution of results.slice(1)) {
-    for (const [projectId, contrib] of Object.entries(contribution)) {
-      if (!contributions[projectId]) {
-        contributions[projectId] = contrib;
-      } else {
-        mergeRepoCommits(contributions[projectId], contrib);
+    const rateLimit = response.headers.get("x-ratelimit-remaining");
+    if (rateLimit === "0") {
+      const rateLimitReset = response.headers.get("x-ratelimit-reset");
+      if (rateLimitReset) {
+        return retry(parseFloat(rateLimitReset) - Date.now());
       }
     }
+
+    throw new Error("Could not fetch GitHub: " + response.status + ": " + response.statusText);
+  }
+
+  return response.json();
+}
+
+//
+// Level 1 utility
+//
+
+async function fetchGithubUserId(login: string) {
+  const result = await fetchGithub<{ node_id: string }>("/users/" + login);
+  return result.node_id;
+}
+
+async function fetchGithubGraphQL<T>(query: string, variables?: Record<string, unknown>): Promise<T> {
+  return fetchGithub("/graphql", {
+    method: "POST",
+    headers: GITHUB_HEADERS,
+    body: JSON.stringify({ query, variables }),
+  });
+}
+
+//
+// Functions
+//
+
+let repoIds: string[] | null = null;
+
+async function fetchRepoIdsCached() {
+  if (repoIds) return repoIds;
+
+  const params = new URLSearchParams({
+    q: Object.values(projects)
+      .flatMap((project) => {
+        if (!project.githubs) return;
+        const githubs = Array.isArray(project.githubs) ? project.githubs : [project.githubs];
+        return githubs.map((github) => (github.includes("/") ? "repo:" + github : "org:" + github));
+      })
+      .filter((v) => v)
+      .join(" "),
+  });
+
+  const result = await fetchGithub<{ items: { node_id: string }[] }>("/search/repositories?" + params);
+  repoIds = result.items.map((repo) => repo.node_id);
+  return repoIds;
+}
+
+export async function fetchGithubContributions(
+  author: string,
+  authorId?: string,
+): Promise<Record<string, Contributions>> {
+  const [repos, _authorId] = await Promise.all([fetchRepoIdsCached(), authorId ?? fetchGithubUserId(author)]);
+
+  authorId = _authorId;
+
+  const result = await fetchGithubGraphQL<ContributionGQLResult>(
+    gql`
+      query ($repos: [ID!]!, $author: String!, $authorId: ID!) {
+        nodes(ids: $repos) {
+          ... on Repository {
+            nameWithOwner
+            issues(filterBy: { createdBy: $author }) {
+              totalCount
+            }
+            defaultBranchRef {
+              target {
+                ... on Commit {
+                  history(author: { id: $authorId }) {
+                    totalCount
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `,
+    { repos, author, authorId },
+  );
+
+  return processContributions(result.data.nodes);
+}
+
+function processContributions(repositories: GQLRepository[]) {
+  const contributions: Record<string, Contributions> = {};
+
+  for (const repository of repositories) {
+    const fullName = repository.nameWithOwner;
+    const owner = fullName.split("/", 1)[0];
+
+    const projectId = githubToProject[fullName] ?? githubToProject[owner];
+    if (!projectId) continue;
+
+    const commits = repository.defaultBranchRef.target.history.totalCount;
+    const issues = repository.issues.totalCount;
+
+    // NOTE: Could add && !issues to show project where member only created issues, but I didn't want that
+    if (!commits) continue;
+
+    // Create project contribution
+    let contribution = contributions[projectId];
+    if (!contribution) {
+      contribution = { projectId, repositories: {} };
+      contributions[projectId] = contribution;
+    }
+
+    // Create repository
+    contribution.repositories[fullName] = { commits, issues };
   }
 
   return contributions;
 }
 
-function mergeRepoCommits(a: Contributions, b: Contributions) {
-  const repoCommits = a.repositoryCommits;
-  for (const [repo, commits] of Object.entries(b.repositoryCommits)) {
-    if (!repoCommits[repo]) repoCommits[repo] = commits;
-    else repoCommits[repo] += commits;
-  }
+// function mergeContributions(...results: Record<string, Contributions>[]) {
+//   const contributions = results[0];
+
+//   for (const contribution of results.slice(1)) {
+//     for (const [projectId, contrib] of Object.entries(contribution)) {
+//       if (!contributions[projectId]) {
+//         contributions[projectId] = contrib;
+//       } else {
+//         mergeRepoCommits(contributions[projectId], contrib);
+//       }
+//     }
+//   }
+
+//   return contributions;
+// }
+
+// function mergeRepoCommits(a: Contributions, b: Contributions) {
+//   const repoCommits = a.repositories;
+//   for (const [repo, contribs] of Object.entries(b.repositories)) {
+//     if (!repoCommits[repo]) repoCommits[repo] = contribs;
+//     else {
+//       repoCommits[repo].commits += contribs.commits;
+//       repoCommits[repo].issues += contribs.issues;
+//     }
+//   }
+// }
+
+interface ContributionGQLResult {
+  data: {
+    nodes: GQLRepository[];
+  };
 }
 
-async function _fetchContributions(url: URL | string): Promise<Record<string, Contributions>[]> {
-  const response = await fetch(url, {
-    headers: {
-      ...(GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {}),
-      "X-GitHub-Api-Version": "2022-11-28",
-    },
-  });
-  if (!response.ok) {
-    throw new Error("Could not fetch GitHub contributions: " + response.status + ": " + response.statusText);
-  }
-
-  const result = await response.json();
-
-  const linkHeader = response.headers.get("link");
-  let nextPagePromise: ReturnType<typeof _fetchContributions> | undefined = undefined;
-
-  if (linkHeader?.includes(`rel="next"`)) {
-    NEXT_PATTERN.lastIndex = 0;
-    const nextUrl = NEXT_PATTERN.exec(linkHeader)?.[0];
-    if (nextUrl) {
-      nextPagePromise = _fetchContributions(nextUrl);
-    }
-  }
-
-  const contributions: Record<string, Contributions> = {};
-  for (const commit of result.items) {
-    const repo = commit.repository;
-    const projectId = githubToProject[repo.full_name] ?? githubToProject[repo.owner.login];
-    if (!projectId) continue;
-
-    // Create project contribution
-    let contribution = contributions[projectId];
-    if (!contribution) {
-      contribution = { projectId, repositoryCommits: {} };
-      contributions[projectId] = contribution;
-    }
-
-    // Create repository commits
-    if (!contribution.repositoryCommits[repo.full_name]) {
-      contribution.repositoryCommits[repo.full_name] = 0;
-    }
-
-    contribution.repositoryCommits[repo.full_name]++;
-  }
-
-  if (nextPagePromise) return [contributions, ...(await nextPagePromise)];
-  return [contributions];
+interface GQLRepository {
+  nameWithOwner: string;
+  issues: { totalCount: number };
+  defaultBranchRef: { target: { history: { totalCount: number } } };
 }

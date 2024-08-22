@@ -31,7 +31,8 @@
 
   $: contributions = data.contributions && Object.values(data.contributions);
   $: totalContributions = contributions?.reduce(
-    (acc, project) => acc + Object.values(project.repositoryCommits).reduce((acc2, repo) => acc2 + repo, 0),
+    (acc, project) =>
+      acc + Object.values(project.repositories).reduce((acc2, repo) => acc2 + repo.commits + repo.issues, 0),
     0,
   );
 </script>
@@ -241,7 +242,7 @@
                   </p>
 
                   <ul class={twMerge(THEME_CLASSES[projectTheme].text)}>
-                    {#each Object.entries(contribution.repositoryCommits) as [repo, commits]}
+                    {#each Object.entries(contribution.repositories) as [repo, contributions]}
                       <li class="mb-2">
                         <a
                           href="https://github.com/{repo}/commits?author={member.CustomData?.github}"
@@ -264,9 +265,14 @@
                               {repo.split("/")[1]}
                             </Button>
 
-                            <div class="-mt-2 ml-2">
-                              &ndash; <strong>{commits}</strong> commit{#if commits > 1}s{/if}
-                            </div>
+                            <ul class="list-outside list-dash">
+                              {#each Object.entries(contributions).filter(([_, a]) => a) as [type, amount] (type)}
+                                <li class="-mt-2 ml-2 pl-1">
+                                  <strong>{amount}</strong>
+                                  {type.slice(0, -1)}{#if amount > 1}s{/if}
+                                </li>
+                              {/each}
+                            </ul>
                           </div>
                         </a>
                       </li>

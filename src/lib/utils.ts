@@ -2,6 +2,8 @@ import { error, isHttpError } from "@sveltejs/kit";
 
 /** Just a flag for template string to signify tailwind classes for IntelliSense */
 export const tw = String.raw;
+/** Just a flag for template string to signify GraphQL */
+export const gql = String.raw;
 
 export type Point = [x: number, y: number];
 
@@ -9,6 +11,10 @@ export type Corner = "tl" | "tr" | "bl" | "br";
 export type CornerConfig = Partial<Record<Corner, boolean>>;
 
 export type Combine<T extends object, U extends object> = T | U | (T & U);
+
+export async function sleep(ms: number) {
+  return new Promise((r) => setTimeout(r, ms));
+}
 
 export function jsonLd(content: Record<string, unknown>) {
   return '<script type="application/ld+json">' + JSON.stringify(content) + "</" + "script>";

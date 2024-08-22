@@ -33,9 +33,10 @@
 
     <Divider class="m-0 -mb-8" />
     <p class="max-w-3xl text-center">
-      Members are by default categorized by the highest team role they have on Discord. Use LizzyFuzzy bot's
-      <code>/link</code> command to modify your profile. Displayed name is taken from NexusMods or GitHub or generated from
-      Discord username. If you wish to change your primary team, name or something else, ping @Zhincore.
+      Members are by default categorized by the highest team role they have on Discord. Displayed name is Discord
+      username.<br />
+      Use LizzyFuzzy bot's <code>/link</code> command to modify your profile, changes should appear within 24 hours. If you
+      wish to change your primary team, name or something else, ping @Zhincore.
     </p>
   {:catch error}
     <ErrorAlert {error} />
