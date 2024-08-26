@@ -12,14 +12,15 @@ export const load = (async ({ params, isDataRequest }) => {
 
       if (!member) error(404, "Member not found");
 
+      const onCatch = (e: unknown) => {
+        console.error(e);
+        return undefined;
+      };
+
       const [contributions, nexus] = await Promise.all([
-        (member.CustomData?.github && fetchGithubContributions(member.CustomData.github)) || undefined,
-        (member.CustomData?.nexusmods && fetchNexusProfile(member.CustomData.nexusmods)) || undefined,
-      ]).catch((err) => {
-        // Fail additional data
-        console.error(err);
-        return [undefined, undefined] as const;
-      });
+        member.CustomData?.github ? fetchGithubContributions(member.CustomData.github).catch(onCatch) : undefined,
+        member.CustomData?.nexusmods ? fetchNexusProfile(member.CustomData.nexusmods).catch(onCatch) : undefined,
+      ]);
 
       return { member, contributions, nexus };
     })

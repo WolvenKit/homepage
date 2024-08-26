@@ -11,9 +11,9 @@
   $: themeClasses = THEME_CLASSES[theme];
 </script>
 
-<div class={twMerge("flex flex-col items-center justify-between", classes)}>
+<div class={twMerge("flex max-w-full flex-col items-center justify-between", classes)}>
   <dt class={twMerge("text-sm font-semibold uppercase text-zinc-300", themeClasses.font, themeClasses.label)}>
     <slot name="key">{key}</slot>
   </dt>
-  <dd class="text-2xl"><slot>{value}</slot></dd>
+  <dd class="max-w-full overflow-hidden text-ellipsis text-2xl"><slot>{value}</slot></dd>
 </div>

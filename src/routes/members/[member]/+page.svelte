@@ -89,16 +89,16 @@
 
       <div class="mb-8 inline-flex flex-wrap gap-4 gap-x-8 px-2 max-md:justify-center">
         <div class="fade-in relative flex-shrink-0" style:--fade-delay=".7s">
-          <ThemeFrameBig theme={themeName} />
-
-          <svelte:component
-            this={themeName == "cyberpunk" ? GlitchingImage : Image}
-            class="size-48"
-            src={member.Image + "?size=256"}
-            width={192}
-            height={192}
-            alt={member.Displayname}
-          />
+          <ThemeFrameBig theme={themeName}>
+            <svelte:component
+              this={themeName == "cyberpunk" ? GlitchingImage : Image}
+              class="size-48"
+              src={member.Image + "?size=256"}
+              width={192}
+              height={192}
+              alt={member.Displayname}
+            />
+          </ThemeFrameBig>
         </div>
 
         <div class="flex max-w-full flex-grow flex-col justify-center gap-4 max-md:text-center">
@@ -126,7 +126,7 @@
         </div>
       </div>
 
-      <div class="fade-in mb-16 ml-8 max-md:text-center md:float-right" style:--fade-delay="1.2s">
+      <div class="fade-in ml-8 max-md:text-center md:float-right md:mb-16" style:--fade-delay="1.2s">
         <Heading level={3} class="mb-2">Teams</Heading>
 
         <ul class="inline-flex flex-col gap-2">
@@ -174,7 +174,7 @@
 
         {#if member.CustomData?.github}
           <DataEntry theme={themeName} key="GitHub">
-            <Button inline hideExternal href="https://github.com/{member.CustomData?.github}" class="text-lg">
+            <Button inline hideExternal href="https://github.com/{member.CustomData?.github}" class="inline text-lg">
               @{member.CustomData?.github}
             </Button>
           </DataEntry>
@@ -186,7 +186,7 @@
               inline
               hideExternal
               href="{PUBLIC_NEXUS_PROFILE_URL}/{member.CustomData?.nexusmods}"
-              class="text-lg"
+              class="inline text-lg"
             >
               @{member.CustomData?.nexusmods}
             </Button>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { twMerge } from "tailwind-merge";
-  import { THEME_CLASSES, type Theme } from "$lib/themes";
+  import { outlineToPath, THEME_CLASSES, THEME_CORNERS, type Theme } from "$lib/themes";
   import type { Corner } from "$lib/utils";
   import ThemeCorner from "./ThemeCorner.svelte";
 
@@ -10,15 +10,19 @@
     theme == "cyberpunk" ? { tr: true, bl: true } : { tl: true, tr: true, bl: true, br: true };
   let classes = "";
   export { classes as class };
+
+  $: clipPath =
+    $$slots.default && THEME_CORNERS[theme] ? outlineToPath(THEME_CORNERS[theme]!.outline, corners) : undefined;
 </script>
 
 <div
   class={twMerge(
-    "border-2 border-current p-1",
-    !$$slots.default && "pointer-events-none absolute inset-0",
+    "relative border-2 border-current",
+    !$$slots.default && "pointer-events-none absolute inset-0 p-1",
     THEME_CLASSES[theme ?? "default"].border.text,
     classes,
   )}
+  style:clip-path={clipPath}
 >
   <slot />
 
