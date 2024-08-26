@@ -18,3 +18,5 @@ flib:
 
 dragonzkiller:
   Displayname: dragonzkiller
+  CustomData:
+    brokenTheme: yes

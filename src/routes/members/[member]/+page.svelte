@@ -14,6 +14,8 @@
   import Section from "$components/parts/Section.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
+  import GlitchingWebsite from "$lib/components/parts/BlackwallScreensaver/GlitchingWebsite.svelte";
+  import Warning from "$lib/components/parts/Warning.svelte";
   import { projects } from "$lib/content/projects";
   import { teams } from "$lib/content/teams";
   import { THEME_CLASSES } from "$lib/themes";
@@ -22,6 +24,9 @@
   import DataEntry from "./DataEntry.svelte";
 
   export let data;
+
+  let header: HTMLElement;
+  let headerReady = false;
 
   $: member = data.member;
 
@@ -70,6 +75,7 @@
     <Loading />
   {:then data}
     <header
+      bind:this={header}
       class="relative w-full max-w-screen-lg pt-16 text-left max-md:mt-4"
       class:text-shadow={background}
       style:--fade-duration="1s"
@@ -98,6 +104,10 @@
               height={192}
               alt={member.Displayname}
             />
+
+            {#if member.CustomData?.brokenTheme}
+              <Warning class="absolute -right-4 -top-4 z-10 size-24 mix-blend-screen" />
+            {/if}
           </ThemeFrameBig>
         </div>
 
@@ -106,7 +116,7 @@
             <Heading
               level={2}
               class={twMerge(
-                "small-caps m-0 text-4xl font-semibold normal-case leading-none text-white md:text-left",
+                "small-caps m-0 max-w-full overflow-hidden text-ellipsis text-4xl font-semibold normal-case leading-none text-white md:text-left",
                 themeName == "witcher" && "font-witcher text-3xl",
               )}
             >
@@ -126,7 +136,7 @@
         </div>
       </div>
 
-      <div class="fade-in ml-8 max-md:text-center md:float-right md:mb-16" style:--fade-delay="1.2s">
+      <div class="fade-in max-md:text-center md:float-right md:mb-16 md:ml-8" style:--fade-delay="1.2s">
         <Heading level={3} class="mb-2">Teams</Heading>
 
         <ul class="inline-flex flex-col gap-2">
@@ -144,9 +154,14 @@
         </ul>
       </div>
 
+      {#if member.CustomData?.brokenTheme}
+        <Warning class="size-24 md:float-right md:mt-14" />
+      {/if}
+
       <dl
-        class="fade-in clear-left mb-8 flex items-end justify-around gap-4 px-4 text-center max-lg:flex-wrap"
+        class="fade-in clear-left mb-8 flex flex-wrap items-end justify-around gap-4 px-4 text-center"
         style:--fade-delay="1s"
+        on:animationend={() => (headerReady = true)}
       >
         {#if data.nexus?.user.country}
           <DataEntry theme={themeName} key="Country">{data.nexus.user.country}</DataEntry>
@@ -193,6 +208,18 @@
           </DataEntry>
         {/if}
       </dl>
+
+      {#if member.CustomData?.brokenTheme && headerReady}
+        <GlitchingWebsite
+          class="absolute -inset-0 mix-blend-exclusion"
+          rootElement={header}
+          updateChance={0.05}
+          cleanChance={0.01}
+          resetChanceMultiplier={0.1}
+          movementRange={0.1}
+          maxArea={0.5}
+        />
+      {/if}
     </header>
 
     <div class="contents" style:--fade-delay="2.5s">

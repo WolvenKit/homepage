@@ -4,6 +4,7 @@ import { fetchDiscordMembers, type DiscordMember } from "./services/lizzy";
 
 interface CustomCustomData {
   background?: string;
+  brokenTheme?: boolean;
 }
 
 export type TeamMember = DiscordMember & {

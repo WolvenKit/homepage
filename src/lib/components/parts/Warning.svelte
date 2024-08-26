@@ -8,7 +8,7 @@
 </script>
 
 <div class={twMerge("size-28 bg-red mix-blend-lighten", classes)}>
-  <GlitchingImage always src={triangle} class="relative h-full w-full bg-black p-2 mix-blend-multiply">
+  <GlitchingImage always src={triangle} class="relative h-full w-auto bg-black p-2 mix-blend-multiply">
     <div class="absolutely-centered -translate-y-1/4 text-5xl font-semibold text-white">!</div>
   </GlitchingImage>
 </div>

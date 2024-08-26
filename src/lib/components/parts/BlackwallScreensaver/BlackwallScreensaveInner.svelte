@@ -31,7 +31,7 @@
     <div class="flex gap-8 bg-black p-8 text-white" style:clip-path={clipPath}>
       <ThemeFrameBig theme="cyberpunk" {corners} scale={2} class="right-[unset] w-[round(down,100%,1px)] text-red" />
 
-      <Warning />
+      <Warning class="flex-shrink-0" />
 
       <div class="flex h-full w-full flex-col items-start">
         <Heading class="m-0 text-red">Website malfunction detected</Heading>
