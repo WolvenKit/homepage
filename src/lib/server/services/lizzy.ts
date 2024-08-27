@@ -46,7 +46,7 @@ let memberCache: Promise<DiscordMember[]> | null = null;
 export async function fetchDiscordMembers(): Promise<DiscordMember[]> {
   // Cache in development
   if (!dev || !memberCache) {
-    memberCache = fetchLizzy("/api/experimental/web?server=" + DISCORD_SERVER_ID).then((r) => r.json());
+    memberCache = fetchLizzy("/api/discord/web?q=" + DISCORD_SERVER_ID).then((r) => r.json());
   }
   return memberCache;
 }
