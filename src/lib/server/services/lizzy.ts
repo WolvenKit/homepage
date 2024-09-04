@@ -24,6 +24,7 @@ export interface DiscordMember {
     github: string;
     theme: Theme;
     description: string;
+    style: "lowercase" | "uppercase";
   }>;
 }
 

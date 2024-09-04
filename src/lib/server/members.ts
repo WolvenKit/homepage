@@ -79,6 +79,7 @@ function processMembers(members: DiscordMember[]) {
 
 function createTeamMember(discordMember: DiscordMember): TeamMember {
   const override = members[discordMember.Username];
+  const style = override?.CustomData?.style || discordMember.CustomData?.style || "uppercase";
 
   return {
     ...discordMember,
@@ -87,10 +88,8 @@ function createTeamMember(discordMember: DiscordMember): TeamMember {
     // generate displayname
     Displayname:
       override?.Displayname ||
-      discordMember.CustomData?.nexusmods ||
-      discordMember.CustomData?.github ||
       discordMember.Username.split(/(?<![a-z])/gim)
-        .map((v) => v[0].toUpperCase() + v.slice(1))
+        .map((v) => (style == "uppercase" ? v[0].toUpperCase() + v.slice(1) : v))
         .join(""),
 
     // Override
