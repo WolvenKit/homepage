@@ -1,7 +1,9 @@
+import type { Point } from "$lib/utils";
+
 type Ctx = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 type Style = CSSStyleDeclaration;
 
-export async function renderElement(ctx: Ctx, root: HTMLElement, skipRoot = false) {
+export async function renderElement(ctx: Ctx, root: HTMLElement, offset: Point = [0, 0], skipRoot = false) {
   const style = window.getComputedStyle(root);
   const bbox = root.getBoundingClientRect();
 
@@ -50,6 +52,7 @@ export async function renderElement(ctx: Ctx, root: HTMLElement, skipRoot = fals
   }
 
   ctx.restore();
+  ctx.translate(-offset[0], -offset[1]);
 }
 
 const POINT_RE = /(calc\(\d+(?:px|%) . \d+(?:px|%)\))|(\d+(?:px|%))/g;

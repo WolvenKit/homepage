@@ -56,17 +56,17 @@
   async function resize(rerender = true) {
     canvas.width = Math.min(rootElement?.clientWidth || Number.POSITIVE_INFINITY, window.innerWidth);
     canvas.height = Math.min(rootElement?.clientHeight || Number.POSITIVE_INFINITY, window.innerHeight);
-    offscreen.width = canvas.width + rootOffset[0];
-    offscreen.height = canvas.height + rootOffset[1];
+    offscreen.width = canvas.width;
+    offscreen.height = canvas.height;
 
     pageImage = new ImageData(canvas.width, canvas.height);
     if (rerender) await render();
   }
 
   async function render() {
-    await renderElement(offCtx, rootElement || document.body, true);
+    await renderElement(offCtx, rootElement || document.body, rootOffset, true);
 
-    const image = offCtx.getImageData(...rootOffset, pageImage.width, pageImage.height);
+    const image = offCtx.getImageData(0, 0, pageImage.width, pageImage.height);
     origData = new Uint8Array(image.data);
   }
 
