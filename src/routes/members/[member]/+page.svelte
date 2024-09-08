@@ -230,7 +230,11 @@
           <ul class="flex flex-wrap justify-center gap-2">
             {#each data.nexus.mods as mod}
               <li>
-                <Card title={mod.name} href="https://www.nexusmods.com/{mod.game.domainName}/mods/{mod.modId}">
+                <Card
+                  title={mod.name}
+                  href="https://www.nexusmods.com/{mod.game.domainName}/mods/{mod.modId}"
+                  class="h-full"
+                >
                   <Image slot="logo" src={mod.thumbnailUrl} width={385} height={216} />
                   {mod.summary}
                 </Card>
