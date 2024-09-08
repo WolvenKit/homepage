@@ -25,7 +25,7 @@
   {/if}
 
   {#if $$props.description && !hideDescription}
-    <p class="max-w-3xl text-center"><slot name="description">{$$props.description}</slot></p>
+    <p class="max-w-3xl text-balance text-center"><slot name="description">{$$props.description}</slot></p>
   {/if}
 
   <slot></slot>

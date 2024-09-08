@@ -2,6 +2,7 @@
   import { faDiscord } from "@fortawesome/free-brands-svg-icons/faDiscord";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
+  import fuzzo from "$assets/fuzzo.png";
   import GlitchingImage from "$components/elements/GlitchingImage.svelte";
   import Image from "$components/elements/Image.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
@@ -13,10 +14,6 @@
   import { outlineToPath, THEME_CLASSES, THEME_CORNERS, type GameTheme } from "$lib/themes";
   import { tw, type CornerConfig } from "$lib/utils";
   import TeamBadge from "./TeamBadge.svelte";
-
-  export let team: Team;
-  export let member: TeamMember;
-  export let fadeInDelay = 0;
 
   const THEMES: Record<GameTheme, Record<"base" | "header" | "name" | "image" | "links" | "frame", string>> = {
     cyberpunk: {
@@ -36,6 +33,19 @@
       frame: tw`drop-shadow-px`,
     },
   };
+
+  export let team: Team;
+  export let member: TeamMember;
+  export let fadeInDelay = 0;
+
+  let fuzzoed = false;
+
+  function onDrop(ev: DragEvent) {
+    const data = ev.dataTransfer?.getData("text/plain");
+    if (data?.includes("/cat_")) {
+      fuzzoed = true;
+    }
+  }
 
   const CORNERS: Record<GameTheme, CornerConfig> = {
     cyberpunk: { tr: true, bl: true },
@@ -89,10 +99,16 @@
   </h3>
 
   <div>
-    <div class={twMerge("relative float-left -mt-0.5 border-2", themeClasses.border.border, theme?.image)}>
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <div
+      class={twMerge("relative float-left -mt-0.5 border-2", themeClasses.border.border, theme?.image)}
+      on:dragenter|preventDefault
+      on:dragover|preventDefault
+      on:drop={onDrop}
+    >
       <svelte:component
         this={themeName == "cyberpunk" ? GlitchingImage : Image}
-        src={member.Image + "?size=128"}
+        src={fuzzoed ? fuzzo : member.Image + "?size=128"}
         width={128}
         height={128}
         class="size-32 object-cover"

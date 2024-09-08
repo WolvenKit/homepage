@@ -15,14 +15,20 @@
   import HeroBackground from "./HeroBackground.svelte";
 
   let video: HTMLVideoElement;
+  let clicks = 0;
+
+  function onClick() {
+    clicks++;
+    video?.play();
+  }
 </script>
 
 <Seo />
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<header class="relative flex min-h-[calc(100svh-4rem)] flex-col items-center" on:click={() => video?.play()}>
-  <HeroBackground bind:video fadeDelay={0.5} />
+<header class="relative flex min-h-[calc(100svh-4rem)] flex-col items-center" on:click={onClick}>
+  <HeroBackground bind:video fadeDelay={0.5} rainbow={clicks > 16} />
 
   <div
     class="relative z-10 mx-[5vw] mt-auto flex max-w-screen-2xl flex-wrap items-end justify-between gap-2 pb-4 pt-16 max-v-md:flex-grow v-md:gap-8 max-sm:flex-col md:pb-16 lg:gap-16"

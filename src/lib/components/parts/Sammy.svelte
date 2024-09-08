@@ -5,6 +5,8 @@
   import sammy from "$assets/sammy.png";
 
   export let isOnTop = false;
+  let classes = "";
+  export { classes as class };
 
   let element: HTMLElement;
   let easterEgg = false;
@@ -53,7 +55,7 @@
     width="128"
     height="128"
     alt=""
-    class="h-16 w-auto transition-opacity duration-1000 md:h-24"
+    class={twMerge("h-24 w-auto transition-opacity duration-1000", classes)}
     class:opacity-0={easterEgg}
   />
 </a>

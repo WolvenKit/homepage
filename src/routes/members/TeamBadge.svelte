@@ -12,6 +12,8 @@
 {#if "icon" in teamInfo && teamInfo.icon}
   <Image src={teamInfo.icon} width="24" height="24" class={classes} title={teamInfo.label} />
 {:else if "color" in teamInfo && teamInfo.color}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <svg
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -20,6 +22,7 @@
     height="24"
     class={classes}
     style:color={teamInfo.color}
+    on:click
   >
     <title>{teamInfo.label}</title>
     <path d="m937.1 761-425.1 249-425.1-249 .0052-498 425.1-249 425.1 249z" fill="black" stroke="white" />

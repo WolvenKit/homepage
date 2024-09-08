@@ -7,6 +7,7 @@
 
   export let fadeDelay = 0;
   export let video: HTMLVideoElement;
+  export let rainbow = true;
   let bgLoaded = false;
   let autoplayDisabled = false;
 
@@ -22,6 +23,7 @@
 <div
   class="fade-in pointer-events-none absolute -top-16 right-0 max-w-[75vw] overflow-hidden bg-red opacity-90 mix-blend-lighten transition max-lg:hidden 2xl:bottom-0"
   class:opacity-0={!bgLoaded}
+  class:rainbow
   style:--fade-delay="{fadeDelay}s"
 >
   <div class="crt absolute inset-0" />
@@ -82,9 +84,14 @@
 
     --size: calc(100% / var(--repeats));
     height: 100%;
-    background: linear-gradient(to bottom, transparent 10vh, currentColor, transparent 15vh);
+    background-image: linear-gradient(to bottom, transparent 10vh, currentColor, transparent 15vh);
     background-size: 100% calc(var(--size) / 2);
     animation: move-wave 5s infinite linear;
+  }
+
+  .rainbow .wave {
+    --repeats: 1;
+    background-image: linear-gradient(to bottom in hsl, red, green, blue, red);
   }
 
   @keyframes move-wave {

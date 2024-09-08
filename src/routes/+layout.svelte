@@ -25,6 +25,7 @@
   import CursorTrail from "$components/parts/CursorTrail.svelte";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Sammy from "$components/parts/Sammy.svelte";
+  import Divider from "$lib/components/elements/Divider.svelte";
   import { site } from "$lib/content/site";
 
   export let data;
@@ -58,7 +59,7 @@
     isOnTop && "script:bg-transparent script:shadow-none",
   )}
 >
-  <Sammy {isOnTop} />
+  <Sammy {isOnTop} class="max-md:h-16" />
 
   <a
     href="/"
@@ -110,8 +111,10 @@
     <div class="flex flex-wrap items-center justify-center gap-4 md:w-1/4">
       <Sammy isOnTop />
 
-      <div class="grid grid-cols-1">
+      <div class="flex flex-col items-start max-md:items-center max-md:text-center">
         <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
+        <Divider class="my-1 inline-flex px-1 " />
+
         <div class="text-sm text-gray-600">
           <div>&copy; {new Date().getFullYear()} Red Modding Tools. All Rights Reserved.</div>
           <a href="/privacy" class="underline hover:text-zinc-400">Privacy Policy</a> |
