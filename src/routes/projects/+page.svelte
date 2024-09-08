@@ -4,6 +4,8 @@
   import { projects } from "$lib/content/projects";
   import { jsonLd } from "$lib/utils";
   import ProjectItem from "./ProjectItem.svelte";
+
+  export let data;
 </script>
 
 <svelte:head>
@@ -26,7 +28,7 @@
 <PageRoot title="Our Projects" description="Stuff we've created and what we work on.">
   <ul class="grid gap-6 md:px-8 2xl:grid-cols-2">
     {#each Object.values(projects) as project, i (i)}
-      <ProjectItem {project} fadeInDelay={i * 0.2} />
+      <ProjectItem {project} fadeInDelay={i * 0.2} memberMap={data.memberMap} />
     {/each}
   </ul>
 </PageRoot>

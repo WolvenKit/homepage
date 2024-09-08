@@ -12,6 +12,12 @@ export type CornerConfig = Partial<Record<Corner, boolean>>;
 
 export type Combine<T extends object, U extends object> = T | U | (T & U);
 
+export type Promisable<T> = Promise<T> | T;
+
+export function asPromise<T>(promisable: Promisable<T>): Promise<T> {
+  return promisable && typeof promisable == "object" && "then" in promisable ? promisable : Promise.resolve(promisable);
+}
+
 export async function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
 }

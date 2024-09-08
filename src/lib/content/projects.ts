@@ -5,6 +5,7 @@ export interface Project {
   name: string;
   description: string;
   image: string;
+  author?: string;
   featured?: boolean;
   theme?: GameTheme;
   githubs?: string | string[];

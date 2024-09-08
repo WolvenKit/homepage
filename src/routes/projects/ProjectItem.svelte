@@ -7,10 +7,13 @@
   import Image from "$components/elements/Image.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
+  import Button from "$lib/components/elements/Button.svelte";
   import type { Project } from "$lib/content/projects";
+  import type { TeamMember } from "$lib/server/members";
   import { outlineToPath, THEME_CLASSES, THEME_CORNERS, type GameTheme } from "$lib/themes";
-  import type { CornerConfig } from "$lib/utils";
+  import { asPromise, type CornerConfig, type Promisable } from "$lib/utils";
 
+  export let memberMap: Promisable<Record<string, TeamMember>> | undefined = undefined;
   export let fadeInDelay: number | undefined = undefined;
   export let project: Project;
 
@@ -18,6 +21,9 @@
     cyberpunk: { tr: true, bl: true },
     witcher: { tl: true, tr: true, bl: true },
   };
+
+  let memberMapResult: Record<string, TeamMember> = {};
+  $: if (memberMap) asPromise(memberMap).then((v) => (memberMapResult = v));
 
   $: themeName = project.theme ?? ("default" as const);
   $: corners = project.theme && CORNERS[project.theme];
@@ -43,19 +49,25 @@
       height="405"
       src={project.image}
       alt={project.name}
-      class="h-auto w-96 flex-shrink-0 object-cover max-md:w-full"
+      class="h-52 max-h-96 w-auto flex-shrink-0 object-cover max-md:h-auto max-md:w-full md:max-w-96"
     />
   {/if}
 
   <div class="flex flex-grow flex-col items-start">
     <div class="px-6 py-4">
-      <Heading level={2} class="m-0 text-left normal-case text-white">{project.name}</Heading>
-      <p class="text-pretty leading-tight">{project.description}</p>
+      <Heading level={2} class="-mb-2 mt-0 text-left normal-case text-white">{project.name}</Heading>
+      {#if project.author}
+        {@const member = memberMapResult ? memberMapResult[project.author] : undefined}
+        <Button inline href="/members/{project.author}" class="ml-0.5 normal-case">
+          {member ? member.Displayname : project.author}
+        </Button>
+      {/if}
+      <p class="mt-2 text-pretty leading-tight">{project.description}</p>
     </div>
 
     <div class="mt-auto flex w-full items-end gap-2 max-lg:flex-wrap">
       {#if githubs}
-        <ul class="flex flex-wrap items-start gap-x-2 p-2 pl-3">
+        <ul class="flex flex-wrap items-start gap-x-2 p-2 pl-3" class:ml-2={!project.image}>
           {#each githubs as github (github)}
             <li class="inline">
               <a
