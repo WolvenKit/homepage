@@ -10,11 +10,11 @@
   export let data;
 </script>
 
-<PageRoot title="Our Members" description="List of member of our Red Modding community.">
+<PageRoot title="Our Members" description="Members of our Red Modding community.">
   <svelte:fragment slot="description">
-    Here are the members of our Red Modding community.<br />
-    This includes people who <code class="text-sm">[INSERT_REQUIREMENT_LIST_HERE]</code>, etc.<br />
-    If you want to join our team you have to contribute to... idk what to write here, someone help me.
+    Meet the members of our Red Modding community.<br />
+    This includes people who have contributed to our projects, collaborated on mods, and supported our goals.<br />
+    If you want to join our team, just show us your passion and contribute to our ongoing efforts!
   </svelte:fragment>
 
   {#await data.teamMembers}

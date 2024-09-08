@@ -25,7 +25,7 @@
   {/each}
 </svelte:head>
 
-<PageRoot title="Our Projects" description="Stuff we've created and what we work on.">
+<PageRoot title="Our Projects" description="Check out our creations and the projects we've tackled along the way!">
   <ul class="grid gap-6 md:px-8 2xl:grid-cols-2">
     {#each Object.values(projects) as project, i (i)}
       <ProjectItem {project} fadeInDelay={i * 0.2} memberMap={data.memberMap} />
