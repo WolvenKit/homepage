@@ -42,7 +42,7 @@
 
   function onDrop(ev: DragEvent) {
     const data = ev.dataTransfer?.getData("text/plain");
-    if (data?.includes("/cat_")) {
+    if (data && decodeURIComponent(data).includes("/cat_")) {
       fuzzoed = true;
     }
   }
