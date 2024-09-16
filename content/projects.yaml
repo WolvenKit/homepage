@@ -4,6 +4,7 @@ wolvenkit:
   image: /projects/wkit.png
   githubs: [WolvenKit/WolvenKit, WolvenKit/wolvenKit-7]
   link: https://github.com/WolvenKit/WolvenKit
+  discord: https://discord.com/channels/717692382849663036/808086068023918603
   featured: true
 
 wiki:
@@ -20,6 +21,7 @@ cet:
   image: /projects/cet.png
   githubs: maximegmd/CyberEngineTweaks
   link: https://github.com/maximegmd/CyberEngineTweaks
+  discord: https://discord.com/channels/717692382849663036/795037292955172895
   theme: cyberpunk
   featured: true
 
@@ -29,6 +31,7 @@ blender-addon:
   image: /projects/blender-addon.png
   githubs: WolvenKit/Cyberpunk-Blender-add-on
   link: https://github.com/WolvenKit/Cyberpunk-Blender-add-on
+  discord: https://discord.com/channels/717692382849663036/1033120509216444550
   theme: cyberpunk
   featured: true
 
@@ -53,6 +56,7 @@ nativedb:
   description: Database of all script definitions of methods in Cyberpunk 2077 as found with RTTI.
   githubs: rayshader/cp2077-nativedb
   link: https://nativedb.red4ext.com
+  discord: https://discord.com/channels/717692382849663036/1201899567306788965
   theme: cyberpunk
 
 sounddb:
@@ -61,6 +65,7 @@ sounddb:
   description: Website that allows you to search and explore sounds and voice-overs of Cyberpunk 2077.
   theme: cyberpunk
   link: https://sounddb.redmodding.org
+  discord: https://discord.com/channels/717692382849663036/789391457282031616
 
 mlsetupbuilder:
   name: MLsetupBuilder
@@ -69,6 +74,7 @@ mlsetupbuilder:
   githubs: Neurolinked/MlsetupBuilder
   image: /projects/MlsbLogo.gif
   link: https://github.com/Neurolinked/MlsetupBuilder
+  discord: https://discord.com/channels/717692382849663036/1082772930892664943
   theme: cyberpunk
 
 entity-spawner:

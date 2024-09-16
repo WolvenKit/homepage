@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { faDiscord } from "@fortawesome/free-brands-svg-icons/faDiscord";
   import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
@@ -82,6 +83,19 @@
             </li>
           {/each}
         </ul>
+      {/if}
+
+      {#if project.discord}
+        <a
+          href={project.discord}
+          class="m-2 mb-3 inline-block whitespace-nowrap text-pretty leading-none text-cyan transition hover:text-cyan-light hover:underline"
+          class:ml-6={!project.image}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <FontAwesomeIcon icon={faDiscord} />
+          Discord
+        </a>
       {/if}
 
       {#if project.link}

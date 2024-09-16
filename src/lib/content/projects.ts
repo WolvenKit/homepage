@@ -9,6 +9,7 @@ export interface Project {
   featured?: boolean;
   theme?: GameTheme;
   githubs?: string | string[];
+  discord?: string;
   link?: string;
 }
 
