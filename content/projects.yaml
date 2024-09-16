@@ -55,6 +55,7 @@ nativedb:
   author: rayshader
   description: Database of all script definitions of methods in Cyberpunk 2077 as found with RTTI.
   githubs: rayshader/cp2077-nativedb
+  image: /projects/ndb.webp
   link: https://nativedb.red4ext.com
   discord: https://discord.com/channels/717692382849663036/1201899567306788965
   theme: cyberpunk

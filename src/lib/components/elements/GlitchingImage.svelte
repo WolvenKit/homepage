@@ -67,7 +67,7 @@
   <Image
     src={$$restProps.src}
     {...$$restProps}
-    class={twMerge("col-start-1 row-start-1 h-full w-full object-cover", imageClass)}
+    class={twMerge("col-start-1 row-start-1 h-full w-full object-cover", classes, imageClass)}
   />
   <slot />
   <Image
@@ -75,6 +75,7 @@
     {...$$restProps}
     class={twMerge(
       "pointer-events-none col-start-1 row-start-1 hidden h-full w-full object-cover transition-none",
+      classes,
       imageClass,
     )}
   />
