@@ -21,11 +21,48 @@ export interface DiscordMember {
     user: string;
     userid: string;
     nexusmods: string;
+    nexusmodsVerified: boolean;
     github: string;
+    githubVerified: boolean;
     theme: Theme;
     description: string;
     style: "lowercase" | "uppercase";
   }>;
+  NexusData: null | {
+    mods: {
+      nodes: NexusMod[];
+    };
+    userByName: {
+      name: string;
+      modCount: number;
+      kudos: number;
+      country: string;
+      memberId: number;
+      about: string;
+      posts: number;
+      avatar: string;
+      uniqueModDownloads: number;
+    };
+  };
+  GithubData: null | GithubDataItem[];
+}
+
+export interface NexusMod {
+  id: string;
+  name: string;
+  uid: string;
+  version: string;
+  downloads: number;
+  endorsements: number;
+  adultContent: boolean;
+  summary: string;
+  pictureUrl: string;
+}
+
+export interface GithubDataItem {
+  Repository: string;
+  IssueCount: number;
+  CommitCount: number;
 }
 
 async function fetchLizzy(path: string, init?: RequestInit) {

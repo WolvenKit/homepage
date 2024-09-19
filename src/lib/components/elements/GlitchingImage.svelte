@@ -9,7 +9,17 @@
     always?: boolean;
     class?: string;
     imageClass?: string;
+    bypass?: boolean;
   }
+
+  export let bypass = false;
+  export let always = false;
+  export let imageClass = "";
+  let classes = "";
+  export { classes as class };
+
+  $: if (always && browser) startReRandom();
+  else stopReRandom();
 
   function random(r: number) {
     // I hope this will be good for performance
@@ -34,52 +44,47 @@
 
   onDestroy(stopReRandom);
 
-  export let always = false;
-  export let imageClass = "";
-  let classes = "";
-  export { classes as class };
-
-  $: if (always && browser) startReRandom();
-  else stopReRandom();
-
   // Config-ish
   $: glitchLength = always ? 1 : 0.4;
   $: shakeLength = always ? 2 : 0.5;
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-<div
-  class={twMerge("glitch grid", classes)}
-  style:--glitch-length="{glitchLength + random(rand)}s"
-  style:--glitch-offset="{-random(rand)}s"
-  style:--glitch-dir={random(rand) > 0.5 ? "normal" : "reverse"}
-  style:--shake-length="{shakeLength + random(rand)}s"
-  style:--shake-offset="{-random(rand)}s"
-  style:--shake-dir={random(rand) > 0.5 ? "normal" : "reverse"}
-  style:--blend-length="{1 + random(rand)}s"
-  style:--blend-offset="{-random(rand)}s"
-  style:--blend-dir={random(rand) > 0.5 ? "normal" : "reverse"}
-  style:--repeat={always ? "infinite" : Math.ceil(Math.random() * 3)}
-  class:always
-  on:mouseover={() => (rand = Math.random())}
->
-  <Image
-    src={$$restProps.src}
-    {...$$restProps}
-    class={twMerge("col-start-1 row-start-1 h-full w-full object-cover", classes, imageClass)}
-  />
-  <slot />
-  <Image
-    src={$$restProps.src}
-    {...$$restProps}
-    class={twMerge(
-      "pointer-events-none col-start-1 row-start-1 hidden h-full w-full object-cover transition-none",
-      classes,
-      imageClass,
-    )}
-  />
-</div>
+{#if bypass}
+  <Image src={$$restProps.src} {...$$restProps} class={twMerge(classes, imageClass)} />
+{:else}
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+  <div
+    class={twMerge("glitch grid", classes)}
+    style:--glitch-length="{glitchLength + random(rand)}s"
+    style:--glitch-offset="{-random(rand)}s"
+    style:--glitch-dir={random(rand) > 0.5 ? "normal" : "reverse"}
+    style:--shake-length="{shakeLength + random(rand)}s"
+    style:--shake-offset="{-random(rand)}s"
+    style:--shake-dir={random(rand) > 0.5 ? "normal" : "reverse"}
+    style:--blend-length="{1 + random(rand)}s"
+    style:--blend-offset="{-random(rand)}s"
+    style:--blend-dir={random(rand) > 0.5 ? "normal" : "reverse"}
+    style:--repeat={always ? "infinite" : Math.ceil(Math.random() * 3)}
+    class:always
+    on:mouseover={() => (rand = Math.random())}
+  >
+    <Image
+      src={$$restProps.src}
+      {...$$restProps}
+      class={twMerge("col-start-1 row-start-1 h-full w-full object-cover", imageClass)}
+    />
+    <slot />
+    <Image
+      src={$$restProps.src}
+      {...$$restProps}
+      class={twMerge(
+        "pointer-events-none col-start-1 row-start-1 hidden h-full w-full object-cover transition-none",
+        imageClass,
+      )}
+    />
+  </div>
+{/if}
 
 <style>
   .glitch:hover > :global(img:last-of-type),

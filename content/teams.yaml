@@ -7,35 +7,41 @@ leaders:
 mods:
   label: Moderator Team
   description: Protectors of peace.
-  discordRole: [Moderator, Moderator+, Moderator++]
+  discordRole: "717719048514699264"
   icon: /cat_mod.webp
 
 redcore:
   label: REDCore Team
   description: Uhm... they make the core red?
-  discordRole: Team-REDCore
+  discordRole: "811909247125159987"
   color: "#ff0000"
 
 cet:
   label: CET Team
   description: The unresolved hash gang
-  discordRole: Team-CET
+  discordRole: "811690894221639691"
   color: "#005bf9"
 
 wkit:
   label: WolvenKit Team
   description: Developers of THE modding tool for Cyberpunk 2077.
-  discordRole: Team-WKit
+  discordRole: "803628105087713290"
   color: "#ff4c6f"
 
 website:
   label: Website Team
   description: Haha
-  discordRole: Team-Website
+  discordRole: "803647729905172521"
   color: "#7119f8"
 
+redkid:
+  label: Redkids
+  description: People who work on modding tools
+  discordRole: "905518587777806366"
+  color: "#ed453e"
+
 wiki:
-  label: Wiki Team
+  label: Wiki Contributors
   description: Helpers of our custom LLM AI Mana.
-  discordRole: Team-Wiki
+  discordRole: "790814286519468072"
   color: "#00d7fd"

@@ -1,6 +1,6 @@
 import { members } from "$lib/content/members";
 import { teams, type Team } from "$lib/content/teams";
-import { fetchDiscordMembers, type DiscordMember } from "./services/lizzy";
+import { fetchDiscordMembers, type DiscordMember } from "./lizzy";
 
 interface CustomCustomData {
   background?: string;
@@ -59,7 +59,7 @@ function processMembers(members: DiscordMember[]) {
     if (member.Bot) continue;
 
     for (const role of member.Roles) {
-      const team = role2Team[role.Role];
+      const team = role2Team[role.ID];
       if (!team) continue;
 
       if (!team2manyMembers[team]) {
@@ -160,7 +160,7 @@ function getRole2TeamMap() {
     if (!("discordRole" in team)) continue;
 
     for (const role of Array.isArray(team.discordRole) ? team.discordRole : [team.discordRole]) {
-      map[role] = teamId;
+      map[role.toString()] = teamId;
     }
   }
 

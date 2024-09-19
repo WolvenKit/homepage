@@ -1,60 +1,18 @@
-<script lang="ts" context="module">
-  import type { Page } from "@sveltejs/kit";
-  import { page } from "$app/stores";
-
-  export const vercelImg = (sourceUrl: string, size: number, quality: number) => {
-    try {
-      const url = new URL(sourceUrl);
-      let pageData: Page|undefined;
-
-      page.subscribe((d) => (pageData = d))();
-
-      if (url.origin == pageData?.url.origin) {
-        sourceUrl = url.pathname;
-      }
-    } catch {
-      //ignore
-    }
-
-    return `/_vercel/image?url=${encodeURIComponent(sourceUrl)}&w=${size}&q=${quality}`;
-  };
-</script>
-
 <script lang="ts">
   import type { HTMLImgAttributes } from "svelte/elements";
   import { twMerge } from "tailwind-merge";
-  import { browser, dev } from "$app/environment";
   import { mediaReady } from "$lib/actions/mediaReady";
-
-  // Must match svelte.config.js
-  const SIZES = [128, 256, 720, 1280, 1920, 3840];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface $$Props extends Omit<HTMLImgAttributes, "src"> {
-    optimize?: boolean;
-    quality?: number;
     src: string;
   }
 
-  export let optimize = true;
-  export let quality = 75;
   export let src: string;
-  export let width: string | number | null | undefined = null;
+  let classes: string | null | undefined = "";
+  export { classes as class };
 
   let loaded = false;
-
-  // Find suitable size
-  $: size =
-    !dev && optimize && width
-      ? ((width) => {
-          for (const size of SIZES) {
-            if (size >= width) return size;
-          }
-        })(+width)
-      : undefined;
-
-  $: _src = size ? vercelImg(src, size, quality) : src;
-  $: classes = twMerge("transition", !loaded && browser && "opacity-0", $$restProps.class);
 </script>
 
 <img
@@ -62,9 +20,8 @@
   decoding="async"
   loading="lazy"
   crossorigin="anonymous"
-  src={_src}
-  {width}
+  {src}
   {...$$restProps}
   alt={$$props.alt ?? ""}
-  class={classes}
+  class={twMerge("transition", !loaded && "script:opacity-0", classes)}
 />

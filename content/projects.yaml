@@ -70,7 +70,6 @@ sounddb:
 
 mlsetupbuilder:
   name: MLsetupBuilder
-  author: neurolinked
   description: Cyberpunk 2077 modding tool to build json version of .mlsetup files
   githubs: Neurolinked/MlsetupBuilder
   image: /projects/MlsbLogo.gif

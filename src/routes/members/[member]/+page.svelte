@@ -6,14 +6,13 @@
   import Button from "$components/elements/Button.svelte";
   import GlitchingImage from "$components/elements/GlitchingImage.svelte";
   import Heading from "$components/elements/Heading.svelte";
-  import Image, { vercelImg } from "$components/elements/Image.svelte";
+  import Image from "$components/elements/Image.svelte";
   import Card from "$components/parts/Card.svelte";
   import ErrorAlert from "$components/parts/ErrorAlert.svelte";
   import Loading from "$components/parts/Loading.svelte";
   import PageRoot from "$components/parts/PageRoot.svelte";
   import Section from "$components/parts/Section.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
-  import { PUBLIC_NEXUS_PROFILE_URL } from "$env/static/public";
   import GlitchingWebsite from "$lib/components/parts/BlackwallScreensaver/GlitchingWebsite.svelte";
   import Warning from "$lib/components/parts/Warning.svelte";
   import { projects } from "$lib/content/projects";
@@ -22,6 +21,8 @@
   import { jsonLd } from "$lib/utils";
   import TeamBadge from "../TeamBadge.svelte";
   import DataEntry from "./DataEntry.svelte";
+
+  const NEXUS_URL = "https://next.nexusmods.com/profile";
 
   export let data;
 
@@ -36,8 +37,7 @@
 
   $: contributions = data.contributions && Object.values(data.contributions);
   $: totalContributions = contributions?.reduce(
-    (acc, project) =>
-      acc + Object.values(project.repositories).reduce((acc2, repo) => acc2 + repo.commits + repo.issues, 0),
+    (acc, project) => acc + project.reduce((acc2, repo) => acc2 + repo.CommitCount + repo.IssueCount, 0),
     0,
   );
 </script>
@@ -54,7 +54,7 @@
       description: member.CustomData?.description,
       image: member.Image,
       sameAs: [
-        member.CustomData?.nexusmods && `${PUBLIC_NEXUS_PROFILE_URL}/${member.CustomData?.nexusmods}`,
+        member.CustomData?.nexusmods && `${NEXUS_URL}/${member.CustomData?.nexusmods}`,
         member.CustomData?.github && `https://github.com/${member.CustomData?.github}`,
       ].filter((v) => v),
     },
@@ -66,7 +66,7 @@
 <PageRoot
   title={[member.Displayname, "Member detail"]}
   description={member.CustomData?.description || "Member of the RedModding community"}
-  image={vercelImg(member.Image, 128, 100)}
+  image={member.Image}
   card="summary"
   type="profile"
   hideDescription
@@ -163,23 +163,23 @@
         style:--fade-delay="1s"
         on:animationend={() => (headerReady = true)}
       >
-        {#if data.nexus?.user.country}
-          <DataEntry theme={themeName} key="Country">{data.nexus.user.country}</DataEntry>
+        {#if member.NexusData?.userByName.country}
+          <DataEntry theme={themeName} key="Country">{member.NexusData.userByName.country}</DataEntry>
         {/if}
 
-        {#if data.nexus?.user.kudos}
-          <DataEntry theme={themeName} key="Kudos">{data.nexus.user.kudos.toLocaleString()}</DataEntry>
+        {#if member.NexusData?.userByName.kudos}
+          <DataEntry theme={themeName} key="Kudos">{member.NexusData.userByName.kudos.toLocaleString()}</DataEntry>
         {/if}
 
-        {#if data.nexus?.["user-mods-count"].mods.totalCount}
+        {#if member.NexusData?.userByName.modCount}
           <DataEntry theme={themeName} key="Mods released"
-            >{data.nexus?.["user-mods-count"].mods.totalCount.toLocaleString()}</DataEntry
+            >{member.NexusData?.userByName.modCount.toLocaleString()}</DataEntry
           >
         {/if}
 
-        {#if data.nexus?.user.uniqueModDownloads}
+        {#if member.NexusData?.userByName.uniqueModDownloads}
           <DataEntry theme={themeName} key="Mod downloads"
-            >{data.nexus.user.uniqueModDownloads.toLocaleString()}</DataEntry
+            >{member.NexusData.userByName.uniqueModDownloads.toLocaleString()}</DataEntry
           >
         {/if}
 
@@ -197,12 +197,7 @@
 
         {#if member.CustomData?.nexusmods}
           <DataEntry theme={themeName} key="NexusMods">
-            <Button
-              inline
-              hideExternal
-              href="{PUBLIC_NEXUS_PROFILE_URL}/{member.CustomData?.nexusmods}"
-              class="inline text-lg"
-            >
+            <Button inline hideExternal href="{NEXUS_URL}/{member.CustomData?.nexusmods}" class="inline text-lg">
               @{member.CustomData?.nexusmods}
             </Button>
           </DataEntry>
@@ -223,19 +218,16 @@
     </header>
 
     <div class="contents" style:--fade-delay="2.5s">
-      {#if data.nexus?.mods.length}
+      {#if member.NexusData?.mods.nodes.length}
         <Section as="section" class="fade-in m-0">
           <Heading level={2}>Top rated released mods</Heading>
 
           <ul class="flex flex-wrap justify-center gap-2">
-            {#each data.nexus.mods as mod}
+            {#each member.NexusData.mods.nodes as mod}
+              {@const id = mod.id.split("1", 2)[1]}
               <li>
-                <Card
-                  title={mod.name}
-                  href="https://www.nexusmods.com/{mod.game.domainName}/mods/{mod.modId}"
-                  class="h-full"
-                >
-                  <Image slot="logo" src={mod.thumbnailUrl} width={385} height={216} />
+                <Card title={mod.name} href="https://www.nexusmods.com/TODO/mods/{id}" class="h-full">
+                  <Image slot="logo" src={mod.pictureUrl} width={385} height={216} />
                   {mod.summary}
                 </Card>
               </li>
@@ -249,9 +241,10 @@
           <Heading level={2}>Project contributions</Heading>
 
           <ul class="flex flex-wrap justify-center gap-x-8 gap-y-4">
-            {#each contributions as contribution (contribution)}
-              {@const project = projects[contribution.projectId]}
+            {#each Object.entries(data.contributions) as [projectId, repositories] (projectId)}
+              {@const project = projects[projectId]}
               {@const projectTheme = project.theme ?? "default"}
+
               <li class="max-md:w-full">
                 <ThemeFrameBig class={twMerge("flex flex-col gap-4 px-4", THEME_CLASSES[projectTheme].background)}>
                   <div class="-mx-4 h-32 min-w-64 flex-shrink-0">
@@ -273,10 +266,12 @@
                   </p>
 
                   <ul class={twMerge(THEME_CLASSES[projectTheme].text)}>
-                    {#each Object.entries(contribution.repositories) as [repo, contributions]}
+                    {#each repositories as repo}
+                      {@const repoContributions = { commits: repo.CommitCount, issues: repo.IssueCount }}
+
                       <li class="mb-2">
                         <a
-                          href="https://github.com/{repo}/commits?author={member.CustomData?.github}"
+                          href="https://github.com/{repo.Repository}/commits?author={member.CustomData?.github}"
                           target="_blank"
                           rel="noopener noreferrer"
                           class="hover-glow group flex items-center gap-4"
@@ -293,11 +288,11 @@
                               external
                               class="text-pretty text-left hover-focus:text-cyan hover-focus:filter-none"
                             >
-                              {repo.split("/")[1]}
+                              {repo.Repository.split("/")[1]}
                             </Button>
 
                             <ul class="list-outside list-dash">
-                              {#each Object.entries(contributions).filter(([_, a]) => a) as [type, amount] (type)}
+                              {#each Object.entries(repoContributions).filter(([_, a]) => a) as [type, amount] (type)}
                                 <li class="-mt-2 ml-2 pl-1">
                                   <strong>{amount}</strong>
                                   {type.slice(0, -1)}{#if amount > 1}s{/if}

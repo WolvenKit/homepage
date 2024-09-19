@@ -135,7 +135,10 @@
         <div class="text-zinc-400">Ping him on Discord about feedback or complaints.</div>
         <Button href={site.source}>Source code</Button>
 
-        <code class="block text-sm text-zinc-600">{data.commitSha}</code>
+        <div class="block text-zinc-500">
+          <span class="text-sm">Website last updated on</span>
+          <date>{data.buildDate.toLocaleString()}</date>
+        </div>
       </div>
     </div>
 

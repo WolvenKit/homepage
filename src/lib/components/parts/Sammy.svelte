@@ -3,6 +3,7 @@
   import { twMerge } from "tailwind-merge";
   import cube from "$assets/cube.webp";
   import sammy from "$assets/sammy.png";
+  import Image from "../elements/Image.svelte";
 
   export let isOnTop = false;
   let classes = "";
@@ -47,15 +48,16 @@
   )}
 >
   {#if easterEgg}
-    <img src={cube} width="128" height="128" alt="" class="fade-in absolute h-24 w-auto" />
+    <Image src={cube} width="128" height="128" alt="" class="fade-in absolute h-24 w-auto" />
   {/if}
 
-  <img
+  <Image
     src={sammy}
     width="128"
     height="128"
+    fetchpriority="high"
+    loading="eager"
     alt=""
-    class={twMerge("h-24 w-auto transition-opacity duration-1000", classes)}
-    class:opacity-0={easterEgg}
+    class={twMerge("h-24 w-auto transition-opacity duration-1000", easterEgg && "opacity-0", classes)}
   />
 </a>

@@ -1,7 +1,7 @@
 import { error } from "@sveltejs/kit";
+import { githubToProject } from "$lib/content/projects";
+import type { GithubDataItem } from "$lib/server/lizzy";
 import { getCachedMembers } from "$lib/server/members";
-import { fetchGithubContributions } from "$lib/server/services/github";
-import { fetchNexusProfile } from "$lib/server/services/nexus";
 import { wrapCatch } from "$lib/utils";
 import type { PageServerLoad } from "./$types";
 
@@ -12,17 +12,17 @@ export const load = (async ({ params, isDataRequest }) => {
 
       if (!member) error(404, "Member not found");
 
-      const onCatch = (e: unknown) => {
-        console.error(e);
-        return undefined;
-      };
+      const contributions: Record<string, GithubDataItem[]> = {};
 
-      const [contributions, nexus] = await Promise.all([
-        member.CustomData?.github ? fetchGithubContributions(member.CustomData.github).catch(onCatch) : undefined,
-        member.CustomData?.nexusmods ? fetchNexusProfile(member.CustomData.nexusmods).catch(onCatch) : undefined,
-      ]);
+      for (const repo of member.GithubData ?? []) {
+        const project = githubToProject[repo.Repository];
+        if (!project) continue;
 
-      return { member, contributions, nexus };
+        if (!contributions[project]) contributions[project] = [];
+        contributions[project].push(repo);
+      }
+
+      return { member, contributions };
     })
     .catch(wrapCatch({ description: "Fetching member data failed. Please try again later." }));
 

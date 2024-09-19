@@ -5,7 +5,6 @@
   import { twMerge } from "tailwind-merge";
   import GlitchingImage from "$components/elements/GlitchingImage.svelte";
   import Heading from "$components/elements/Heading.svelte";
-  import Image from "$components/elements/Image.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import Button from "$lib/components/elements/Button.svelte";
@@ -44,13 +43,14 @@
   <ThemeFrameBig theme={themeName} {corners} />
 
   {#if project.image}
-    <svelte:component
-      this={themeName == "cyberpunk" ? GlitchingImage : Image}
+    <GlitchingImage
+      bypass={themeName != "cyberpunk"}
       width="720"
       height="405"
       src={project.image}
       alt={project.name}
-      class="h-52 max-h-96 w-auto flex-shrink-0 object-cover max-md:h-auto max-md:w-full md:max-w-96"
+      class="h-52 max-h-96 w-auto flex-shrink-0 max-md:h-auto max-md:w-full md:max-w-96"
+      imageClass="h-52 max-h-96 w-auto object-cover max-md:h-auto max-md:w-full md:max-w-96"
     />
   {/if}
 
