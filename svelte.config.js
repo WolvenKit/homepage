@@ -8,14 +8,9 @@ const config = {
   preprocess: vitePreprocess(),
 
   kit: {
-    adapter: adapter({
-      fallback: "404.html",
-    }),
+    adapter: adapter(),
     prerender: {
       origin: process.env.ORIGIN,
-    },
-    paths: {
-      base: process.argv.includes("dev") ? "" : process.env.BASE_PATH,
     },
     alias: {
       $lib: "./src/lib",
