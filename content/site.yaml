@@ -2,7 +2,7 @@ name: Red Modding
 color: "#ff003c"
 description: Community of REDengine modding enthusiasts.
 
-source: https://gitlab.com/Zhincore/red-modding
+source: https://github.com/WolvenKit/homepage
 
 menu:
   wiki: https://wiki.redmodding.org

@@ -2,21 +2,20 @@
 
 Website for Red Modding community.
 
-My Trello with TODOs: <https://trello.com/b/aBt38ps7/redmodding-web>
-
 ## Features
 
 - Content in YAML (`content` folder)
   - General site info (`content/site.yaml`)
   - Teams (`content/teams.yaml`)
   - Projects (`content/projects.yaml`)
+  - Member overrides (`content/members.yaml`)
 - Integrations
   - [LizzyFuzzy bot](https://github.com/Moonded/lizzyfuzzy)
     - Fetching members and their additional details from Discord
-  - GitHub
+  - GitHub (Now through Lizzy)
     - Fetching members' info and contributions to an organization
     - Fetching details of projects
-  - NexusMods
+  - NexusMods (Now through Lizzy)
     - Fetching info and mods of members
 
 ## Notes
