@@ -77,7 +77,7 @@ async function fetchLizzy(path: string, init?: RequestInit) {
 
   if (!response.ok) {
     const body = await response.text();
-    throw new Error("Failed to fetch Lizzy: " + body, { cause: response });
+    throw new Error("Failed to fetch Lizzy: " + body, { cause: { ...response } });
   }
   return response;
 }
