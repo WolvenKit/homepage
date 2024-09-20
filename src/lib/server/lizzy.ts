@@ -67,7 +67,7 @@ export interface GithubDataItem {
 
 async function fetchLizzy(path: string, init?: RequestInit) {
   const url = new URL(path, LIZZY_API_URL);
-  const result = await fetch(url, {
+  const response = await fetch(url, {
     ...init,
     headers: {
       Authorization: `Bearer ${LIZZY_API_TOKEN}`,
@@ -75,8 +75,11 @@ async function fetchLizzy(path: string, init?: RequestInit) {
     },
   });
 
-  if (!result.ok) throw result;
-  return result;
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error("Failed to fetch Lizzy: " + body, { cause: response });
+  }
+  return response;
 }
 
 let memberCache: Promise<DiscordMember[]> | null = null;
