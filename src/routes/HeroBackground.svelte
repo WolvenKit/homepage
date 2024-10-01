@@ -11,6 +11,18 @@
   let bgLoaded = false;
   let autoplayDisabled = false;
 
+  const month = new Date().getMonth() + 1;
+  const src = [
+    {
+      webm: "https://files.moonded.com/RedModding/malorian-explosion_chart.webm",
+      mp4: "https://files.moonded.com/RedModding/malorian-explosion_chart.mp4",
+    },
+    {
+      webm: "https://static.zhincore.eu/cp/cyberpumpkin.webm",
+      mp4: "https://static.zhincore.eu/cp/cyberpumpkin.mp4",
+    },
+  ][+(month == 10)];
+
   onMount(() => {
     // Cancel autoplay
     video.pause();
@@ -47,16 +59,8 @@
     poster={malorian}
   >
     <!-- <source media="(min-width: 1024px)" src={malorianHEVC} type="video/hevc; codecs=hevc" /> -->
-    <source
-      media="(min-width: 1024px)"
-      src="https://files.moonded.com/RedModding/malorian-explosion_chart.webm"
-      type="video/webm; codecs=av1"
-    />
-    <source
-      media="(min-width: 1024px)"
-      src="https://files.moonded.com/RedModding/malorian-explosion_chart.mp4"
-      type="video/mp4; codecs=avc1.640028"
-    />
+    <source media="(min-width: 1024px)" src={src.webm} type="video/webm; codecs=av1" />
+    <source media="(min-width: 1024px)" src={src.mp4} type="video/mp4; codecs=avc1.640028" />
     <Image src={malorian} />
   </video>
 
