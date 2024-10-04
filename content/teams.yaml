@@ -38,7 +38,7 @@ redkid:
   label: Redkids
   description: People who work on modding tools
   discordRole: "905518587777806366"
-  color: "#ed453e"
+  color: "#f00"
 
 wiki:
   label: Wiki Contributors

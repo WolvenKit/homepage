@@ -3,7 +3,7 @@
   import Button from "$components/elements/Button.svelte";
   import Image from "$components/elements/Image.svelte";
   import PageRoot from "$components/parts/PageRoot.svelte";
-  import Divider from "$lib/components/elements/Divider.svelte";
+  import Divider from "$components/elements/Divider.svelte";
 </script>
 
 <PageRoot title="About us" description="What is Red Modding? Who is it? When is it?">

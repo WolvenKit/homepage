@@ -78,11 +78,6 @@
 </div>
 
 <style>
-  .crt {
-    background-image: radial-gradient(transparent, #000a);
-    background-size: 3px 3px;
-  }
-
   .wave {
     --repeats: 2;
 

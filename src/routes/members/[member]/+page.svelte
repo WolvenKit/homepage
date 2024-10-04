@@ -7,14 +7,14 @@
   import GlitchingImage from "$components/elements/GlitchingImage.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import Image from "$components/elements/Image.svelte";
+  import GlitchingWebsite from "$components/parts/BlackwallScreensaver/GlitchingWebsite.svelte";
   import Card from "$components/parts/Card.svelte";
   import ErrorAlert from "$components/parts/ErrorAlert.svelte";
   import Loading from "$components/parts/Loading.svelte";
   import PageRoot from "$components/parts/PageRoot.svelte";
   import Section from "$components/parts/Section.svelte";
+  import Warning from "$components/parts/Warning.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
-  import GlitchingWebsite from "$lib/components/parts/BlackwallScreensaver/GlitchingWebsite.svelte";
-  import Warning from "$lib/components/parts/Warning.svelte";
   import { projects } from "$lib/content/projects";
   import { teams } from "$lib/content/teams";
   import { THEME_CLASSES } from "$lib/themes";
@@ -26,6 +26,7 @@
 
   export let data;
 
+  let game = false;
   let header: HTMLElement;
   let headerReady = false;
 
@@ -94,7 +95,8 @@
       {/if}
 
       <div class="mb-8 inline-flex flex-wrap gap-4 gap-x-8 px-2 max-md:justify-center">
-        <div class="fade-in relative flex-shrink-0" style:--fade-delay=".7s">
+        <!-- svelte-ignore a11y-no-static-element-interactions -->
+        <div class="fade-in relative flex-shrink-0" style:--fade-delay=".7s" on:dblclick={() => (game = true)}>
           <ThemeFrameBig theme={themeName}>
             <svelte:component
               this={themeName == "cyberpunk" ? GlitchingImage : Image}
@@ -214,6 +216,12 @@
           movementRange={0.1}
           maxArea={0.5}
         />
+      {/if}
+
+      {#if game}
+        {#await import("$components/parts/DinoGame.svelte") then { default: DinoGame }}
+          <DinoGame sprite={member.Image + "?size=64"} on:exit={() => (game = false)} />
+        {/await}
       {/if}
     </header>
 

@@ -48,6 +48,11 @@
   .absolutely-centered {
     @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
   }
+
+  .crt {
+    background-image: radial-gradient(transparent, #000a);
+    background-size: 3px 3px;
+  }
 }
 
 @layer utilities {
@@ -61,6 +66,10 @@
 
   .fade-in {
     animation: fade-in var(--fade-duration, 2s) var(--fade-delay, 0s) both;
+  }
+
+  .small-caps {
+    font-variant: small-caps;
   }
 }
 

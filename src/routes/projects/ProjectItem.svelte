@@ -7,7 +7,7 @@
   import Heading from "$components/elements/Heading.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
-  import Button from "$lib/components/elements/Button.svelte";
+  import Button from "$components/elements/Button.svelte";
   import type { Project } from "$lib/content/projects";
   import type { TeamMember } from "$lib/server/members";
   import { outlineToPath, THEME_CLASSES, THEME_CORNERS, type GameTheme } from "$lib/themes";

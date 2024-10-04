@@ -25,7 +25,7 @@
   import CursorTrail from "$components/parts/CursorTrail.svelte";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Sammy from "$components/parts/Sammy.svelte";
-  import Divider from "$lib/components/elements/Divider.svelte";
+  import Divider from "$components/elements/Divider.svelte";
   import { site } from "$lib/content/site";
 
   export let data;
