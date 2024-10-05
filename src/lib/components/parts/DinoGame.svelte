@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher, onMount } from "svelte";
   import Button from "../elements/Button.svelte";
+  import Heading from "../elements/Heading.svelte";
   import ThemeButton from "../theme/ThemeButton.svelte";
   import ErrorAlert from "./ErrorAlert.svelte";
 
@@ -19,6 +20,14 @@
   const MIN_SPIKE_DIST = 16n;
   const MAX_SPIKE_DIST = GAME_MAX;
   const SPIKE_HEIGHT = 16;
+
+  const LEADER_BOARD: Record<string, number> = {
+    "Alt.Cunningham": NaN,
+    "r4ch3.b4rtm0$$": 2048,
+    "johnny.silverhand": 666,
+    "mox.judy": 1208,
+    You: 0,
+  };
 
   export let sprite: string;
 
@@ -90,6 +99,8 @@
 
   function die() {
     isDead = true;
+    LEADER_BOARD.You = Number(x);
+    LEADER_BOARD["r4ch3.b4rtm0$$"] = Math.max(2048, Math.round(LEADER_BOARD.You * (Math.random() < 0.5 ? 1.2 : 0.9)));
     stop();
   }
 
@@ -238,19 +249,40 @@
   <!-- ground -->
   <span class="absolute top-3/4 w-full border-b-2 border-red" />
 
-  <div class="small-caps absolute top-3/4 w-full p-4 text-center text-sm text-red opacity-50">
+  <div class="small-caps absolute top-3/4 w-full p-4 text-center text-red opacity-75">
     Tap or press space to avoid ICE traps
   </div>
 
   <!-- death -->
   {#if isDead}
-    <div class="absolute inset-0 top-8 flex items-center justify-center bg-black/75">
+    <div class="absolute inset-0 top-8 flex flex-wrap items-center justify-center gap-x-16 bg-black/75">
       <div class="flex flex-col bg-black p-4">
         <ErrorAlert title="GAME OVER">
           The ICE traps got you.<br />
         </ErrorAlert>
 
         <ThemeButton theme="cyberpunk" size="sm" class="ml-auto" on:click={start}>Try again?</ThemeButton>
+      </div>
+
+      <div>
+        <Heading level={3} class="m-0">Leaderboard</Heading>
+        <table>
+          <thead class="border-b border-red">
+            <tr>
+              <th class="px-2">Player</th>
+              <th class="px-2">Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {#each Object.entries(LEADER_BOARD).sort((a, b) => b[1] - a[1]) as item}
+              {@const isYou = item[0] == "You"}
+              <tr class:bg-zinc-900={isYou}>
+                <td class="px-2">{item[0]}</td>
+                <td class="px-2 text-right text-xl text-yellow">{item[1]}</td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
       </div>
     </div>
   {/if}
