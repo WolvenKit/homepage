@@ -15,6 +15,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Rajdhani", ...defaultConfig.theme.fontFamily.sans],
+        "sans-default": defaultConfig.theme.fontFamily.sans,
         witcher: ["Metamorphous", ...defaultConfig.theme.fontFamily.serif],
         cyberpunk: ["Cyberpunk", ...defaultConfig.theme.fontFamily.sans],
       },

@@ -13,8 +13,8 @@
   import PageRoot from "$components/parts/PageRoot.svelte";
   import Section from "$components/parts/Section.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
-  import GlitchingWebsite from "$lib/components/parts/BlackwallScreensaver/GlitchingWebsite.svelte";
-  import Warning from "$lib/components/parts/Warning.svelte";
+  import GlitchingWebsite from "$components/parts/BlackwallScreensaver/GlitchingWebsite.svelte";
+  import Warning from "$components/parts/Warning.svelte";
   import { projects } from "$lib/content/projects";
   import { teams } from "$lib/content/teams";
   import { THEME_CLASSES } from "$lib/themes";
