@@ -12,6 +12,7 @@ export interface Role {
 export interface DiscordMember {
   Username: string;
   Nickname: string | null;
+  Displayname: string;
   Image: string;
   ID: string;
   Bot: boolean;

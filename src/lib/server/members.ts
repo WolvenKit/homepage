@@ -32,6 +32,7 @@ export async function fetchTeams() {
 
 export async function getCachedMembers() {
   if (!cache) cache = await _fetchMembers();
+  console.log(cache.memberMap.zhincore);
   return cache;
 }
 
