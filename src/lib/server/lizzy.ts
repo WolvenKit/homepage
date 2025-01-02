@@ -17,18 +17,18 @@ export interface DiscordMember {
   ID: string;
   Bot: boolean;
   Roles: Role[];
-  CustomData: null | Partial<{
-    id: string;
-    user: string;
-    userid: string;
-    nexusmods: string;
-    nexusmodsVerified: boolean;
-    github: string;
-    githubVerified: boolean;
-    theme: Theme;
-    description: string;
-    style: "lowercase" | "uppercase";
-  }>;
+  CustomData: null | Record<
+    `${number}`,
+    Partial<{
+      theme: Theme;
+      style: "lowercase" | "uppercase";
+      nexusmods: string;
+      nexusmodsVerified: boolean;
+      github: string;
+      githubVerified: boolean;
+      description: string;
+    }>
+  >;
   NexusData: null | {
     mods: {
       nodes: NexusMod[];
@@ -88,7 +88,12 @@ let memberCache: Promise<DiscordMember[]> | null = null;
 export async function fetchDiscordMembers(): Promise<DiscordMember[]> {
   // Cache in development
   if (!dev || !memberCache) {
-    memberCache = fetchLizzy("/api/discord/web?q=" + DISCORD_SERVER_ID).then((r) => r.json());
+    memberCache = fetchLizzy("/api/v2/web?q=" + DISCORD_SERVER_ID)
+      .then((r) => r.json())
+      .catch((e) => {
+        memberCache = null;
+        throw e;
+      });
   }
   return memberCache;
 }

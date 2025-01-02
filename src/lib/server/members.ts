@@ -32,7 +32,6 @@ export async function fetchTeams() {
 
 export async function getCachedMembers() {
   if (!cache) cache = await _fetchMembers();
-  console.log(cache.memberMap.zhincore);
   return cache;
 }
 
@@ -80,7 +79,13 @@ function processMembers(members: DiscordMember[]) {
 
 function createTeamMember(discordMember: DiscordMember): TeamMember {
   const override = members[discordMember.Username];
-  const style = override?.CustomData?.style || discordMember.CustomData?.style || "uppercase";
+  const customDataOrigin = discordMember.CustomData
+    ? Object.values(discordMember.CustomData).reduce((acc, v) => ({ ...acc, ...v }), {})
+    : null;
+
+  const CustomData =
+    discordMember.CustomData || override?.CustomData ? { ...customDataOrigin, ...override?.CustomData } : null;
+  const style = CustomData?.style || "uppercase";
 
   return {
     ...discordMember,
@@ -97,10 +102,7 @@ function createTeamMember(discordMember: DiscordMember): TeamMember {
     ...override,
 
     // Merge custom data with override
-    CustomData:
-      discordMember.CustomData || override?.CustomData
-        ? { ...discordMember.CustomData, ...override?.CustomData }
-        : null,
+    CustomData,
   };
 }
 
