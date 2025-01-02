@@ -6,7 +6,7 @@
   import Button from "$components/elements/Button.svelte";
   import Divider from "$components/elements/Divider.svelte";
   import Heading from "$components/elements/Heading.svelte";
-  import Image from "$components/elements/Image.svelte";
+  import LazyImage from "$components/elements/LazyImage.svelte";
   import Seo from "$components/parts/SEO.svelte";
   import Section from "$components/parts/Section.svelte";
   import Socials from "$components/parts/Socials.svelte";
@@ -14,8 +14,8 @@
   import { projects } from "$lib/content/projects";
   import HeroBackground from "./HeroBackground.svelte";
 
-  let video: HTMLVideoElement;
-  let clicks = 0;
+  let video: HTMLVideoElement | undefined = $state();
+  let clicks = $state(0);
 
   function onClick() {
     clicks++;
@@ -25,9 +25,9 @@
 
 <Seo />
 
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<header class="relative flex min-h-[calc(100svh-4rem)] flex-col items-center" on:click={onClick}>
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<header class="relative flex min-h-[calc(100svh-4rem)] flex-col items-center" onclick={onClick}>
   <HeroBackground bind:video fadeDelay={0.5} rainbow={clicks > 16} />
 
   <div
@@ -76,7 +76,7 @@
           i % 2 && "md:text-right lg:flex-row-reverse",
         )}
       >
-        <Image
+        <LazyImage
           src={project.image}
           width="720"
           height="405"

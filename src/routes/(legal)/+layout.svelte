@@ -1,6 +1,16 @@
+<script lang="ts">
+  import type { Snippet } from "svelte";
+
+  interface Props {
+    children?: Snippet;
+  }
+
+  let { children }: Props = $props();
+</script>
+
 <div class="mx-auto my-16 max-w-[80rem] px-4">
   <div class="revert-tailwind font white">
-    <slot></slot>
+    {@render children?.()}
   </div>
 </div>
 

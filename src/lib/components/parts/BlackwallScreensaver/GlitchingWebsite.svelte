@@ -5,8 +5,7 @@
   import type { Point } from "$lib/utils";
   import { renderElement } from "./renderer";
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface $$Props extends HTMLCanvasAttributes {
+  interface Props extends HTMLCanvasAttributes {
     updateChance?: number;
     cleanChance?: number;
     resetChanceMultiplier?: number;
@@ -15,15 +14,18 @@
     rootElement?: HTMLElement;
   }
 
-  export let updateChance = 0.8;
-  export let cleanChance = 0.4;
-  export let resetChanceMultiplier = 0.00001;
-  export let movementRange = 4;
-  export let maxArea = 0.1;
-  export let rootElement: HTMLElement | undefined = browser ? document.body : undefined;
+  let {
+    updateChance = 0.8,
+    cleanChance = 0.4,
+    resetChanceMultiplier = 0.00001,
+    movementRange = 4,
+    maxArea = 0.1,
+    rootElement = browser ? document.body : undefined,
+    ...rest
+  }: Props = $props();
 
-  let canvas: HTMLCanvasElement;
-  let ctx: CanvasRenderingContext2D;
+  let canvas: HTMLCanvasElement | undefined = $state();
+  let ctx: CanvasRenderingContext2D | undefined = $state();
 
   let offscreen: OffscreenCanvas;
   let offCtx: OffscreenCanvasRenderingContext2D;
@@ -33,11 +35,8 @@
   let animFrame = 0;
   let resetChance = 0;
 
-  $: rootBbox = rootElement?.getBoundingClientRect();
-  $: rootOffset = [rootBbox?.left || 0, rootBbox?.top || 0] as Point;
-
   onMount(() => {
-    ctx = canvas.getContext("2d")!;
+    ctx = canvas?.getContext("2d") || undefined;
     if (!ctx) return;
 
     ctx.fillStyle = "transparent";
@@ -51,9 +50,8 @@
     return () => animFrame && window.cancelAnimationFrame(animFrame);
   });
 
-  $: if (ctx && rootElement) resize(true).catch(console.error);
-
   async function resize(rerender = true) {
+    if (!canvas) return;
     canvas.width = Math.min(rootElement?.clientWidth || Number.POSITIVE_INFINITY, window.innerWidth);
     canvas.height = Math.min(rootElement?.clientHeight || Number.POSITIVE_INFINITY, window.innerHeight);
     offscreen.width = canvas.width;
@@ -73,7 +71,7 @@
   function update() {
     animFrame = window.requestAnimationFrame(update);
 
-    if (!pageImage || !origData || Math.random() > updateChance) return;
+    if (!ctx || !pageImage || !origData || Math.random() > updateChance) return;
 
     const pageArea = pageImage.width * pageImage.height;
 
@@ -106,8 +104,13 @@
 
     ctx.putImageData(pageImage, 0, 0);
   }
+  let rootBbox = $derived(rootElement?.getBoundingClientRect());
+  let rootOffset = $derived([rootBbox?.left || 0, rootBbox?.top || 0] as Point);
+  $effect.pre(() => {
+    if (ctx && rootElement) resize(true).catch(console.error);
+  });
 </script>
 
-<svelte:window on:resize={() => resize()} />
+<svelte:window onresize={() => resize()} />
 
-<canvas bind:this={canvas} {...$$restProps} class:pointer-events-none={true} />
+<canvas bind:this={canvas} {...rest} class:pointer-events-none={true}></canvas>

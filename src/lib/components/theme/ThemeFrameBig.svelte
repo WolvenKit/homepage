@@ -1,30 +1,41 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
   import { twMerge } from "tailwind-merge";
   import { outlineToPath, THEME_CLASSES, THEME_CORNERS, type Theme } from "$lib/themes";
   import type { Corner } from "$lib/utils";
   import ThemeCorner from "./ThemeCorner.svelte";
 
-  export let scale = 1;
-  export let theme: Theme = "default";
-  export let corners: Partial<Record<Corner, boolean>> =
-    theme == "cyberpunk" ? { tr: true, bl: true } : { tl: true, tr: true, bl: true, br: true };
-  let classes = "";
-  export { classes as class };
+  interface Props {
+    scale?: number;
+    theme?: Theme;
+    corners?: Partial<Record<Corner, boolean>>;
+    class?: string;
+    children?: Snippet;
+  }
 
-  $: clipPath =
-    $$slots.default && THEME_CORNERS[theme] ? outlineToPath(THEME_CORNERS[theme]!.outline, corners) : undefined;
+  let {
+    scale = 1,
+    theme = "default",
+    corners = theme == "cyberpunk" ? { tr: true, bl: true } : { tl: true, tr: true, bl: true, br: true },
+    class: classes = "",
+    children,
+  }: Props = $props();
+
+  let clipPath = $derived(
+    children && THEME_CORNERS[theme] ? outlineToPath(THEME_CORNERS[theme]!.outline, corners) : undefined,
+  );
 </script>
 
 <div
   class={twMerge(
     "relative border-2 border-current",
-    !$$slots.default && "pointer-events-none absolute inset-0 p-1",
+    !children && "pointer-events-none absolute inset-0 p-1",
     THEME_CLASSES[theme ?? "default"].border.text,
     classes,
   )}
   style:clip-path={clipPath}
 >
-  <slot />
+  {@render children?.()}
 
   {#if theme != "default"}
     {#if corners.tl}

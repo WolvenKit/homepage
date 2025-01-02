@@ -1,13 +1,13 @@
 import { members } from "$lib/content/members";
 import { teams, type Team } from "$lib/content/teams";
-import { fetchDiscordMembers, type DiscordMember } from "./lizzy";
+import { fetchDiscordMembers, type CustomData, type DiscordMember } from "./lizzy";
 
-interface CustomCustomData {
+interface CustomCustomData extends CustomData {
   background?: string;
   brokenTheme?: boolean;
 }
 
-export type TeamMember = DiscordMember & {
+export type TeamMember = Omit<DiscordMember, "CustomData"> & {
   Teams: Set<string>;
   Displayname: string;
   CustomData: CustomCustomData | null;
@@ -83,9 +83,9 @@ function createTeamMember(discordMember: DiscordMember): TeamMember {
     ? Object.values(discordMember.CustomData).reduce((acc, v) => ({ ...acc, ...v }), {})
     : null;
 
-  const CustomData =
+  const customData =
     discordMember.CustomData || override?.CustomData ? { ...customDataOrigin, ...override?.CustomData } : null;
-  const style = CustomData?.style || "uppercase";
+  const style = customData?.style || "uppercase";
 
   return {
     ...discordMember,
@@ -102,7 +102,7 @@ function createTeamMember(discordMember: DiscordMember): TeamMember {
     ...override,
 
     // Merge custom data with override
-    CustomData,
+    CustomData: customData,
   };
 }
 

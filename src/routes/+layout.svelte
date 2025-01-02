@@ -17,28 +17,30 @@
   import { twMerge } from "tailwind-merge";
   import { browser } from "$app/environment";
   import { beforeNavigate } from "$app/navigation";
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import catLove from "$assets/cat_love.webp";
   import Button from "$components/elements/Button.svelte";
-  import Image from "$components/elements/Image.svelte";
+  import Divider from "$components/elements/Divider.svelte";
+  import LazyImage from "$components/elements/LazyImage.svelte";
   import IdleBlackwall from "$components/parts/BlackwallScreensaver";
   import CursorTrail from "$components/parts/CursorTrail.svelte";
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Sammy from "$components/parts/Sammy.svelte";
-  import Divider from "$components/elements/Divider.svelte";
   import { site } from "$lib/content/site";
 
-  export let data;
+  let { data, children } = $props();
 
-  let scrollY = 2;
-  let navOpen = false;
-  let navClosed = true; // after transition
+  let scrollY = $state(2);
+  let navOpen = $state(false);
+  let navClosed = $state(true); // after transition
 
-  $: if (navOpen) navClosed = false;
+  $effect.pre(() => {
+    if (navOpen) navClosed = false;
+  });
 
-  $: isOnTop = scrollY < 2;
+  let isOnTop = $derived(scrollY < 2);
 
-  $: isLanding = $page.route?.id == "/";
+  let isLanding = $derived(page.route?.id == "/");
 
   beforeNavigate(() => {
     navOpen = false;
@@ -49,7 +51,7 @@
   }
 </script>
 
-<svelte:window bind:scrollY on:keydown={onKeyDown} />
+<svelte:window bind:scrollY onkeydown={onKeyDown} />
 
 <IdleBlackwall />
 
@@ -72,7 +74,7 @@
   </a>
 
   <nav id="mainNav" aria-label="Main navigation" class="group ml-auto">
-    <button class="group text-cyan lg:hidden" aria-expanded={navOpen} on:click={() => (navOpen = !navOpen)}>
+    <button class="group text-cyan lg:hidden" aria-expanded={navOpen} onclick={() => (navOpen = !navOpen)}>
       <FontAwesomeIcon
         fixedWidth
         icon={faClose}
@@ -84,7 +86,7 @@
     </button>
 
     <ul
-      on:transitionend={() => (navClosed = !navOpen)}
+      ontransitionend={() => (navClosed = !navOpen)}
       class={twMerge(
         "flex items-end justify-center gap-4 max-lg:flex-col",
         "right-0 top-full origin-top transition max-lg:absolute max-lg:w-full max-lg:scale-y-0 max-lg:bg-zinc-950 max-lg:p-4 max-lg:shadow-xl",
@@ -104,7 +106,7 @@
 
 <CursorTrail>
   <main class="flex flex-grow flex-col">
-    <slot />
+    {@render children?.()}
   </main>
 
   <footer class="relative z-10 flex w-full flex-wrap items-start justify-center gap-8 bg-black p-8 md:justify-between">
@@ -130,7 +132,7 @@
 
       <div class="leading-none">
         Website made with
-        <Image src={catLove} alt="love" title="love" width={22} height={22} class="inline" />
+        <LazyImage src={catLove} alt="love" title="love" width={22} height={22} class="inline" />
         by <Button inline hideExternal href="https://zhincore.eu/">@Zhincore</Button>.
         <div class="text-zinc-400">Ping him on Discord about feedback or complaints.</div>
         <Button href={site.source}>Source code</Button>

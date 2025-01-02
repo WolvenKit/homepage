@@ -7,15 +7,15 @@
   import MemberItem from "./MemberItem.svelte";
   import TeamSection from "./TeamSection.svelte";
 
-  export let data;
+  let { data } = $props();
 </script>
 
 <PageRoot title="Our Members" description="Members of our Red Modding community.">
-  <svelte:fragment slot="description">
+  {#snippet descriptionEl()}
     Meet the members of our Red Modding community.<br />
     This includes people who have contributed to our projects, collaborated on mods, and supported our goals.<br />
     If you want to join our team, just show us your passion and contribute to our ongoing efforts!
-  </svelte:fragment>
+  {/snippet}
 
   {#await data.teamMembers}
     <Loading />

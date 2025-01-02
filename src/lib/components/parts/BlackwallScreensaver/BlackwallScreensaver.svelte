@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  let idle = false;
+  let idle = $state(false);
 
   let timeout = 0;
 
@@ -30,15 +30,15 @@
 </script>
 
 <svelte:window
-  on:mousemove={resetTimeout}
-  on:mousedown={resetTimeout}
-  on:keydown={resetTimeout}
-  on:focus={resetTimeout}
-  on:blur={resetTimeout}
+  onmousemove={resetTimeout}
+  onmousedown={resetTimeout}
+  onkeydown={resetTimeout}
+  onfocus={resetTimeout}
+  onblur={resetTimeout}
 />
 
 {#if idle}
   {#await import("./BlackwallScreensaveInner.svelte") then { default: IdleBlackwall }}
-    <IdleBlackwall on:close={() => (idle = false)} />
+    <IdleBlackwall onClose={() => (idle = false)} />
   {/await}
 {/if}

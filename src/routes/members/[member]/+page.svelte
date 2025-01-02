@@ -6,7 +6,7 @@
   import Button from "$components/elements/Button.svelte";
   import GlitchingImage from "$components/elements/GlitchingImage.svelte";
   import Heading from "$components/elements/Heading.svelte";
-  import Image from "$components/elements/Image.svelte";
+  import LazyImage from "$components/elements/LazyImage.svelte";
   import GlitchingWebsite from "$components/parts/BlackwallScreensaver/GlitchingWebsite.svelte";
   import Card from "$components/parts/Card.svelte";
   import ErrorAlert from "$components/parts/ErrorAlert.svelte";
@@ -24,22 +24,24 @@
 
   const NEXUS_URL = "https://next.nexusmods.com/profile";
 
-  export let data;
+  let { data } = $props();
 
-  let game = false;
-  let header: HTMLElement;
-  let headerReady = false;
+  let game = $state(false);
+  let header: HTMLElement | undefined = $state();
+  let headerReady = $state(false);
 
-  $: member = data.member;
+  let member = $derived(data.member);
 
-  $: background = member.CustomData?.background;
-  $: themeName = member.CustomData?.theme ?? "default";
-  $: themeClasses = THEME_CLASSES[themeName];
+  let background = $derived(member.CustomData?.background);
+  let themeName = $derived(member.CustomData?.theme ?? "default");
+  let themeClasses = $derived(THEME_CLASSES[themeName]);
 
-  $: contributions = data.contributions && Object.values(data.contributions);
-  $: totalContributions = contributions?.reduce(
-    (acc, project) => acc + project.reduce((acc2, repo) => acc2 + repo.CommitCount + repo.IssueCount, 0),
-    0,
+  let contributions = $derived(data.contributions && Object.values(data.contributions));
+  let totalContributions = $derived(
+    contributions?.reduce(
+      (acc, project) => acc + project.reduce((acc2, repo) => acc2 + repo.CommitCount + repo.IssueCount, 0),
+      0,
+    ),
   );
 </script>
 
@@ -84,7 +86,7 @@
       <Button href="." icon={faArrowLeft} class="absolute bottom-full text-opacity-75 md:mb-4">See all members</Button>
 
       {#if background}
-        <Image
+        <LazyImage
           src={background}
           class={twMerge(
             "member-profile-background fade-in contrast-more:hidden",
@@ -95,11 +97,11 @@
       {/if}
 
       <div class="mb-8 inline-flex flex-wrap gap-4 gap-x-8 px-2 max-md:justify-center">
-        <!-- svelte-ignore a11y-no-static-element-interactions -->
-        <div class="fade-in relative flex-shrink-0" style:--fade-delay=".7s" on:dblclick={() => (game = true)}>
+        <!-- svelte-ignore a11y_no_static_element_interactions -->
+        <div class="fade-in relative flex-shrink-0" style:--fade-delay=".7s" ondblclick={() => (game = true)}>
           <ThemeFrameBig theme={themeName}>
-            <svelte:component
-              this={themeName == "cyberpunk" ? GlitchingImage : Image}
+            {@const ImageComponent = themeName == "cyberpunk" ? GlitchingImage : LazyImage}
+            <ImageComponent
               class="size-48"
               src={member.Image + "?size=256"}
               width={192}
@@ -163,7 +165,7 @@
       <dl
         class="fade-in clear-left mb-8 flex flex-wrap items-end justify-around gap-4 px-4 text-center"
         style:--fade-delay="1s"
-        on:animationend={() => (headerReady = true)}
+        onanimationend={() => (headerReady = true)}
       >
         {#if member.NexusData?.userByName.country}
           <DataEntry theme={themeName} key="Country">{member.NexusData.userByName.country}</DataEntry>
@@ -234,8 +236,10 @@
             {#each member.NexusData.mods.nodes as mod}
               {@const id = mod.id.split("1", 2)[1]}
               <li>
-                <Card title={mod.name} href="https://www.nexusmods.com/TODO/mods/{id}" class="h-full">
-                  <Image slot="logo" src={mod.pictureUrl} width={385} height={216} />
+                <Card titleText={mod.name} href="https://www.nexusmods.com/TODO/mods/{id}" class="h-full">
+                  {#snippet logo()}
+                    <LazyImage src={mod.pictureUrl} width={385} height={216} />
+                  {/snippet}
                   {mod.summary}
                 </Card>
               </li>
@@ -257,7 +261,7 @@
                 <ThemeFrameBig class={twMerge("flex flex-col gap-4 px-4", THEME_CLASSES[projectTheme].background)}>
                   <div class="-mx-4 h-32 min-w-64 flex-shrink-0">
                     {#if project.image}
-                      <Image
+                      <LazyImage
                         width="720"
                         height="405"
                         src={project.image}

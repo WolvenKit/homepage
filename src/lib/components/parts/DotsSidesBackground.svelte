@@ -2,11 +2,14 @@
   import { twMerge } from "tailwind-merge";
   import DotsBackground from "./DotsBackground.svelte";
 
-  export let landing = false;
-  let classes = "";
-  export { classes as class };
+  interface Props {
+    landing?: boolean;
+    class?: string;
+  }
 
-  $: repeats = landing ? 2 : 1;
+  let { landing = false, class: classes = "" }: Props = $props();
+
+  let repeats = $derived(landing ? 2 : 1);
 </script>
 
 <div class={twMerge("pointer-events-none absolute inset-0 overflow-hidden max-lg:hidden", classes)}>

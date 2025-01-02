@@ -21,15 +21,19 @@
   const MAX_SPIKE_DIST = GAME_MAX;
   const SPIKE_HEIGHT = 16;
 
-  const LEADER_BOARD: Record<string, number> = {
+  const LEADER_BOARD: Record<string, number> = $state({
     "Alt.Cunningham": NaN,
     "r4ch3.b4rtm0$$": 2048,
     "johnny.silverhand": 666,
     "mox.judy": 1208,
     You: 0,
-  };
+  });
 
-  export let sprite: string;
+  interface Props {
+    sprite: string;
+  }
+
+  let { sprite }: Props = $props();
 
   const emit = createEventDispatcher<{ exit: void }>();
 
@@ -39,22 +43,22 @@
   let deltaAccumulator = 0;
 
   // Game
-  let spikes = [GAME_MAX];
+  let spikes = $state([GAME_MAX]);
   let nextSpike = GAME_MAX;
   let canDoubleJump = true;
 
-  let gameSpeed = 1;
+  let gameSpeed = $state(1);
   let velocityY = 0;
-  let y = 0;
-  let x = 0n;
-  let targetAngle = 0;
+  let y = $state(0);
+  let x = $state(0n);
+  let targetAngle = $state(0);
 
-  let tps = 60;
+  let tps = $state(60);
 
   // Controls
   let shouldJump = false;
 
-  let isDead = false;
+  let isDead = $state(false);
 
   function reset() {
     lastTimestamp = 0;
@@ -198,15 +202,15 @@
   });
 </script>
 
-<svelte:window on:keydown={onKeyDown} />
+<svelte:window onkeydown={onKeyDown} />
 
-<div class="absolute -inset-4 bg-black blur-lg" />
-<!-- svelte-ignore a11y-click-events-have-key-events -->
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="absolute inset-0 select-none" on:click={jump}>
+<div class="absolute -inset-4 bg-black blur-lg"></div>
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="absolute inset-0 select-none" onclick={jump}>
   <div class="-mt-4 flex items-start justify-between p-1 px-4 font-semibold tabular-nums text-red">
     <div>
-      <Button class="-ml-4" on:click={exit}>Quit game</Button>
+      <Button class="-ml-4" onClick={exit}>Quit game</Button>
       <span class="text-sm text-cyan opacity-75">{Math.round(tps)}</span>
     </div>
 
@@ -240,14 +244,14 @@
         <span
           class="absolute bottom-0 left-0 inline-block origin-bottom-right border-[16px] border-transparent border-b-red"
           style:transform="translateX(-50%) translateX({spikeX}px)"
-        />
+        ></span>
         <!-- transition:scale={{ duration: 500 }} -->
       {/each}
     </div>
   </div>
 
   <!-- ground -->
-  <span class="absolute top-3/4 w-full border-b-2 border-red" />
+  <span class="absolute top-3/4 w-full border-b-2 border-red"></span>
 
   <div class="small-caps absolute top-3/4 w-full p-4 text-center text-red opacity-75">
     Tap or press space to avoid ICE traps
@@ -257,11 +261,11 @@
   {#if isDead}
     <div class="absolute inset-0 top-8 flex flex-wrap items-center justify-center gap-x-16 bg-black/75">
       <div class="flex flex-col bg-black p-4">
-        <ErrorAlert title="GAME OVER">
+        <ErrorAlert titleText="GAME OVER">
           The ICE traps got you.<br />
         </ErrorAlert>
 
-        <ThemeButton theme="cyberpunk" size="sm" class="ml-auto" on:click={start}>Try again?</ThemeButton>
+        <ThemeButton theme="cyberpunk" size="sm" class="ml-auto" onClick={start}>Try again?</ThemeButton>
       </div>
 
       <div>

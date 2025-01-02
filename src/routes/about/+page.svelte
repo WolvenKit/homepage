@@ -1,9 +1,9 @@
 <script lang="ts">
   import redengine from "$assets/redengine.webp";
   import Button from "$components/elements/Button.svelte";
-  import Image from "$components/elements/Image.svelte";
-  import PageRoot from "$components/parts/PageRoot.svelte";
   import Divider from "$components/elements/Divider.svelte";
+  import LazyImage from "$components/elements/LazyImage.svelte";
+  import PageRoot from "$components/parts/PageRoot.svelte";
 </script>
 
 <PageRoot title="About us" description="What is Red Modding? Who is it? When is it?">
@@ -23,7 +23,7 @@
     </p>
 
     <figure class="m-8 max-w-[640px] text-center lg:float-right lg:-mr-32 xl:-mr-64 2xl:-mr-96">
-      <Image
+      <LazyImage
         src={redengine}
         width={640}
         height={360}

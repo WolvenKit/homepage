@@ -2,24 +2,42 @@
   import type { IconDefinition } from "@fortawesome/fontawesome-common-types";
   import { faExternalLink } from "@fortawesome/free-solid-svg-icons/faExternalLink";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
+  import type { Snippet } from "svelte";
   import { twMerge } from "tailwind-merge";
 
-  export let inline = false;
-  export let href = "";
-  export let external = href && ![".", "/"].includes(href[0]);
-  export let icon: IconDefinition | undefined = undefined;
-  export let element: HTMLElement | undefined = undefined;
-  export let iconOnly = false;
-  export let label = "";
-  export let hideExternal = false;
-  let classes = "";
-  export { classes as class };
+  interface Props {
+    inline?: boolean;
+    href?: string;
+    external?: boolean;
+    icon?: IconDefinition | undefined;
+    element?: HTMLElement | undefined;
+    iconOnly?: boolean;
+    label?: string;
+    hideExternal?: boolean;
+    class?: string;
+    children?: Snippet;
+    onClick?: () => void;
+  }
+
+  let {
+    inline = false,
+    href = "",
+    external = !!href && ![".", "/"].includes(href[0]),
+    icon = undefined,
+    element = $bindable(undefined),
+    iconOnly = false,
+    label = "",
+    hideExternal = false,
+    class: classes = "",
+    children,
+    onClick,
+  }: Props = $props();
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <svelte:element
   this={href ? "a" : "button"}
-  on:click
+  onclick={onClick}
   bind:this={element}
   {href}
   rel={external ? "noopener noreferrer" : undefined}
@@ -34,6 +52,8 @@
   )}
 >
   {#if icon}<FontAwesomeIcon {icon} class="-ml-2" />{/if}
-  {#if iconOnly}<span class="sr-only"><slot>{label}</slot></span>{:else}<slot>{label}</slot>{/if}
+  {#if iconOnly}<span class="sr-only"
+      >{#if children}{@render children()}{:else}{label}{/if}</span
+    >{:else if children}{@render children()}{:else}{label}{/if}
   {#if external && !hideExternal}<FontAwesomeIcon icon={faExternalLink} class="-ml-1 -mt-1 text-sm opacity-50" />{/if}
 </svelte:element>

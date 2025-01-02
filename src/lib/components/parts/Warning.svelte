@@ -3,8 +3,11 @@
   import triangle from "$assets/triangle.svg";
   import GlitchingImage from "$components/elements/GlitchingImage.svelte";
 
-  let classes = "";
-  export { classes as class };
+  interface Props {
+    class?: string;
+  }
+
+  let { class: classes = "" }: Props = $props();
 </script>
 
 <div class={twMerge("size-28 bg-red mix-blend-lighten", classes)}>

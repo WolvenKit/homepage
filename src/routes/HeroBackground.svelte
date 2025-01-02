@@ -1,15 +1,18 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { browser } from "$app/environment";
   import malorian from "$assets/malorian-explosion_chart.avif";
-  import Image from "$components/elements/Image.svelte";
+  import LazyImage from "$components/elements/LazyImage.svelte";
   import { mediaReady } from "$lib/actions/mediaReady";
 
-  export let fadeDelay = 0;
-  export let video: HTMLVideoElement;
-  export let rainbow = true;
-  let bgLoaded = false;
-  let autoplayDisabled = false;
+  interface Props {
+    fadeDelay?: number;
+    video: HTMLVideoElement | undefined;
+    rainbow?: boolean;
+  }
+
+  let { fadeDelay = 0, video = $bindable(), rainbow = true }: Props = $props();
+  let bgLoaded = $state(false);
+  let autoplayDisabled = $state(false);
 
   const month = new Date().getMonth() + 1;
   const src = [
@@ -23,12 +26,13 @@
     },
   ][+(month == 10)];
 
-  onMount(() => {
+  $effect(() => {
+    if (!video) return;
     // Cancel autoplay
     video.pause();
     video.currentTime = 0;
 
-    setTimeout(() => video.play().catch(() => (autoplayDisabled = true)), (fadeDelay + 1) * 1000);
+    setTimeout(() => video?.play().catch(() => (autoplayDisabled = true)), (fadeDelay + 1) * 1000);
   });
 </script>
 
@@ -38,16 +42,16 @@
   class:rainbow
   style:--fade-delay="{fadeDelay}s"
 >
-  <div class="crt absolute inset-0" />
-  <div class="wave absolute inset-0 text-red motion-reduce:hidden" />
+  <div class="crt absolute inset-0"></div>
+  <div class="wave absolute inset-0 text-red motion-reduce:hidden"></div>
 
   <!-- Motion-reduced fallback -->
-  <Image src={malorian} class="h-full w-full bg-black object-contain mix-blend-multiply motion-safe:hidden" />
+  <LazyImage src={malorian} class="h-full w-full bg-black object-contain mix-blend-multiply motion-safe:hidden" />
 
   <video
     bind:this={video}
     use:mediaReady={() => (bgLoaded = true)}
-    on:play={() => (autoplayDisabled = false)}
+    onplay={() => (autoplayDisabled = false)}
     class="h-full w-full bg-black object-contain mix-blend-multiply motion-reduce:hidden"
     autoplay={!browser}
     loop
@@ -61,7 +65,7 @@
     <!-- <source media="(min-width: 1024px)" src={malorianHEVC} type="video/hevc; codecs=hevc" /> -->
     <source media="(min-width: 1024px)" src={src.webm} type="video/webm; codecs=av1" />
     <source media="(min-width: 1024px)" src={src.mp4} type="video/mp4; codecs=avc1.640028" />
-    <Image src={malorian} />
+    <LazyImage src={malorian} />
   </video>
 
   {#if autoplayDisabled}

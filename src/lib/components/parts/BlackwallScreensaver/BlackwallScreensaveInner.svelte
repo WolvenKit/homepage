@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
+  import { onMount } from "svelte";
   import Heading from "$components/elements/Heading.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
@@ -7,7 +7,11 @@
   import Warning from "../Warning.svelte";
   import GlitchingWebsite from "./GlitchingWebsite.svelte";
 
-  const emit = createEventDispatcher<{ close: void }>();
+  interface Props {
+    onClose?: () => void;
+  }
+
+  const { onClose }: Props = $props();
 
   onMount(() => {
     document.scrollingElement?.classList.add("overflow-hidden");
@@ -25,7 +29,7 @@
   <GlitchingWebsite class="absolute inset-0 " />
 
   <!-- overlay -->
-  <div class="absolute inset-0 bg-black/10" />
+  <div class="absolute inset-0 bg-black/10"></div>
 
   <div class="dialog relative z-10">
     <div class="flex gap-8 bg-black p-8 text-white" style:clip-path={clipPath}>
@@ -40,7 +44,7 @@
         </p>
 
         <ThemeButton
-          on:click={() => emit("close")}
+          onClick={onClose}
           theme="cyberpunk"
           class="-mb-8 -mr-8 ml-auto mt-auto border-red"
           cornerClass="text-red"

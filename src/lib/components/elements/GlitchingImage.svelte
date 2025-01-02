@@ -1,25 +1,17 @@
 <script lang="ts">
-  import { onDestroy, type ComponentProps } from "svelte";
+  import { onDestroy, type ComponentProps, type Snippet } from "svelte";
   import { twMerge } from "tailwind-merge";
   import { browser } from "$app/environment";
-  import Image from "./Image.svelte";
+  import LazyImage from "./LazyImage.svelte";
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface $$Props extends ComponentProps<Image> {
+  interface Props extends ComponentProps<typeof LazyImage> {
     always?: boolean;
-    class?: string;
     imageClass?: string;
     bypass?: boolean;
+    children?: Snippet;
   }
 
-  export let bypass = false;
-  export let always = false;
-  export let imageClass = "";
-  let classes = "";
-  export { classes as class };
-
-  $: if (always && browser) startReRandom();
-  else stopReRandom();
+  let { always = false, class: classes = "", imageClass = "", bypass = false, children, ...rest }: Props = $props();
 
   function random(r: number) {
     // I hope this will be good for performance
@@ -27,7 +19,7 @@
     return r ? Math.random() : 0.5;
   }
 
-  let rand = 0;
+  let rand = $state(0);
   let reRandTimeout = 0;
 
   function startReRandom() {
@@ -44,16 +36,18 @@
 
   onDestroy(stopReRandom);
 
+  if (always && browser) startReRandom();
+  else stopReRandom();
   // Config-ish
-  $: glitchLength = always ? 1 : 0.4;
-  $: shakeLength = always ? 2 : 0.5;
+  let glitchLength = $derived(always ? 1 : 0.4);
+  let shakeLength = $derived(always ? 2 : 0.5);
 </script>
 
 {#if bypass}
-  <Image src={$$restProps.src} {...$$restProps} class={twMerge(classes, imageClass)} />
+  <LazyImage {...rest} class={twMerge(classes, imageClass)} />
 {:else}
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
-  <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
+  <!-- svelte-ignore a11y_mouse_events_have_key_events -->
   <div
     class={twMerge("glitch grid", classes)}
     style:--glitch-length="{glitchLength + random(rand)}s"
@@ -67,17 +61,12 @@
     style:--blend-dir={random(rand) > 0.5 ? "normal" : "reverse"}
     style:--repeat={always ? "infinite" : Math.ceil(Math.random() * 3)}
     class:always
-    on:mouseover={() => (rand = Math.random())}
+    onmouseover={() => (rand = Math.random())}
   >
-    <Image
-      src={$$restProps.src}
-      {...$$restProps}
-      class={twMerge("col-start-1 row-start-1 h-full w-full object-cover", imageClass)}
-    />
-    <slot />
-    <Image
-      src={$$restProps.src}
-      {...$$restProps}
+    <LazyImage {...rest} class={twMerge("col-start-1 row-start-1 h-full w-full object-cover", imageClass)} />
+    {@render children?.()}
+    <LazyImage
+      {...rest}
       class={twMerge(
         "pointer-events-none col-start-1 row-start-1 hidden h-full w-full object-cover transition-none",
         imageClass,

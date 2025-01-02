@@ -1,5 +1,5 @@
-<script lang="ts" context="module">
-  import { getContext, setContext } from "svelte";
+<script lang="ts" module>
+  import { getContext, setContext, type Snippet } from "svelte";
 
   const contextKey = "cursor trail context";
 
@@ -15,14 +15,19 @@
 
   const DELAY = 50;
 
-  export let enabled = false;
+  interface Props {
+    enabled?: boolean;
+    children?: Snippet;
+  }
+
+  let { enabled = $bindable(false), children }: Props = $props();
 
   setContext<CursorTrailContext>(contextKey, {
     toggle: (val) => (enabled = val == undefined ? !enabled : val),
   });
 
   let lastTime = Date.now();
-  let points: Point[] = [];
+  let points: Point[] = $state([]);
 
   function onMouseMove(ev: MouseEvent) {
     if (!enabled) return;
@@ -39,18 +44,18 @@
   }
 </script>
 
-<svelte:window on:mousemove={onMouseMove} />
+<svelte:window onmousemove={onMouseMove} />
 
 {#each points as point, i (point)}
   <div
     class="point pointer-events-none absolute z-50 size-2 rounded-full bg-red"
     style:top="{point[1]}px"
     style:left="{point[0]}px"
-    on:animationend={() => removePoint(i)}
-  />
+    onanimationend={() => removePoint(i)}
+  ></div>
 {/each}
 
-<slot />
+{@render children?.()}
 
 <style>
   .point {

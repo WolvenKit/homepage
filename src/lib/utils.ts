@@ -14,6 +14,10 @@ export type Combine<T extends object, U extends object> = T | U | (T & U);
 
 export type Promisable<T> = Promise<T> | T;
 
+export function isFn<Args extends [], Return>(input: unknown): input is (...args: Args) => Return {
+  return typeof input == "function";
+}
+
 export function asPromise<T>(promisable: Promisable<T>): Promise<T> {
   return promisable && typeof promisable == "object" && "then" in promisable ? promisable : Promise.resolve(promisable);
 }

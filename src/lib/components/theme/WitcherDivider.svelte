@@ -1,9 +1,12 @@
 <script lang="ts">
   import { twMerge } from "tailwind-merge";
 
-  export let withoutCorners = false;
-  let classes = "";
-  export { classes as class };
+  interface Props {
+    withoutCorners?: boolean;
+    class?: string;
+  }
+
+  let { withoutCorners = false, class: classes = "" }: Props = $props();
 </script>
 
 <!-- Adapted from: https://www.thewitcher.com -->
@@ -16,7 +19,7 @@
     classes,
   )}
 >
-  <span class="w-full translate-x-px border-t-2 border-current" />
+  <span class="w-full translate-x-px border-t-2 border-current"></span>
   <svg
     version="1.1"
     width="33"
@@ -41,5 +44,5 @@
       stroke-width="2"
     />
   </svg>
-  <span class="w-full -translate-x-px border-t-2 border-current" />
+  <span class="w-full -translate-x-px border-t-2 border-current"></span>
 </div>

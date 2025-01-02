@@ -3,16 +3,14 @@
   import { twMerge } from "tailwind-merge";
   import { mediaReady } from "$lib/actions/mediaReady";
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface $$Props extends Omit<HTMLImgAttributes, "src"> {
+  interface Props extends Omit<HTMLImgAttributes, "src" | "class"> {
     src: string;
+    class?: string;
   }
 
-  export let src: string;
-  let classes: string | null | undefined = "";
-  export { classes as class };
+  const { src, class: classes = "", ...restProps }: Props = $props();
 
-  let loaded = false;
+  let loaded = $state(false);
 </script>
 
 <img
@@ -21,7 +19,7 @@
   loading="lazy"
   crossorigin="anonymous"
   {src}
-  {...$$restProps}
-  alt={$$props.alt ?? ""}
+  {...restProps}
+  alt={restProps.alt ?? ""}
   class={twMerge("transition", !loaded && "script:opacity-0", classes)}
 />

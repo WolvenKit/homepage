@@ -1,12 +1,17 @@
 <script lang="ts">
+  import type { Snippet } from "svelte";
   import { twMerge } from "tailwind-merge";
   import type { Point } from "$lib/utils";
 
-  export let repeats = 2;
-  export let duration = "5s";
-  export let maskPos: Point = [100, 50];
-  let classes = "";
-  export { classes as class };
+  interface Props {
+    repeats?: number;
+    duration?: string;
+    maskPos?: Point;
+    class?: string;
+    children?: Snippet;
+  }
+
+  let { repeats = 2, duration = "5s", maskPos = [100, 50], class: classes = "", children }: Props = $props();
 </script>
 
 <div
@@ -16,7 +21,9 @@
   style:--mask-x="{maskPos[0]}%"
   style:--mask-y="{maskPos[1]}%"
 >
-  <slot><div class="dots-wave absolute inset-0 text-red motion-reduce:hidden" /></slot>
+  {#if children}{@render children()}{:else}<div
+      class="dots-wave absolute inset-0 text-red motion-reduce:hidden"
+    ></div>{/if}
 </div>
 
 <style>

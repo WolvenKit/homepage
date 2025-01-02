@@ -9,6 +9,16 @@ export interface Role {
   Position: number;
 }
 
+export interface CustomData {
+  theme?: Theme;
+  style?: "lowercase" | "uppercase";
+  nexusmods?: string;
+  nexusmodsVerified?: boolean;
+  github?: string;
+  githubVerified?: boolean;
+  description?: string;
+}
+
 export interface DiscordMember {
   Username: string;
   Nickname: string | null;
@@ -17,18 +27,7 @@ export interface DiscordMember {
   ID: string;
   Bot: boolean;
   Roles: Role[];
-  CustomData: null | Record<
-    `${number}`,
-    Partial<{
-      theme: Theme;
-      style: "lowercase" | "uppercase";
-      nexusmods: string;
-      nexusmodsVerified: boolean;
-      github: string;
-      githubVerified: boolean;
-      description: string;
-    }>
-  >;
+  CustomData: null | Record<`${number}`, CustomData>;
   NexusData: null | {
     mods: {
       nodes: NexusMod[];

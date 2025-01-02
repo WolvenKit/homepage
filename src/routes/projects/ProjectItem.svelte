@@ -1,36 +1,43 @@
 <script lang="ts">
   import { faDiscord } from "@fortawesome/free-brands-svg-icons/faDiscord";
+
   import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
   import { twMerge } from "tailwind-merge";
+  import Button from "$components/elements/Button.svelte";
   import GlitchingImage from "$components/elements/GlitchingImage.svelte";
   import Heading from "$components/elements/Heading.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
-  import Button from "$components/elements/Button.svelte";
   import type { Project } from "$lib/content/projects";
   import type { TeamMember } from "$lib/server/members";
   import { outlineToPath, THEME_CLASSES, THEME_CORNERS, type GameTheme } from "$lib/themes";
   import { asPromise, type CornerConfig, type Promisable } from "$lib/utils";
 
-  export let memberMap: Promisable<Record<string, TeamMember>> | undefined = undefined;
-  export let fadeInDelay: number | undefined = undefined;
-  export let project: Project;
+  interface Props {
+    memberMap?: Promisable<Record<string, TeamMember>> | undefined;
+    fadeInDelay?: number | undefined;
+    project: Project;
+  }
+
+  let { memberMap = undefined, fadeInDelay = undefined, project }: Props = $props();
 
   const CORNERS: Record<GameTheme, CornerConfig> = {
     cyberpunk: { tr: true, bl: true },
     witcher: { tl: true, tr: true, bl: true },
   };
 
-  let memberMapResult: Record<string, TeamMember> = {};
-  $: if (memberMap) asPromise(memberMap).then((v) => (memberMapResult = v));
+  let memberMapResult: Record<string, TeamMember> = $state({});
+  $effect(() => {
+    if (memberMap) asPromise(memberMap).then((v) => (memberMapResult = v));
+  });
 
-  $: themeName = project.theme ?? ("default" as const);
-  $: corners = project.theme && CORNERS[project.theme];
-  $: themeClasses = THEME_CLASSES[themeName];
-  $: clipPath = THEME_CORNERS[themeName] && outlineToPath(THEME_CORNERS[themeName]!.outline, corners);
+  let themeName = $derived(project.theme ?? ("default" as const));
+  let corners = $derived(project.theme && CORNERS[project.theme]);
+  let themeClasses = $derived(THEME_CLASSES[themeName]);
+  let clipPath = $derived(THEME_CORNERS[themeName] && outlineToPath(THEME_CORNERS[themeName]!.outline, corners));
 
-  $: githubs = !project.githubs || Array.isArray(project.githubs) ? project.githubs : [project.githubs];
+  let githubs = $derived(!project.githubs || Array.isArray(project.githubs) ? project.githubs : [project.githubs]);
 </script>
 
 <li

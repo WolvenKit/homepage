@@ -1,22 +1,40 @@
 <script lang="ts">
   import { faExternalLink } from "@fortawesome/free-solid-svg-icons/faExternalLink";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
+  import type { Snippet } from "svelte";
   import { twMerge } from "tailwind-merge";
   import { outlineToPath, scalePath, THEME_CLASSES, THEME_CORNERS, type Theme } from "$lib/themes";
   import { tw } from "$lib/utils";
   import ThemeCorner from "./ThemeCorner.svelte";
   import WitcherFrame from "./WitcherFrame.svelte";
 
-  export let theme: Theme = "default";
-  export let size: keyof typeof SIZES = "lg";
-  export let hideExternal = false;
-  export let leftmost = true;
-  export let href = "";
-  export let external = href && ![".", "/"].includes(href[0]);
-  export let label = "";
-  export let cornerClass = "";
-  let classes = "";
-  export { classes as class };
+  interface Props {
+    theme?: Theme;
+    size?: keyof typeof SIZES;
+    hideExternal?: boolean;
+    leftmost?: boolean;
+    href?: string;
+    external?: boolean;
+    label?: string;
+    cornerClass?: string;
+    class?: string;
+    children?: Snippet;
+    onClick?: () => void;
+  }
+
+  let {
+    theme = "default",
+    size = "lg",
+    hideExternal = false,
+    leftmost = true,
+    href = "",
+    external = !!href && ![".", "/"].includes(href[0]),
+    label = "",
+    cornerClass = "",
+    class: classes = "",
+    children,
+    onClick,
+  }: Props = $props();
 
   const SIZES = {
     lg: tw`px-6 py-2 text-xl`,
@@ -29,17 +47,17 @@
     witcher: tw`hover-focus:bg-zinc-600`,
   };
 
-  $: cornerScale = size == "sm" ? 0.5 : 1;
-  $: corner = leftmost && theme == "cyberpunk" ? THEME_CORNERS.cyberpunk : undefined;
-  $: clipPath = corner
-    ? outlineToPath(scalePath(THEME_CORNERS.cyberpunk!.outline, cornerScale - 0.05), { tl: true })
-    : undefined;
+  let cornerScale = $derived(size == "sm" ? 0.5 : 1);
+  let corner = $derived(leftmost && theme == "cyberpunk" ? THEME_CORNERS.cyberpunk : undefined);
+  let clipPath = $derived(
+    corner ? outlineToPath(scalePath(THEME_CORNERS.cyberpunk!.outline, cornerScale - 0.05), { tl: true }) : undefined,
+  );
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <svelte:element
   this={href ? "a" : "button"}
-  on:click
+  onclick={onClick}
   {href}
   rel={external ? "noopener noreferrer" : undefined}
   target={external ? "_blank" : undefined}
@@ -64,7 +82,7 @@
   {:else if theme == "witcher" && size != "sm"}
     <WitcherFrame class="-inset-px" />
   {/if}
-  <slot>{label}</slot>
+  {#if children}{@render children()}{:else}{label}{/if}
   {#if external && !hideExternal}
     <FontAwesomeIcon icon={faExternalLink} class="relative -top-0.5 text-sm opacity-50" />
   {/if}

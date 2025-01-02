@@ -1,19 +1,23 @@
 <script lang="ts">
-  import Image from "$components/elements/Image.svelte";
+  import LazyImage from "$components/elements/LazyImage.svelte";
   import { teams, type Team } from "$lib/content/teams";
 
-  export let team: Team | string;
-  let classes = "";
-  export { classes as class };
+  interface Props {
+    team: Team | string;
+    class?: string;
+    onClick?: () => void;
+  }
 
-  $: teamInfo = typeof team === "string" ? teams[team] : team;
+  let { team, class: classes = "", onClick }: Props = $props();
+
+  let teamInfo = $derived(typeof team === "string" ? teams[team] : team);
 </script>
 
 {#if "icon" in teamInfo && teamInfo.icon}
-  <Image src={teamInfo.icon} width="24" height="24" class={classes} title={teamInfo.label} />
+  <LazyImage src={teamInfo.icon} width="24" height="24" class={classes} title={teamInfo.label} />
 {:else if "color" in teamInfo && teamInfo.color}
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <!-- svelte-ignore a11y_click_events_have_key_events -->
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <svg
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
@@ -22,7 +26,7 @@
     height="24"
     class={classes}
     style:color={teamInfo.color}
-    on:click
+    onclick={onClick}
   >
     <title>{teamInfo.label}</title>
     <path d="m937.1 761-425.1 249-425.1-249 .0052-498 425.1-249 425.1 249z" fill="black" stroke="white" />

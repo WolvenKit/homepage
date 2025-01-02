@@ -13,8 +13,11 @@
     Patreon: faPatreon,
   };
 
-  let classes = "";
-  export { classes as class };
+  interface Props {
+    class?: string;
+  }
+
+  let { class: classes = "" }: Props = $props();
 </script>
 
 <address class={twMerge("not-italic", classes)}>

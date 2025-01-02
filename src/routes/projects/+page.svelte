@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import PageRoot from "$components/parts/PageRoot.svelte";
   import { projects } from "$lib/content/projects";
   import { jsonLd } from "$lib/utils";
   import ProjectItem from "./ProjectItem.svelte";
 
-  export let data;
+  let { data } = $props();
 </script>
 
 <svelte:head>
@@ -18,8 +18,8 @@
       applicationCategory: "Modding Tool",
       operatingSystem: "Windows 10",
       description: project.description,
-      image: project.image ? $page.url.origin + project.image : undefined,
-      screenshot: project.image ? $page.url.origin + project.image : undefined,
+      image: project.image ? page.url.origin + project.image : undefined,
+      screenshot: project.image ? page.url.origin + project.image : undefined,
       url: project.link,
     })}
   {/each}

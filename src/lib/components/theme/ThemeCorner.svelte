@@ -3,13 +3,13 @@
   import { THEME_CORNERS, type Theme } from "$lib/themes";
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface $$Props extends SVGAttributes<SVGElement> {
+
+  interface Props extends SVGAttributes<SVGElement> {
     theme: Theme;
     scale?: number;
   }
 
-  export let theme: Theme;
-  export let scale = 1;
+  let { theme, scale = 1, ...rest }: Props = $props();
 </script>
 
 <svg
@@ -19,7 +19,7 @@
   width={17 * scale}
   height={17 * scale}
   vector-effect="non-scaling-stroke"
-  {...$$restProps}
+  {...rest}
 >
   <polyline
     points={THEME_CORNERS[theme]?.points.map((p) => p.join(",")).join(" ")}

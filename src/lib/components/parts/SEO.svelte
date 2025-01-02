@@ -1,13 +1,23 @@
 <script lang="ts">
-  import { page } from "$app/stores";
+  import { page } from "$app/state";
   import screenshot from "$assets/screenshot.webp";
   import { site } from "$lib/content/site";
 
-  export let title: string | string[] = "";
-  export let description = site.description;
-  export let image = screenshot;
-  export let type: "website" | "article" | "profile" = "website";
-  export let card: "summary" | "summary_large_image" = "summary_large_image";
+  interface Props {
+    title?: string | string[];
+    description?: string;
+    image?: string;
+    type?: "website" | "article" | "profile";
+    card?: "summary" | "summary_large_image";
+  }
+
+  let {
+    title = "",
+    description = site.description,
+    image = screenshot,
+    type = "website",
+    card = "summary_large_image",
+  }: Props = $props();
 
   const joinTitle = (...parts: (string | string[])[]) =>
     parts
@@ -15,10 +25,10 @@
       .filter((v) => v)
       .join(" • ");
 
-  $: titleBase = joinTitle(title);
-  $: titleFull = joinTitle(title, site.name);
-  $: url = $page.url.origin + $page.url.pathname;
-  $: _image = image.startsWith("/") ? $page.url.origin + image : image;
+  let titleBase = $derived(joinTitle(title));
+  let titleFull = $derived(joinTitle(title, site.name));
+  let url = $derived(page.url.origin + page.url.pathname);
+  let _image = $derived(image.startsWith("/") ? page.url.origin + image : image);
 </script>
 
 <svelte:head>

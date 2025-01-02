@@ -4,7 +4,7 @@
   import { twMerge } from "tailwind-merge";
   import fuzzo from "$assets/fuzzo.png";
   import GlitchingImage from "$components/elements/GlitchingImage.svelte";
-  import Image from "$components/elements/Image.svelte";
+  import LazyImage from "$components/elements/LazyImage.svelte";
   import ThemeButton from "$components/theme/ThemeButton.svelte";
   import ThemeFrameBig from "$components/theme/ThemeFrameBig.svelte";
   import WitcherDivider from "$components/theme/WitcherDivider.svelte";
@@ -34,11 +34,15 @@
     },
   };
 
-  export let team: Team;
-  export let member: TeamMember;
-  export let fadeInDelay = 0;
+  interface Props {
+    team: Team;
+    member: TeamMember;
+    fadeInDelay?: number;
+  }
 
-  let fuzzoed = false;
+  let { team, member, fadeInDelay = 0 }: Props = $props();
+
+  let fuzzoed = $state(false);
 
   function onDrop(ev: DragEvent) {
     const data = ev.dataTransfer?.getData("text/plain");
@@ -47,16 +51,22 @@
     }
   }
 
+  function preventDefault(ev: Event) {
+    ev.preventDefault();
+  }
+
   const CORNERS: Record<GameTheme, CornerConfig> = {
     cyberpunk: { tr: true, bl: true },
     witcher: { tl: true, tr: true },
   };
 
-  $: themeName = member.CustomData?.theme ?? "default";
-  $: themeClasses = THEME_CLASSES[themeName];
-  $: theme = themeName != "default" ? THEMES[themeName] : undefined;
-  $: corners = themeName != "default" ? CORNERS[themeName] : undefined;
-  $: clipPath = THEME_CORNERS[themeName] && outlineToPath(THEME_CORNERS[themeName]!.outline, corners);
+  let themeName = $derived(member.CustomData?.theme ?? "default");
+  let themeClasses = $derived(THEME_CLASSES[themeName]);
+  let theme = $derived(themeName != "default" ? THEMES[themeName] : undefined);
+  let corners = $derived(themeName != "default" ? CORNERS[themeName] : undefined);
+  let clipPath = $derived(THEME_CORNERS[themeName] && outlineToPath(THEME_CORNERS[themeName]!.outline, corners));
+
+  const ImageComponent = $derived(themeName == "cyberpunk" ? GlitchingImage : LazyImage);
 </script>
 
 <li
@@ -92,22 +102,21 @@
 
     {#if themeName == "witcher"}
       <div class="absolute -bottom-0.5 -left-px right-0 flex h-0 text-zinc-400">
-        <span class="-mt-0.5 inline-block h-0 w-[130px] translate-x-px border-b-2 border-current" />
+        <span class="-mt-0.5 inline-block h-0 w-[130px] translate-x-px border-b-2 border-current"></span>
         <WitcherDivider withoutCorners class="flex-grow rotate-180 text-inherit drop-shadow-px" />
       </div>
     {/if}
   </h3>
 
   <div>
-    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
       class={twMerge("relative float-left -mt-0.5 border-2", themeClasses.border.border, theme?.image)}
-      on:dragenter|preventDefault
-      on:dragover|preventDefault
-      on:drop={onDrop}
+      ondragenter={preventDefault}
+      ondragover={preventDefault}
+      ondrop={onDrop}
     >
-      <svelte:component
-        this={themeName == "cyberpunk" ? GlitchingImage : Image}
+      <ImageComponent
         src={fuzzoed ? fuzzo : member.Image + "?size=128"}
         width={128}
         height={128}
