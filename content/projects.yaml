@@ -48,7 +48,7 @@ pisskit:
 redscript:
   name: Redscript Toolkit
   description: Toolkit for working with scripts used by REDengine in Cyberpunk 2077.
-  author: jac3km4
+  author: jekky_
   image: /projects/redscript.png
   githubs: jac3km4/redscript
   link: https://www.nexusmods.com/cyberpunk2077/mods/1511
