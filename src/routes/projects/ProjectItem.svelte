@@ -54,15 +54,17 @@
   <ThemeFrameBig theme={themeName} {corners} />
 
   {#if project.image}
-    <GlitchingImage
-      bypass={themeName != "cyberpunk"}
-      width="720"
-      height="405"
-      src={project.image}
-      alt={project.name}
-      class="h-52 max-h-96 w-auto flex-shrink-0 max-md:h-auto max-md:w-full md:max-w-96"
-      imageClass="h-52 max-h-96 w-auto object-cover max-md:h-auto max-md:w-full md:max-w-96"
-    />
+    <div class="relative -z-10 h-32 w-full shrink-0 overflow-hidden md:h-full md:w-2/5">
+      <GlitchingImage
+        bypass={themeName != "cyberpunk"}
+        width="720"
+        height="405"
+        src={project.image}
+        alt={project.name}
+        class=""
+        imageClass="max-h-full max-w-full absolute inset-0 object-cover max-md:h-auto max-md:w-full md:max-w-96"
+      />
+    </div>
   {/if}
 
   <div class="flex flex-grow flex-col items-start">

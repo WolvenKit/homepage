@@ -37,6 +37,7 @@ blender-addon:
   theme: cyberpunk
   featured: true
 
+# TODO: ???
 pisskit:
   name: RedKit for Cyberpunk 2077
   description: Also called the YellowKit or the PissKit.
@@ -44,11 +45,53 @@ pisskit:
   link: https://youtu.be/dQw4w9WgXcQ
   theme: cyberpunk
 
+redscript:
+  name: Redscript Toolkit
+  description: Toolkit for working with scripts used by REDengine in Cyberpunk 2077.
+  author: jac3km4
+  image: /projects/redscript.png
+  githubs: jac3km4/redscript
+  link: https://www.nexusmods.com/cyberpunk2077/mods/1511
+  discord: https://discord.com/channels/717692382849663036/867329707787550751
+  theme: cyberpunk
+
+red4ext:
+  name: Red4Ext
+  description: Script extender for REDengine 4 allowing modders to add new features, modify the game behavior, add new scripting functions or call existing ones in your own plugins.
+  author: wopss
+  githubs: [WopsS/RED4ext, WopsS/RED4ext.SDK]
+  image: /projects/red4ext.webp
+  discord: https://discord.com/channels/717692382849663036/1015378649547026462
+  theme: cyberpunk
+
+xl:
+  name: The XL family
+  author: psiberx
+  description: Psiberx's eXtension Loader frameworks.
+  style: category
+  theme: cyberpunk
+  githubs:
+    - psiberx/cp2077-archive-xl
+    - psiberx/cp2077-tweak-xl
+    - psiberx/cp2077-equipment-ex
+    - psiberx/cp2077-cyberware-ex
+
+rht:
+  name: Psi's dev tools
+  author: psiberx
+  description: Psiberx's mods and libraries to ease mod development.
+  style: category
+  theme: cyberpunk
+  githubs:
+    - psiberx/cp2077-red-hot-tools
+    - psiberx/cp2077-codeware
+    - psiberx/cp2077-cet-kit
+
 lizzy:
   name: Lizzy Fuzzy
   author: moonded
   description: Custom multi-purpose Discord bot for the Cyberpunk 2077 Modding Server.
-  githubs: Moonded/lizzyfuzzy
+  githubs: [Moonded/lizzyfuzzy, WolvenKit/lizzyapi]
   image: https://cdn.discordapp.com/avatars/796283112199553044/b26ad93ac969a7a04d8a27194efbea81.png?size=4096
   link: https://github.com/Moonded/lizzyfuzzy
 
@@ -78,7 +121,6 @@ mlsetupbuilder:
   link: https://github.com/Neurolinked/MlsetupBuilder
   discord: https://discord.com/channels/717692382849663036/1082772930892664943
   theme: cyberpunk
-
 # entity-spawner:
 #   name: Object Spawner
 #   author: keanuwheeze
@@ -86,26 +128,3 @@ mlsetupbuilder:
 #   image: https://staticdelivery.nexusmods.com/mods/3333/images/2833/2833-1624289969-556062205.png
 #   theme: cyberpunk
 #   link: https://www.nexusmods.com/cyberpunk2077/mods/2833
-
-xl:
-  name: The XL family
-  author: psiberx
-  description: Psiberx's eXtension Loader frameworks.
-  style: category
-  theme: cyberpunk
-  githubs:
-    - psiberx/cp2077-archive-xl
-    - psiberx/cp2077-tweak-xl
-    - psiberx/cp2077-equipment-ex
-    - psiberx/cp2077-cyberware-ex
-
-rht:
-  name: Psi's dev tools
-  author: psiberx
-  description: Psiberx's mods and libraries to ease mod development.
-  style: category
-  theme: cyberpunk
-  githubs:
-    - psiberx/cp2077-red-hot-tools
-    - psiberx/cp2077-codeware
-    - psiberx/cp2077-cet-kit

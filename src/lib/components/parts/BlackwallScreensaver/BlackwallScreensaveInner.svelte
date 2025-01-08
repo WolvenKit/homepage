@@ -32,10 +32,10 @@
   <div class="absolute inset-0 bg-black/10"></div>
 
   <div class="dialog relative z-10">
-    <div class="flex gap-8 bg-black p-8 text-white" style:clip-path={clipPath}>
+    <div class="flex gap-8 bg-black p-8 text-white max-md:flex-wrap" style:clip-path={clipPath}>
       <ThemeFrameBig theme="cyberpunk" {corners} scale={2} class="right-[unset] w-[round(down,100%,1px)] text-red" />
 
-      <Warning class="flex-shrink-0" />
+      <Warning class="flex-shrink-0 max-md:mx-auto" />
 
       <div class="flex h-full w-full flex-col items-start">
         <Heading class="m-0 text-red">Website malfunction detected</Heading>
