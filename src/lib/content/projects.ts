@@ -5,6 +5,7 @@ export interface Project {
   name: string;
   description: string;
   image: string;
+  style?: "default" | "category";
   author?: string;
   featured?: boolean;
   theme?: GameTheme;

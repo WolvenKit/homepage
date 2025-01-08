@@ -65,14 +65,14 @@ nativedb:
 sounddb:
   name: SoundDB
   author: zhincore
-  description: Website that allows you to search and explore sounds and voice-overs of Cyberpunk 2077.
+  description: Website allowing you to search and explore sounds and voice-overs of Cyberpunk 2077.
   theme: cyberpunk
   link: https://sounddb.redmodding.org
   discord: https://discord.com/channels/717692382849663036/789391457282031616
 
 mlsetupbuilder:
   name: MLsetupBuilder
-  description: Cyberpunk 2077 modding tool to build json version of .mlsetup files
+  description: Cyberpunk 2077 modding tool to build json version of .mlsetup files.
   githubs: Neurolinked/MlsetupBuilder
   image: /projects/MlsbLogo.gif
   link: https://github.com/Neurolinked/MlsetupBuilder
@@ -87,6 +87,25 @@ mlsetupbuilder:
 #   theme: cyberpunk
 #   link: https://www.nexusmods.com/cyberpunk2077/mods/2833
 
-psiberix:
-  name: Psiberix
-  description: The ultimate
+xl:
+  name: The XL family
+  author: psiberx
+  description: Psiberx's eXtension Loader frameworks.
+  style: category
+  theme: cyberpunk
+  githubs:
+    - psiberx/cp2077-archive-xl
+    - psiberx/cp2077-tweak-xl
+    - psiberx/cp2077-equipment-ex
+    - psiberx/cp2077-cyberware-ex
+
+rht:
+  name: Psi's dev tools
+  author: psiberx
+  description: Psiberx's mods and libraries to ease mod development.
+  style: category
+  theme: cyberpunk
+  githubs:
+    - psiberx/cp2077-red-hot-tools
+    - psiberx/cp2077-codeware
+    - psiberx/cp2077-cet-kit

@@ -41,7 +41,11 @@
 </script>
 
 <li
-  class={twMerge("relative flex max-md:flex-col", themeClasses.background)}
+  class={twMerge(
+    "relative flex max-md:flex-col",
+    project.style != "category" && "md:col-span-2",
+    themeClasses.background,
+  )}
   class:fade-in={fadeInDelay != undefined}
   style:--fade-delay="{fadeInDelay}s"
   style:--fade-duration="1s"
@@ -63,17 +67,26 @@
 
   <div class="flex flex-grow flex-col items-start">
     <div class="px-6 pt-4">
-      <Heading level={2} class="-mb-2 mt-0 text-left normal-case text-white">{project.name}</Heading>
+      <Heading level={2} class="-mb-2 -ml-0.5 mt-0 text-left normal-case text-white">{project.name}</Heading>
       {#if project.author}
         {@const member = memberMapResult ? memberMapResult[project.author] : undefined}
-        <Button inline href="/members/{project.author}" class="ml-0.5 normal-case">
-          {member ? member.Displayname : project.author}
-        </Button>
+        <div class="-mb-2 mt-1">
+          <Button inline href="/members/{project.author}" class="normal-case">
+            {member ? member.Displayname : project.author}
+          </Button>
+        </div>
       {/if}
       <p class="mt-2 text-pretty leading-tight">{project.description}</p>
     </div>
 
-    <div class="mt-auto flex w-full flex-row-reverse flex-wrap-reverse items-center justify-end gap-x-4 gap-y-2 p-4">
+    <div
+      class={twMerge(
+        "mt-auto flex w-full gap-x-4 gap-y-2 p-4",
+        project.style == "category"
+          ? "flex-col flex-wrap pl-6"
+          : "flex-row-reverse flex-wrap-reverse items-center justify-end",
+      )}
+    >
       {#if githubs}
         {#each githubs as github (github)}
           <a

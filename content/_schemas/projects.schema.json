@@ -6,6 +6,7 @@
     "properties": {
       "name": { "type": "string" },
       "description": { "type": "string" },
+      "style": { "type": "string", "enum": ["default", "category"] },
       "image": { "type": "string", "format": "uri" },
       "githubs": {
         "type": ["string", "array"],
