@@ -86,8 +86,8 @@
 
         <div class="flex flex-grow flex-col gap-4 md:items-start" class:md:items-end={i % 2}>
           <div class="my-auto">
-            <h3 class="text-4xl font-semibold sm:text-6xl md:text-7xl">{project.name}</h3>
-            <p class="md:text-4xl">{project.description}</p>
+            <h3 class="text-3xl font-semibold sm:text-5xl md:text-6xl">{project.name}</h3>
+            <p class="md:text-2xl">{project.description}</p>
           </div>
 
           {#if project.link}

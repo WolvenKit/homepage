@@ -28,7 +28,7 @@ cet:
   featured: true
 
 blender-addon:
-  name: Cyberpunk 2077 Blender Add-on
+  name: Blender Add-on
   description: Bridging the gap between WolvenKit and Blender.
   image: /projects/blender-addon.png
   githubs: WolvenKit/Cyberpunk-Blender-add-on
