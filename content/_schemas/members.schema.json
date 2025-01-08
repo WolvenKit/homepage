@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "Displayname": { "type": "string" },
+      "Image": { "type": "string" },
+      "ID": { "type": "string" },
+      "Roles": {
+        "type": "array",
+        "items": { "type": "string" }
+      },
+      "CustomData": {
+        "type": ["object"],
+        "properties": {
+          "theme": { "type": "string" },
+          "background": { "type": "string" },
+          "brokenTheme": { "type": "boolean" },
+          "style": { "type": "string", "enum": ["lowercase", "uppercase"] },
+          "nexusmods": { "type": "string" },
+          "nexusmodsVerified": { "type": "boolean" },
+          "github": { "type": "string" },
+          "githubVerified": { "type": "boolean" },
+          "description": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "additionalProperties": false
+  }
+}

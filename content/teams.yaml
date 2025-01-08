@@ -1,8 +1,10 @@
+# yaml-language-server: $schema=./_schemas/teams.schema.json
+
 leaders:
   label: Primary members
   description: The leaders, the masters, the OGs. Ping @Zhincore if you're annoyed.
   icon: /cat_royal.webp
-  members: [rfuzzo, traderain, moonded, wopss, yamashi, jackhumbert, seberoth, hitmanhimself, psiberx]
+  members: [rfuzzo, traderain, moonded, wopss, yamashi, jackhumbert, seberoth, hitmanhimself, wssdude, psiberx]
 
 mods:
   label: Moderator Team
@@ -38,7 +40,7 @@ redkid:
   label: Redkids
   description: People who work on modding tools
   discordRole: "905518587777806366"
-  color: "#f00"
+  color: "#ff0000"
 
 wiki:
   label: Wiki Contributors

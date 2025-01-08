@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "name": { "type": "string" },
+      "description": { "type": "string" },
+      "image": { "type": "string", "format": "uri" },
+      "githubs": {
+        "type": ["string", "array"],
+        "items": { "type": "string" }
+      },
+      "link": { "type": "string", "format": "uri" },
+      "discord": { "type": "string", "format": "uri" },
+      "theme": { "type": "string" },
+      "featured": { "type": "boolean" },
+      "author": { "type": "string" }
+    },
+    "required": ["name", "description"],
+    "additionalProperties": false
+  }
+}

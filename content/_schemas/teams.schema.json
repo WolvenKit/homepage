@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "label": { "type": "string" },
+      "description": { "type": "string" },
+      "icon": { "type": "string", "format": "uri" },
+      "members": {
+        "type": "array",
+        "items": { "type": "string" },
+        "uniqueItems": true
+      },
+      "discordRole": { "type": "string" },
+      "color": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+    },
+    "required": ["label", "description"],
+    "additionalProperties": false
+  }
+}

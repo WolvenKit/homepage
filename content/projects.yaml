@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=./_schemas/projects.schema.json
+
 wolvenkit:
   name: WolvenKit
   description: Community Mod editor/creator for REDengine games.
@@ -77,13 +79,13 @@ mlsetupbuilder:
   discord: https://discord.com/channels/717692382849663036/1082772930892664943
   theme: cyberpunk
 
-entity-spawner:
-  name: Object Spawner
-  author: keanuwheeze
-  description: Lets you spawn anything from a list of over 16k objects. Can be used to create / build almost anything you want.
-  image: https://staticdelivery.nexusmods.com/mods/3333/images/2833/2833-1624289969-556062205.png
-  theme: cyberpunk
-  link: https://www.nexusmods.com/cyberpunk2077/mods/2833
+# entity-spawner:
+#   name: Object Spawner
+#   author: keanuwheeze
+#   description: Lets you spawn anything from a list of over 16k objects. Can be used to create / build almost anything you want.
+#   image: https://staticdelivery.nexusmods.com/mods/3333/images/2833/2833-1624289969-556062205.png
+#   theme: cyberpunk
+#   link: https://www.nexusmods.com/cyberpunk2077/mods/2833
 
 psiberix:
   name: Psiberix
