@@ -62,7 +62,7 @@
   {/if}
 
   <div class="flex flex-grow flex-col items-start">
-    <div class="px-6 py-4">
+    <div class="px-6 pt-4">
       <Heading level={2} class="-mb-2 mt-0 text-left normal-case text-white">{project.name}</Heading>
       {#if project.author}
         {@const member = memberMapResult ? memberMapResult[project.author] : undefined}
@@ -73,40 +73,37 @@
       <p class="mt-2 text-pretty leading-tight">{project.description}</p>
     </div>
 
-    <div class="mt-auto flex w-full items-end gap-2 max-lg:flex-wrap">
+    <div class="mt-auto flex w-full flex-row-reverse flex-wrap-reverse items-center justify-end gap-x-4 gap-y-2 p-4">
       {#if githubs}
-        <ul class="flex flex-wrap items-start gap-x-2 p-2 pl-3" class:ml-2={!project.image}>
-          {#each githubs as github (github)}
-            <li class="inline">
-              <a
-                href="https://github.com/{github}"
-                class="inline-block text-pretty leading-none text-cyan transition hover:text-cyan-light hover:underline"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FontAwesomeIcon icon={faGithub} />
-                {github}
-              </a>
-            </li>
-          {/each}
-        </ul>
+        {#each githubs as github (github)}
+          <a
+            href="https://github.com/{github}"
+            class="inline-block text-pretty leading-none text-cyan transition hover:text-cyan-light hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FontAwesomeIcon fixedWidth icon={faGithub} />
+            {github.split("/").slice(-1)[0]}
+          </a>
+        {/each}
       {/if}
 
       {#if project.discord}
         <a
           href={project.discord}
-          class="m-2 mb-3 inline-block whitespace-nowrap text-pretty leading-none text-cyan transition hover:text-cyan-light hover:underline"
-          class:ml-6={!project.image}
+          class="inline-block whitespace-nowrap text-pretty leading-none text-cyan transition hover:text-cyan-light hover:underline"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <FontAwesomeIcon icon={faDiscord} />
+          <FontAwesomeIcon fixedWidth icon={faDiscord} />
           Discord
         </a>
       {/if}
 
       {#if project.link}
-        <ThemeButton class="ml-auto flex-shrink-0" href={project.link} theme={themeName}>Visit project</ThemeButton>
+        <ThemeButton class="order-first -mb-4 -mr-4 ml-auto flex-shrink-0" href={project.link} theme={themeName}>
+          Visit project
+        </ThemeButton>
       {/if}
     </div>
   </div>
