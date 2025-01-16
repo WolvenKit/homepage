@@ -1,6 +1,7 @@
 <script lang="ts">
   import { page } from "$app/state";
   import screenshot from "$assets/screenshot.webp";
+  import { PUBLIC_IMAGE_URL_PREFIX } from "$env/static/public";
   import { site } from "$lib/content/site";
 
   interface Props {
@@ -25,10 +26,15 @@
       .filter((v) => v)
       .join(" • ");
 
+  function mask(url: string) {
+    if (PUBLIC_IMAGE_URL_PREFIX) return PUBLIC_IMAGE_URL_PREFIX + url;
+    return url;
+  }
+
   let titleBase = $derived(joinTitle(title));
   let titleFull = $derived(joinTitle(title, site.name));
   let url = $derived(page.url.origin + page.url.pathname);
-  let _image = $derived(image.startsWith("/") ? page.url.origin + image : image);
+  let _image = $derived(image.startsWith("/") ? page.url.origin + image : mask(image));
 </script>
 
 <svelte:head>
@@ -47,7 +53,7 @@
   <meta name="twitter:title" content={titleBase} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:card" content={card} />
-  <meta name="twitter:image:src" content={_image} />
+  <meta name="twitter:image" content={_image} />
 
   <meta name="theme-color" content={site.color} />
 </svelte:head>
