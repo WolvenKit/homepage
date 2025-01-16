@@ -45,8 +45,8 @@ jobs:
       - name: build
         env:
           # BASE_PATH: "/${{ github.event.repository.name }}" # Not used because we have custom domain
-          ORIGIN: ${{ env.ORIGIN }}
-          PUBLIC_IMAGE_URL_PREFIX: ${{ env.PUBLIC_IMAGE_URL_PREFIX }}
+          ORIGIN: "${{ env.ORIGIN }}"
+          PUBLIC_IMAGE_URL_PREFIX: "${{ env.PUBLIC_IMAGE_URL_PREFIX }}"
         run: pnpm build
 
       - name: Upload Artifacts
