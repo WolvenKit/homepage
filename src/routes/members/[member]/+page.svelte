@@ -63,6 +63,8 @@
     },
   })}
 
+  <meta property="og:image:width" content="256" />
+  <meta property="og:image:height" content="256" />
   <meta property="profile:username" content={member.Username} />
 </svelte:head>
 
@@ -167,21 +169,21 @@
         style:--fade-delay="1s"
         onanimationend={() => (headerReady = true)}
       >
-        {#if member.NexusData?.userByName.country}
+        {#if member.NexusData?.userByName?.country}
           <DataEntry theme={themeName} key="Country">{member.NexusData.userByName.country}</DataEntry>
         {/if}
 
-        {#if member.NexusData?.userByName.kudos}
+        {#if member.NexusData?.userByName?.kudos}
           <DataEntry theme={themeName} key="Kudos">{member.NexusData.userByName.kudos.toLocaleString()}</DataEntry>
         {/if}
 
-        {#if member.NexusData?.userByName.modCount}
+        {#if member.NexusData?.userByName?.modCount}
           <DataEntry theme={themeName} key="Mods released"
-            >{member.NexusData?.userByName.modCount.toLocaleString()}</DataEntry
+            >{member.NexusData?.userByName?.modCount.toLocaleString()}</DataEntry
           >
         {/if}
 
-        {#if member.NexusData?.userByName.uniqueModDownloads}
+        {#if member.NexusData?.userByName?.uniqueModDownloads}
           <DataEntry theme={themeName} key="Mod downloads"
             >{member.NexusData.userByName.uniqueModDownloads.toLocaleString()}</DataEntry
           >
@@ -228,15 +230,18 @@
     </header>
 
     <div class="contents" style:--fade-delay="2.5s">
-      {#if member.NexusData?.mods.nodes.length}
+      {#if member.NexusData?.mods?.nodes.length}
         <Section as="section" class="fade-in m-0">
           <Heading level={2}>Top rated released mods</Heading>
 
           <ul class="flex flex-wrap justify-center gap-2">
             {#each member.NexusData.mods.nodes as mod}
-              {@const id = mod.id.split("1", 2)[1]}
               <li>
-                <Card titleText={mod.name} href="https://www.nexusmods.com/TODO/mods/{id}" class="h-full">
+                <Card
+                  titleText={mod.name}
+                  href="https://www.nexusmods.com/{mod.game.domainName}/mods/{mod.modId}"
+                  class="h-full"
+                >
                   {#snippet logo()}
                     <LazyImage src={mod.pictureUrl} width={385} height={216} />
                   {/snippet}

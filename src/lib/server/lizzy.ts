@@ -48,15 +48,21 @@ export interface DiscordMember {
 }
 
 export interface NexusMod {
-  id: string;
+  modId: number;
   name: string;
-  uid: string;
   version: string;
   downloads: number;
   endorsements: number;
   adultContent: boolean;
   summary: string;
+  status: string;
+  modCategory: {
+    name: string;
+  };
   pictureUrl: string;
+  game: {
+    domainName: string;
+  };
 }
 
 export interface GithubDataItem {
@@ -67,13 +73,7 @@ export interface GithubDataItem {
 
 async function fetchLizzy(path: string, init?: RequestInit) {
   const url = new URL(path, LIZZY_API_URL);
-  const response = await fetch(url, {
-    ...init,
-    headers: {
-      Authorization: `Bearer ${LIZZY_API_TOKEN}`,
-      ...init?.headers,
-    },
-  });
+  const response = await fetch(url, { ...init });
 
   if (!response.ok) {
     const body = await response.text();

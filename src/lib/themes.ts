@@ -19,7 +19,7 @@ export const THEME_CLASSES: Record<
     border: { text: tw`text-yellow`, border: tw`border-yellow` },
     text: tw`text-cyan`,
     label: tw`text-yellow`,
-    font: tw`font-cyberpunk`,
+    font: tw``,
     background: tw`bg-black`,
   },
   witcher: {
