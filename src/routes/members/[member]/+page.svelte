@@ -28,6 +28,7 @@
 
   let game = $state(false);
   let glitchingElement: HTMLElement | undefined = $state();
+  let ready = $state(false);
 
   let member = $derived(data.member);
 
@@ -80,15 +81,16 @@
   hideDescription
   class="relative"
 >
-  {#if member.CustomData?.brokenTheme}
+  {#if member.CustomData?.brokenTheme && ready}
     <GlitchingWebsite
       class="absolute -inset-0 z-10"
       rootElement={glitchingElement}
-      updateChance={0.1}
-      cleanChance={0.005}
+      updateChance={0.3}
+      cleanChance={0.1}
       resetChanceMultiplier={0.01}
-      movementRange={0.1}
-      maxArea={0.1}
+      movementRange={0.001}
+      maxArea={0.3}
+      backgroundColor={[0, 0, 0, 0]}
     />
   {/if}
 
@@ -237,7 +239,7 @@
       {/if}
     </header>
 
-    <div class="contents" style:--fade-delay="2.5s" onanimationend={() => (glitchingElement = glitchingElement)}>
+    <div class="contents" style:--fade-delay="2.5s" onanimationend={() => (ready = true)}>
       {#if member.NexusData?.mods?.nodes.length}
         <Section as="section" class="fade-in m-0">
           <Heading level={2}>Top rated released mods</Heading>
