@@ -1,32 +1,43 @@
 import FRAGMENT_SHADER from "./glitch.frag";
 import VERTEX_SHADER from "./glitch.vert";
 
-type Size = [w: number, h: number];
 type Color = [r: number, g: number, b: number, a?: number];
 
 export interface GlitchRendererOptions {
-  cleanChance: number;
+  blankChance: number;
   resetChanceMultiplier: number;
   movementRange: number;
   replaceBackgroundChance: number;
   maxRectangleLength: number;
   shapeRatio: number;
   backgroundColor: Color;
+  forceAlphaChance: number;
+  colorBlockChance: number;
+  colorBlockSize: number;
 }
 
 const DEFAULT_OPTIONS: GlitchRendererOptions = {
-  cleanChance: 0.05,
+  blankChance: 0.15,
   resetChanceMultiplier: 0,
-  movementRange: 0.1,
-  replaceBackgroundChance: 0.5,
+  movementRange: 0.01,
+  replaceBackgroundChance: 0.1,
   maxRectangleLength: 0.1,
   shapeRatio: 0.2,
   backgroundColor: [24, 24, 27],
+  forceAlphaChance: 0.2,
+  colorBlockChance: 0.1,
+  colorBlockSize: 0.5,
 };
 
-export class GlitchRenderer {
-  #size: Size = [0, 0];
+const COLORS = [
+  [1, 1, 1, 1],
+  [1, 0, 0, 0.75],
+  [0, 1, 0, 0.75],
+  [0, 0, 1, 0.75],
+  [0, 0, 0, 1],
+] satisfies Color[];
 
+export class GlitchRenderer {
   #program: WebGLProgram;
   #texture: WebGLTexture;
 
@@ -45,12 +56,9 @@ export class GlitchRenderer {
     private readonly gl: WebGLRenderingContext,
     options: Partial<GlitchRendererOptions> = {},
   ) {
-    this.options = Object.assign(DEFAULT_OPTIONS, options);
+    this.options = { ...DEFAULT_OPTIONS, ...options };
 
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-
-    // gl.enable(gl.BLEND);
-    // gl.blendFunc(gl.ONE_MINUS_DST_ALPHA, gl.ONE);
 
     this.#program = this.#buildShaderProgram(VERTEX_SHADER, FRAGMENT_SHADER);
     this.#initBuffers();
@@ -70,7 +78,6 @@ export class GlitchRenderer {
   resize(width: number, height: number) {
     const gl = this.gl;
 
-    this.#size = [width, height];
     gl.viewport(0, 0, width, height);
     gl.uniform2f(this.#uResolution, width, height);
   }
@@ -82,44 +89,56 @@ export class GlitchRenderer {
       gl.clear(gl.COLOR_BUFFER_BIT);
     }
 
-    // From
+    // Place on
     const tx = Math.random();
     const ty = Math.random();
-    const sz = (uvRandom() - 0.5) * 2 * 3; // Subpixel offset
-    const width = Math.random() ** 0.5 * options.maxRectangleLength * 2 * (1 - options.shapeRatio);
-    const height = Math.random() ** 0.5 * options.maxRectangleLength * 2 * options.shapeRatio;
-
-    // To (relatively to source)
+    // Part from
     const sx = tx + uvRandom() * options.movementRange;
     const sy = ty + uvRandom() * options.movementRange;
-    const dz = uvRandom() * 3; // Subpixel offset
+    // With size
+    let width = Math.random() ** 0.5 * options.maxRectangleLength * 2 * (1 - options.shapeRatio);
+    let height = Math.random() ** 0.5 * options.maxRectangleLength * 2 * options.shapeRatio;
+
+    const colorBlock = Math.random() < options.colorBlockChance;
+    if (colorBlock) {
+      width *= options.colorBlockSize;
+      height *= options.colorBlockSize;
+    }
 
     gl.uniform2f(this.#uTargetPos, tx, ty);
     gl.uniform4f(this.#uSourceRect, sx, sy, width, height);
 
-    const color = Math.random();
-    if (color < 0.4) {
-      gl.uniform4f(this.#uColorMult, 1, 1, 1, 1);
-    } else if (color < 0.5) {
-      gl.uniform4f(this.#uColorMult, 1, 0, 0, 0.75);
-    } else if (color < 0.65) {
-      gl.uniform4f(this.#uColorMult, 0, 1, 0, 0.75);
-    } else if (color < 0.8) {
-      gl.uniform4f(this.#uColorMult, 0, 0, 1, 0.75);
+    if (Math.random() < options.blankChance) {
+      gl.uniform4f(this.#uColorMult, 0, 0, 0, 0);
+      gl.uniform4f(this.#uColorAdd, 0, 0, 0, 0);
     } else {
-      gl.uniform4f(this.#uColorMult, 0, 0, 0, 1);
-      if (Math.random() < 0.5) {
-        gl.uniform4f(this.#uColorAdd, 0, 0, 0, 1);
+      const colorNumber = Math.floor(Math.random() * COLORS.length);
+      const color = COLORS[colorNumber];
+
+      if (colorBlock) {
+        gl.uniform4f(this.#uColorAdd, ...color);
+      } else {
+        gl.uniform4f(this.#uColorMult, ...color);
+        gl.uniform4f(this.#uColorAdd, 0, 0, 0, +(Math.random() < options.forceAlphaChance));
       }
     }
 
     this.#resetChance += options.resetChanceMultiplier * ((width * height) / 2);
 
-    // this.i += 0.01;
-    // if (this.i >= 1) this.i = 0;
-    // gl.uniform1f(this.#uA, this.i);
-
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+    //
+    if (Math.random() < options.replaceBackgroundChance) {
+      gl.uniform2f(this.#uTargetPos, sx, sy);
+      gl.uniform4f(this.#uSourceRect, sx, sy, width, height);
+      gl.uniform4f(this.#uColorMult, 1, 1, 1, 1);
+
+      const color = [...options.backgroundColor.map((v) => (v ?? 0) / 255)] as Color;
+      if (!color[3]) color[3] = 1;
+      gl.uniform4f(this.#uColorAdd, ...(color as [number, number, number, number]));
+
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
   }
 
   #compileShader(code: string, type: GLenum) {
