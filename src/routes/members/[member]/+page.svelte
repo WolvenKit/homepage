@@ -19,6 +19,7 @@
   import { teams } from "$lib/content/teams";
   import { THEME_CLASSES } from "$lib/themes";
   import { jsonLd } from "$lib/utils";
+  import Description from "../Description.svelte";
   import TeamBadge from "../TeamBadge.svelte";
   import DataEntry from "./DataEntry.svelte";
 
@@ -154,9 +155,9 @@
           </div>
 
           {#if member.CustomData?.description}
-            <p class={twMerge("fade-in max-w-screen-sm", themeClasses.text)} style:--fade-delay=".3s">
-              {member.CustomData.description}
-            </p>
+            <div class="fade-in max-w-screen-sm" style:--fade-delay=".3s">
+              <Description class={themeClasses.text} text={member.CustomData.description} />
+            </div>
           {/if}
         </div>
       </div>

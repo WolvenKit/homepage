@@ -13,6 +13,7 @@
   import type { TeamMember } from "$lib/server/members";
   import { outlineToPath, THEME_CLASSES, THEME_CORNERS, type GameTheme } from "$lib/themes";
   import { tw, type CornerConfig } from "$lib/utils";
+  import Description from "./Description.svelte";
   import TeamBadge from "./TeamBadge.svelte";
 
   const THEMES: Record<GameTheme, Record<"base" | "header" | "name" | "image" | "links" | "frame", string>> = {
@@ -130,9 +131,11 @@
     </div>
 
     <div class={twMerge("relative flex h-full flex-grow flex-col p-2", themeClasses.text)}>
-      <p class={twMerge("line-clamp-3 pl-2 pt-1 leading-tight")}>
-        {member.CustomData?.description || `Member of the ${team.label}.`}
-      </p>
+      <Description
+        class="line-clamp-3 pl-1 leading-none"
+        longClass="line-clamp-4"
+        text={member.CustomData?.description || `Member of the ${team.label}.`}
+      />
 
       <div class="mt-auto flex flex-row-reverse flex-wrap-reverse items-center justify-end gap-2">
         <div class="hyphens-auto text-sm leading-none">
