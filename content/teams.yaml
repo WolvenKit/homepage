@@ -12,6 +12,12 @@ mods:
   discordRole: "717719048514699264"
   icon: /cat_mod.webp
 
+helpful:
+  label: Helpful
+  description: The front line of tech support.
+  discordRole: "787976010259496991"
+  icon: /cat_pat.webp
+
 redcore:
   label: REDCore Team
   description: Uhm... they make the core red?
@@ -36,11 +42,11 @@ website:
   discordRole: "803647729905172521"
   color: "#7119f8"
 
-redkid:
-  label: Redkids
-  description: People who work on modding tools
-  discordRole: "905518587777806366"
-  color: "#ff0000"
+# redkid:
+#   label: Redkids
+#   description: People who work on modding tools
+#   discordRole: "905518587777806366"
+#   color: "#ff0000"
 
 wiki:
   label: Wiki Contributors

@@ -134,13 +134,13 @@
         {member.CustomData?.description || `Member of the ${team.label}.`}
       </p>
 
-      <div class="mt-auto flex items-end gap-2">
+      <div class="mt-auto flex flex-row-reverse flex-wrap-reverse items-center justify-end gap-2">
         <div class="hyphens-auto text-sm leading-none">
           <FontAwesomeIcon icon={faDiscord} class="mr-0.5 mt-px" />
           @{member.Username}
         </div>
 
-        <div class="relative z-10 -mb-1.5 -mr-2 ml-auto translate-y-0.5">
+        <div class="relative z-10 order-first -mb-1.5 -mr-2 ml-auto translate-y-0.5">
           <ThemeButton href="/members/{member.Username}" theme={themeName} size="sm">detail</ThemeButton>
         </div>
       </div>

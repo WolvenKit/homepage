@@ -43,14 +43,14 @@
   <meta name="description" content={description} />
 
   <meta property="og:site_name" content={site.name} />
-  <meta property="og:title" content={titleBase} />
+  <meta property="og:title" content={titleBase || site.name} />
   <meta property="og:type" content={type} />
   <meta property="og:description" content={description} />
   <meta property="og:url" content={url} />
   <meta property="og:image" content={_image} />
 
   <meta name="twitter:site" content={site.name} />
-  <meta name="twitter:title" content={titleBase} />
+  <meta name="twitter:title" content={titleBase || site.name} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:card" content={card} />
   <meta name="twitter:image" content={_image} />

@@ -1,5 +1,5 @@
 import { dev } from "$app/environment";
-import { DISCORD_SERVER_ID, LIZZY_API_TOKEN, LIZZY_API_URL } from "$env/static/private";
+import { DISCORD_SERVER_ID, LIZZY_API_URL } from "$env/static/private";
 import type { Theme } from "$lib/themes";
 
 export interface Role {
