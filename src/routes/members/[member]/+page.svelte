@@ -27,8 +27,7 @@
   let { data } = $props();
 
   let game = $state(false);
-  let header: HTMLElement | undefined = $state();
-  let headerReady = $state(false);
+  let glitchingElement: HTMLElement | undefined = $state();
 
   let member = $derived(data.member);
 
@@ -56,10 +55,13 @@
       alternateName: member.Username,
       description: member.CustomData?.description,
       image: member.Image,
-      sameAs: [
-        member.CustomData?.nexusmods && `${NEXUS_URL}/${member.CustomData?.nexusmods}`,
-        member.CustomData?.github && `https://github.com/${member.CustomData?.github}`,
-      ].filter((v) => v),
+      // Don't trust dzk with her links
+      sameAs: member.CustomData?.brokenTheme
+        ? []
+        : [
+            member.CustomData?.nexusmods && `${NEXUS_URL}/${member.CustomData?.nexusmods}`,
+            member.CustomData?.github && `https://github.com/${member.CustomData?.github}`,
+          ].filter((v) => v),
     },
   })}
 
@@ -69,18 +71,31 @@
 </svelte:head>
 
 <PageRoot
+  bind:element={glitchingElement}
   title={[member.Displayname, "Member detail"]}
   description={member.CustomData?.description || "Member of the RedModding community"}
   image={member.Image}
   card="summary"
   type="profile"
   hideDescription
+  class="relative"
 >
+  {#if member.CustomData?.brokenTheme}
+    <GlitchingWebsite
+      class="absolute -inset-0 z-10"
+      rootElement={glitchingElement}
+      updateChance={0.1}
+      cleanChance={0.005}
+      resetChanceMultiplier={0.01}
+      movementRange={0.1}
+      maxArea={0.1}
+    />
+  {/if}
+
   {#await data}
     <Loading />
   {:then data}
     <header
-      bind:this={header}
       class="relative w-full max-w-screen-lg pt-16 text-left max-md:mt-4"
       class:text-shadow={background}
       style:--fade-duration="1s"
@@ -167,34 +182,39 @@
       <dl
         class="fade-in clear-left mb-8 flex flex-wrap items-end justify-around gap-4 px-4 text-center"
         style:--fade-delay="1s"
-        onanimationend={() => (headerReady = true)}
       >
         {#if member.NexusData?.userByName?.country}
-          <DataEntry theme={themeName} key="Country">{member.NexusData.userByName.country}</DataEntry>
+          <DataEntry theme={themeName} key="Country" crossed={member.CustomData?.brokenTheme}>
+            {member.NexusData.userByName.country}
+          </DataEntry>
         {/if}
 
         {#if member.NexusData?.userByName?.kudos}
-          <DataEntry theme={themeName} key="Kudos">{member.NexusData.userByName.kudos.toLocaleString()}</DataEntry>
+          <DataEntry theme={themeName} key="Kudos" crossed={member.CustomData?.brokenTheme}>
+            {member.NexusData.userByName.kudos.toLocaleString()}
+          </DataEntry>
         {/if}
 
         {#if member.NexusData?.userByName?.modCount}
-          <DataEntry theme={themeName} key="Mods released"
-            >{member.NexusData?.userByName?.modCount.toLocaleString()}</DataEntry
-          >
+          <DataEntry theme={themeName} key="Mods released" crossed={member.CustomData?.brokenTheme}>
+            {member.NexusData?.userByName?.modCount.toLocaleString()}
+          </DataEntry>
         {/if}
 
         {#if member.NexusData?.userByName?.uniqueModDownloads}
-          <DataEntry theme={themeName} key="Mod downloads"
-            >{member.NexusData.userByName.uniqueModDownloads.toLocaleString()}</DataEntry
-          >
+          <DataEntry theme={themeName} key="Mod downloads" crossed={member.CustomData?.brokenTheme}>
+            {member.NexusData.userByName.uniqueModDownloads.toLocaleString()}
+          </DataEntry>
         {/if}
 
         {#if totalContributions}
-          <DataEntry theme={themeName} key="Contributions">{totalContributions.toLocaleString()}</DataEntry>
+          <DataEntry theme={themeName} key="Contributions" crossed={member.CustomData?.brokenTheme}>
+            {totalContributions.toLocaleString()}
+          </DataEntry>
         {/if}
 
         {#if member.CustomData?.github}
-          <DataEntry theme={themeName} key="GitHub">
+          <DataEntry theme={themeName} key="GitHub" crossed={member.CustomData?.brokenTheme}>
             <Button inline hideExternal href="https://github.com/{member.CustomData?.github}" class="inline text-lg">
               @{member.CustomData?.github}
             </Button>
@@ -202,25 +222,13 @@
         {/if}
 
         {#if member.CustomData?.nexusmods}
-          <DataEntry theme={themeName} key="NexusMods">
+          <DataEntry theme={themeName} key="NexusMods" crossed={member.CustomData?.brokenTheme}>
             <Button inline hideExternal href="{NEXUS_URL}/{member.CustomData?.nexusmods}" class="inline text-lg">
               @{member.CustomData?.nexusmods}
             </Button>
           </DataEntry>
         {/if}
       </dl>
-
-      {#if member.CustomData?.brokenTheme && headerReady}
-        <GlitchingWebsite
-          class="absolute -inset-0 mix-blend-exclusion"
-          rootElement={header}
-          updateChance={0.05}
-          cleanChance={0.01}
-          resetChanceMultiplier={0.1}
-          movementRange={0.1}
-          maxArea={0.5}
-        />
-      {/if}
 
       {#if game}
         {#await import("$components/parts/DinoGame.svelte") then { default: DinoGame }}
@@ -229,7 +237,7 @@
       {/if}
     </header>
 
-    <div class="contents" style:--fade-delay="2.5s">
+    <div class="contents" style:--fade-delay="2.5s" onanimationend={() => (glitchingElement = glitchingElement)}>
       {#if member.NexusData?.mods?.nodes.length}
         <Section as="section" class="fade-in m-0">
           <Heading level={2}>Top rated released mods</Heading>

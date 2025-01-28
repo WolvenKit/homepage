@@ -5,12 +5,15 @@
   import type { Point } from "$lib/utils";
   import { renderElement } from "./renderer";
 
+  type Color = [r: number, g: number, b: number];
+
   interface Props extends HTMLCanvasAttributes {
     updateChance?: number;
     cleanChance?: number;
     resetChanceMultiplier?: number;
     movementRange?: number;
     maxArea?: number;
+    backgroundColor?: Color;
     rootElement?: HTMLElement;
   }
 
@@ -20,6 +23,7 @@
     resetChanceMultiplier = 0.00001,
     movementRange = 4,
     maxArea = 0.1,
+    backgroundColor = [24, 24, 27],
     rootElement = browser ? document.body : undefined,
     ...rest
   }: Props = $props();
@@ -62,6 +66,9 @@
   }
 
   async function render() {
+    offCtx.fillStyle = "rgb(" + backgroundColor.join(" ") + ")";
+    offCtx.fillRect(0, 0, offscreen.width, offscreen.height);
+
     await renderElement(offCtx, rootElement || document.body, rootOffset, true);
 
     const image = offCtx.getImageData(0, 0, pageImage.width, pageImage.height);
@@ -86,19 +93,23 @@
       resetChance -= resetChanceMultiplier * (length / pageArea);
     } else {
       resetChance += resetChanceMultiplier * (length / pageArea);
+
+      // Fill source block with background
+      for (let i = 0; i < length && i + start < pageImage.data.length; i++) {
+        let colorI = (start + i) % 4;
+        pageImage.data[start + i] = colorI == 3 ? 255 : backgroundColor[colorI];
+      }
     }
 
     const targetStart = Math.floor(start + (Math.random() - 0.5) * pageImage.width * 4 * movementRange);
 
     for (let i = 0; i < length && i + targetStart < pageImage.data.length; i++) {
-      pageImage.data[i + targetStart] = slice[i];
+      pageImage.data[targetStart + i] = slice[i];
     }
 
     // Clean up if too dirty
     if (Math.random() < resetChance) {
-      for (let i = 0; i < pageImage.data.length; i++) {
-        pageImage.data[i] = 0;
-      }
+      pageImage.data.fill(0);
       resetChance = 0;
     }
 
@@ -113,4 +124,4 @@
 
 <svelte:window onresize={() => resize()} />
 
-<canvas bind:this={canvas} {...rest} class:pointer-events-none={true}></canvas>
+<canvas bind:this={canvas} {...rest} inert></canvas>

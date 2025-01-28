@@ -11,9 +11,17 @@
     description?: string;
     descriptionEl?: Snippet;
     children?: Snippet;
+    element?: HTMLElement;
   }
 
-  const { class: classes = "", hideDescription = false, children, descriptionEl, ...restProps }: Props = $props();
+  let {
+    class: classes = "",
+    hideDescription = false,
+    children,
+    descriptionEl,
+    element = $bindable(),
+    ...restProps
+  }: Props = $props();
 
   const title = $derived(
     Array.isArray(restProps.title) ? restProps.title[restProps.title.length - 1] : restProps.title,
@@ -22,7 +30,10 @@
 
 <SEO {...restProps} />
 
-<div class={twMerge("relative my-8 flex w-full flex-grow flex-col items-center gap-16 p-2 py-8", classes)}>
+<div
+  bind:this={element}
+  class={twMerge("relative my-8 flex w-full flex-grow flex-col items-center gap-16 p-2 py-8", classes)}
+>
   {#if title}
     <Heading>{title}</Heading>
   {/if}
