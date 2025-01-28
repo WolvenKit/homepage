@@ -1,6 +1,7 @@
 import { sveltekit } from "@sveltejs/kit/vite";
 import { uneval } from "devalue";
 import { defineConfig } from "vite";
+import glsl from "vite-plugin-glsl";
 import { ViteImageOptimizer } from "vite-plugin-image-optimizer";
 import YAML from "yaml";
 
@@ -8,6 +9,7 @@ const YAML_REGEX = /\.ya?ml$/;
 
 export default defineConfig({
   plugins: [
+    glsl(),
     ViteImageOptimizer(),
     sveltekit(),
     {

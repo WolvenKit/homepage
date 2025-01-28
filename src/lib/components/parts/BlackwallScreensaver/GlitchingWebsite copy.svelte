@@ -1,43 +1,47 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import type { HTMLCanvasAttributes } from "svelte/elements";
   import { browser } from "$app/environment";
   import type { Point } from "$lib/utils";
-  import { GlitchRenderer, type GlitchRendererOptions } from "./GlitchRenderer";
   import { renderElement } from "./renderer";
 
-  interface Props extends Partial<GlitchRendererOptions> {
-    updateChance?: number;
-    class?: string;
+
+  interface Props extends HTMLCanvasAttributes {
+
     rootElement?: HTMLElement;
   }
 
   let {
-    updateChance = 0.5,
-    class: classes = "",
+    updateChance = 0.8,
+    cleanChance = 0.05,
+    resetChanceMultiplier = 0,
+    movementRange = 0.3,
+    replaceBackgroundChance = 0.5,
+    maxArea = 0.2,
+    shapeRatio = 0.1,
+    backgroundColor = [24, 24, 27],
     rootElement = browser ? document.body : undefined,
-    ...options
+    ...rest
   }: Props = $props();
 
   let canvas: HTMLCanvasElement | undefined = $state();
-  let gl: WebGLRenderingContext | undefined = $state();
-  let glitchRenderer: GlitchRenderer;
+  let ctx: CanvasRenderingContext2D | undefined = $state();
 
   let offscreen: OffscreenCanvas;
   let offCtx: OffscreenCanvasRenderingContext2D;
+  let pageImage: ImageData;
+  let origData: Uint8Array;
 
+  let maxSideLength = 0;
   let animFrame = 0;
   let resetChance = 0;
 
   onMount(() => {
-    // eslint-disable-next-line no-undef
-    const glOptions: WebGLContextAttributes = { preserveDrawingBuffer: true, failIfMajorPerformanceCaveat: true };
-    gl = canvas?.getContext("webgl2", glOptions) || undefined;
-    if (!gl) {
-      gl = canvas?.getContext("webgl", glOptions) || undefined;
-      if (!gl) return; // give up
-    }
+    ctx = canvas?.getContext("2d") || undefined;
+    if (!ctx) return;
 
-    glitchRenderer = new GlitchRenderer(gl, options);
+    ctx.fillStyle = "transparent";
+    ctx.strokeStyle = "transparent";
 
     offscreen = new OffscreenCanvas(0, 0);
     offCtx = offscreen.getContext("2d")!;
@@ -48,36 +52,34 @@
   });
 
   async function resize(rerender = true) {
-    if (!canvas || !offscreen) return;
+    if (!canvas) return;
     canvas.width = Math.min(rootElement?.clientWidth || Number.POSITIVE_INFINITY, window.innerWidth);
     canvas.height = Math.min(rootElement?.clientHeight || Number.POSITIVE_INFINITY, window.innerHeight);
     offscreen.width = canvas.width;
     offscreen.height = canvas.height;
 
-    glitchRenderer.resize(canvas.width, canvas.height);
+    pageImage = new ImageData(canvas.width, canvas.height);
+    maxSideLength = Math.sqrt(pageImage.width * pageImage.height * maxArea);
     if (rerender) await render();
   }
 
   async function render() {
     await renderElement(offCtx, rootElement || document.body, rootOffset, true);
 
-    glitchRenderer.setSource(offscreen);
+    const image = offCtx.getImageData(0, 0, pageImage.width, pageImage.height);
+    origData = new Uint8Array(image.data);
   }
 
   function update() {
     animFrame = window.requestAnimationFrame(update);
 
-    if (!gl || Math.random() > updateChance) return;
-
-    glitchRenderer.update();
-
-    return;
+    if (!ctx || !pageImage || !origData || Math.random() > updateChance) return;
 
     // Clean up every now and then
     if (Math.random() < resetChance) {
       pageImage.data.fill(0);
       resetChance = 0;
-      gl.putImageData(pageImage, 0, 0);
+      ctx.putImageData(pageImage, 0, 0);
       return;
     }
 
@@ -158,15 +160,15 @@
     //   pageImage.data[targetStart + i] = slice[i];
     // }
 
-    gl.putImageData(pageImage, 0, 0);
+    ctx.putImageData(pageImage, 0, 0);
   }
   let rootBbox = $derived(rootElement?.getBoundingClientRect());
   let rootOffset = $derived([rootBbox?.left || 0, rootBbox?.top || 0] as Point);
   $effect.pre(() => {
-    if (gl && rootElement) resize(true).catch(console.error);
+    if (ctx && rootElement) resize(true).catch(console.error);
   });
 </script>
 
 <svelte:window onresize={() => resize()} />
 
-<canvas bind:this={canvas} class={classes} inert></canvas>
+<canvas bind:this={canvas} {...rest} inert></canvas>

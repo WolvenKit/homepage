@@ -83,13 +83,12 @@
 >
   {#if member.CustomData?.brokenTheme && ready}
     <GlitchingWebsite
-      class="absolute -inset-0 z-10"
+      class="absolute -inset-0 -top-24 z-10"
       rootElement={glitchingElement}
       updateChance={0.3}
       cleanChance={0.1}
       resetChanceMultiplier={0.01}
-      movementRange={0.001}
-      maxArea={0.3}
+      movementRange={0.01}
       backgroundColor={[0, 0, 0, 0]}
     />
   {/if}

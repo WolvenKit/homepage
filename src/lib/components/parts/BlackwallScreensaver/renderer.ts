@@ -38,10 +38,8 @@ export async function renderElement(ctx: Ctx, root: HTMLElement, offset: Point =
     for (const node of root.childNodes) {
       switch (node.nodeType) {
         case node.TEXT_NODE:
-          if (node.nodeValue) {
-            const range = document.createRange();
-            range.selectNode(node);
-            renderText(ctx, style, range.getBoundingClientRect(), node.nodeValue);
+          if (node.nodeValue?.trim()) {
+            renderText(ctx, style, node);
           }
           break;
         case node.ELEMENT_NODE:
@@ -147,16 +145,44 @@ function renderBorders(ctx: Ctx, style: Style, bbox: DOMRect) {
   }
 }
 
-function renderText(ctx: Ctx, style: Style, bbox: DOMRect, text: string) {
+function renderText(ctx: Ctx, style: Style, node: Node) {
   ctx.font = style.font;
   ctx.fillStyle = style.color;
   ctx.textAlign = "start";
   ctx.textBaseline = "top";
 
+  let text = node.nodeValue!;
+
   const uppercase = style.textTransform.includes("uppercase");
   if (uppercase) text = text.toUpperCase();
 
-  ctx.fillText(text, bbox.x, bbox.y);
+  const range = document.createRange();
+  // begin at the first char
+  range.selectNode(node);
+  // initial position
+  let line = 0;
+  let current = 1; // we already got index 0
+  let lastFound = 0;
+  let lastTop = range.getBoundingClientRect().top;
+
+  const rects = range.getClientRects();
+
+  // iterate over all characters
+  while (current <= text.length) {
+    // move our cursor
+    range.setStart(node, current);
+
+    const rangeBbox = range.getBoundingClientRect();
+
+    if (rangeBbox.top != lastTop) {
+      // line break
+      ctx.fillText(text.slice(lastFound, current), rects[line].x, rects[line].top);
+      lastTop = rangeBbox.top;
+      lastFound = current;
+      line++;
+    }
+    current++;
+  }
 }
 
 function renderImage(ctx: Ctx, bbox: DOMRect, element: HTMLImageElement) {
