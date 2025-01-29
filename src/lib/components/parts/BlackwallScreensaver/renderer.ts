@@ -3,50 +3,76 @@ import type { Point } from "$lib/utils";
 type Ctx = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 type Style = CSSStyleDeclaration;
 
-export async function renderElement(ctx: Ctx, root: HTMLElement, offset: Point = [0, 0], skipRoot = false) {
-  const style = window.getComputedStyle(root);
-  const bbox = root.getBoundingClientRect();
+// CSS to Canvas modes
+const COMPOSITION_MODES: Record<string, GlobalCompositeOperation> = {
+  normal: "source-over",
+  multiply: "multiply",
+  lighten: "screen",
+};
+
+export async function renderElement(
+  ctx: Ctx,
+  element: HTMLElement,
+  offset: Point = [0, 0],
+  skipRoot = false,
+  background?: string,
+) {
+  const style = window.getComputedStyle(element);
+  const bbox = element.getBoundingClientRect();
 
   if (
+    !element.hasAttribute("data-force-glitch") &&
     (style.maskImage != "none" ||
-      style.mixBlendMode != "normal" ||
       style.visibility == "hidden" ||
       style.display == "none" ||
-      style.opacity == "0") &&
-    !root.hasAttribute("data-force-glitch")
+      style.opacity == "0" ||
+      (style.mixBlendMode != "normal" && !(style.mixBlendMode in COMPOSITION_MODES)) ||
+      style.backgroundClip != "border-box")
   ) {
     return; // Skip masked and invisible elements
   }
 
   ctx.save();
 
+  let offscreen: OffscreenCanvas | undefined = undefined;
+  let renderCtx: Ctx = ctx;
+  if (style.mixBlendMode != "normal") {
+    offscreen = new OffscreenCanvas(ctx.canvas.width, ctx.canvas.height);
+    renderCtx = offscreen.getContext("2d")!;
+  }
+
   // If within viewport
   if (bbox.y < window.innerHeight && bbox.y + bbox.height > 0) {
     if (!skipRoot) {
-      renderClip(ctx, style.clipPath, bbox);
-      renderBox(ctx, style, bbox);
-      if (root.tagName === "IMG") renderImage(ctx, bbox, root as HTMLImageElement);
-      else if (root.tagName === "VIDEO" && root.getAttribute("poster")) {
+      renderClip(renderCtx, style.clipPath, bbox);
+      renderBox(renderCtx, style, bbox);
+      if (element.tagName === "IMG") renderImage(renderCtx, bbox, element as HTMLImageElement);
+      else if (element.tagName === "VIDEO" && element.getAttribute("poster")) {
         const img = new Image();
-        img.src = root.getAttribute("poster")!;
+        img.src = element.getAttribute("poster")!;
         if (!img.complete) await new Promise((r) => (img.onload = r));
-        renderImage(ctx, bbox, img);
+        renderImage(renderCtx, bbox, img);
       }
-      renderBorders(ctx, style, bbox);
+      renderBorders(renderCtx, style, bbox);
     }
 
-    for (const node of root.childNodes) {
+    for (const node of element.childNodes) {
       switch (node.nodeType) {
         case node.TEXT_NODE:
           if (node.nodeValue?.trim()) {
-            renderText(ctx, style, node);
+            renderText(renderCtx, style, node);
           }
           break;
         case node.ELEMENT_NODE:
-          await renderElement(ctx, node as HTMLElement);
+          await renderElement(renderCtx, node as HTMLElement, undefined, undefined, background);
           break;
       }
     }
+  }
+
+  if (offscreen) {
+    ctx.globalCompositeOperation = COMPOSITION_MODES[style.mixBlendMode];
+    ctx.drawImage(offscreen, 0, 0);
   }
 
   ctx.restore();
@@ -59,7 +85,6 @@ function renderClip(ctx: Ctx, clipPath: string, bbox: DOMRect) {
   if (!clipPath.startsWith("polygon")) return;
 
   const parts = clipPath.slice("polygon(".length, -1).split(",");
-  let success = true;
 
   ctx.beginPath();
   let first = true;
@@ -70,8 +95,8 @@ function renderClip(ctx: Ctx, clipPath: string, bbox: DOMRect) {
 
     if (!match[0] || !match[1]) {
       console.warn("Failed to parse clipPath", clipPath);
-      success = false;
-      break; // give up
+      ctx.beginPath();
+      return; // give up
     }
 
     const x = bbox.x + parseClipPathValue(match[0][0], bbox.width);
@@ -85,8 +110,7 @@ function renderClip(ctx: Ctx, clipPath: string, bbox: DOMRect) {
     }
   }
 
-  if (success) ctx.clip();
-  else ctx.beginPath();
+  ctx.clip();
 }
 
 function renderBox(ctx: Ctx, style: Style, bbox: DOMRect) {
@@ -150,6 +174,7 @@ function renderText(ctx: Ctx, style: Style, node: Node) {
   ctx.fillStyle = style.color;
   ctx.textAlign = "start";
   ctx.textBaseline = "top";
+  ctx.wordSpacing = style.wordSpacing;
 
   let text = node.nodeValue!;
 
@@ -176,7 +201,7 @@ function renderText(ctx: Ctx, style: Style, node: Node) {
 
     if (rangeBbox.top != lastTop) {
       // line break
-      ctx.fillText(text.slice(lastFound, current), rects[line].x, rects[line].top);
+      ctx.fillText(text.slice(lastFound, current), rects[line].x, rects[line].top, rects[line].width);
       lastTop = rangeBbox.top;
       lastFound = current;
       line++;

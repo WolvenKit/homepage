@@ -62,14 +62,15 @@
     preload=""
     poster={malorian}
   >
-    <!-- <source media="(min-width: 1024px)" src={malorianHEVC} type="video/hevc; codecs=hevc" /> -->
     <source media="(min-width: 1024px)" src={src.webm} type="video/webm; codecs=av1" />
     <source media="(min-width: 1024px)" src={src.mp4} type="video/mp4; codecs=avc1.640028" />
     <LazyImage src={malorian} />
   </video>
 
   {#if autoplayDisabled}
-    <div class="absolute right-0 top-16 p-4 text-lg text-red">Auto-play is disabled. Click to play animation.</div>
+    <div class="absolute right-0 top-16 p-4 text-lg text-red motion-reduce:hidden">
+      Auto-play is disabled. Click to play animation.
+    </div>
   {/if}
 
   <div class="crt absolute right-0 top-24 max-w-screen-sm bg-red/90 bg-clip-text p-8 text-right text-transparent">

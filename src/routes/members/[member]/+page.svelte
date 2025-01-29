@@ -86,14 +86,15 @@
     <GlitchingWebsite
       class="absolute -inset-0 -top-24 z-10"
       rootElement={glitchingElement}
-      updateChance={0.2}
+      updateChance={0.3}
       blankChance={0.5}
-      resetChanceMultiplier={0.1}
+      resetChanceMultiplier={0.03}
       movementRange={0.01}
+      maxRectangleLength={0.1}
       backgroundColor={[0, 0, 0, 0]}
-      forceAlphaChance={0}
+      forceAlphaChance={0.001}
       colorBlockChance={0}
-      replaceBackgroundChance={0}
+      replaceBackgroundChance={0.001}
     />
   {/if}
 

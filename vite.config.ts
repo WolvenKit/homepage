@@ -10,7 +10,7 @@ const YAML_REGEX = /\.ya?ml$/;
 export default defineConfig({
   plugins: [
     glsl(),
-    ViteImageOptimizer(),
+    ViteImageOptimizer({ webp: { minSize: true, mixed: true } }),
     sveltekit(),
     {
       name: "yaml",

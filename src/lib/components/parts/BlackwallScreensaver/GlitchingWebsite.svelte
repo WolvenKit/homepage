@@ -58,6 +58,7 @@
   }
 
   async function render() {
+    offCtx.clearRect(0, 0, offscreen.width, offscreen.height);
     await renderElement(offCtx, rootElement || document.body, rootOffset, true);
 
     glitchRenderer.setSource(offscreen);

@@ -17,24 +17,25 @@ export interface GlitchRendererOptions {
 }
 
 const DEFAULT_OPTIONS: GlitchRendererOptions = {
-  blankChance: 0.15,
+  blankChance: 0.5,
   resetChanceMultiplier: 0,
   movementRange: 0.01,
-  replaceBackgroundChance: 0.1,
-  maxRectangleLength: 0.1,
+  replaceBackgroundChance: 0.3,
+  maxRectangleLength: 0.2,
   shapeRatio: 0.2,
   backgroundColor: [24, 24, 27],
-  forceAlphaChance: 0.2,
-  colorBlockChance: 0.1,
-  colorBlockSize: 0.5,
+  forceAlphaChance: 0.1,
+  colorBlockChance: 0.15,
+  colorBlockSize: 0.3,
 };
 
 const COLORS = [
   [1, 1, 1, 1],
-  [1, 0, 0, 0.75],
-  [0, 1, 0, 0.75],
-  [0, 0, 1, 0.75],
+  [1, 0, 0, 1],
+  [0, 1, 0, 1],
+  [0, 0, 1, 1],
   [0, 0, 0, 1],
+  [0.952941176, 0.901960784, 0, 1], // cyberpunk yellowe
 ] satisfies Color[];
 
 export class GlitchRenderer {
@@ -59,6 +60,7 @@ export class GlitchRenderer {
     this.options = { ...DEFAULT_OPTIONS, ...options };
 
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.enable(gl.BLEND);
 
     this.#program = this.#buildShaderProgram(VERTEX_SHADER, FRAGMENT_SHADER);
     this.#initBuffers();
@@ -89,6 +91,12 @@ export class GlitchRenderer {
       gl.clear(gl.COLOR_BUFFER_BIT);
     }
 
+    // gl.uniform4f(this.#uSourceRect, 0, 0, 1, 1);
+    // gl.uniform4f(this.#uColorMult, 1, 1, 1, 1);
+
+    // gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    // return;
+
     // Place on
     const tx = Math.random();
     const ty = Math.random();
@@ -97,7 +105,7 @@ export class GlitchRenderer {
     const sy = ty + uvRandom() * options.movementRange;
     // With size
     let width = Math.random() ** 0.5 * options.maxRectangleLength * 2 * (1 - options.shapeRatio);
-    let height = Math.random() ** 0.5 * options.maxRectangleLength * 2 * options.shapeRatio;
+    let height = Math.random() * options.maxRectangleLength * 2 * options.shapeRatio;
 
     const colorBlock = Math.random() < options.colorBlockChance;
     if (colorBlock) {
@@ -125,6 +133,12 @@ export class GlitchRenderer {
 
     this.#resetChance += options.resetChanceMultiplier * ((width * height) / 2);
 
+    if (colorBlock) {
+      gl.blendFunc(gl.ONE_MINUS_DST_COLOR, gl.ONE);
+    } else {
+      gl.blendFunc(gl.ONE, gl.ZERO);
+    }
+
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
 
     //
@@ -137,6 +151,7 @@ export class GlitchRenderer {
       if (!color[3]) color[3] = 1;
       gl.uniform4f(this.#uColorAdd, ...(color as [number, number, number, number]));
 
+      gl.blendFunc(gl.SRC_ALPHA_SATURATE, gl.ONE);
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
   }
