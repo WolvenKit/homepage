@@ -139,7 +139,7 @@
 
         <div class="block text-zinc-500">
           <span class="text-sm">Website last updated on</span>
-          <date>{data.buildDate.toLocaleString()}</date>
+          <date>{data.buildDate?.toLocaleString()}</date>
         </div>
       </div>
     </div>
