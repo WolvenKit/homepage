@@ -49,7 +49,7 @@ wkit:
 blender:
   label: Blender Team
   description: They blend stuff. Also called the material team.
-  color: "#105885"
+  color: "#f17223"
   members:
     - hitmanhimself
     - turk645 # turk
