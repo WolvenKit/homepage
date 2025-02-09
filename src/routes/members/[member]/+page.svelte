@@ -106,7 +106,7 @@
       class:text-shadow={background}
       style:--fade-duration="1s"
     >
-      <Button href="." icon={faArrowLeft} class="text-opacity-75 absolute bottom-full md:mb-4">See all members</Button>
+      <Button href="." icon={faArrowLeft} class="text-cyan/75 absolute bottom-full md:mb-4">See all members</Button>
 
       {#if background}
         <LazyImage
@@ -169,13 +169,16 @@
         <ul class="inline-flex flex-col gap-2">
           {#each member.Teams as teamId, i (teamId)}
             {@const team = teams[teamId]}
-            <li
-              class="fade-in flex items-center gap-2 text-xl leading-none font-semibold text-zinc-400"
-              style:--fade-duration=".5s"
-              style:--fade-delay="{1.5 + i * 0.2}s"
-            >
-              <TeamBadge {team} />
-              {team.label}
+            <li>
+              <a
+                href="/teams/{teamId}"
+                class="fade-in hover-focus:text-white hover-focus:underline flex items-center gap-2 text-xl leading-none font-semibold text-zinc-400 transition"
+                style:--fade-duration=".5s"
+                style:--fade-delay="{1.5 + i * 0.2}s"
+              >
+                <TeamBadge {teamId} {team} />
+                {team.label}
+              </a>
             </li>
           {/each}
         </ul>

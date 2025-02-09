@@ -95,8 +95,8 @@
 
     {#if member.Teams.size}
       <ul class="flex flex-wrap gap-px">
-        {#each member.Teams as team, i (i)}
-          <li><TeamBadge {team} /></li>
+        {#each member.Teams as teamId, i (i)}
+          <li><a href="/teams/{teamId}" draggable="false"><TeamBadge {teamId} /></a></li>
         {/each}
       </ul>
     {/if}

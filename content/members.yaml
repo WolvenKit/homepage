@@ -9,7 +9,7 @@ manavortex:
 
 moonded:
   CustomData:
-    background: https://cdn.discordapp.com/banners/220278978898821121/a_51459bc27b262395c2c95c2de5846de2.gif?size=2048
+    background: https://cdn.discordapp.com/banners/220278978898821121/a_2c7f3f289aa7f4aed5845650a71d466b.gif?size=2048
 
 fronkenzeepa:
   CustomData:
@@ -22,3 +22,13 @@ dragonzkiller:
 arasakaapart:
   CustomData:
     background: https://media1.tenor.com/m/nCWPqFs5MqwAAAAC/anya-forger-jumpscare.gif
+
+themagnificentdoctorpresto:
+  Displayname: Dr. Presto
+  PrimaryTeam: blender
+
+simarilius:
+  PrimaryTeam: blender
+
+zhincore:
+  PrimaryTeam: website

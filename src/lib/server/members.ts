@@ -10,6 +10,7 @@ interface CustomCustomData extends CustomData {
 export type TeamMember = Omit<DiscordMember, "CustomData"> & {
   Teams: Set<string>;
   Displayname: string;
+  PrimaryTeam?: string;
   CustomData: CustomCustomData | null;
 };
 
@@ -91,15 +92,15 @@ function createTeamMember(discordMember: DiscordMember): TeamMember {
     ...discordMember,
     Teams: new Set(),
 
+    // Override
+    ...override,
+
     // generate displayname
     Displayname:
       override?.Displayname ||
       discordMember.Username.split(/(?<![a-z])/gim)
         .map((v) => (style == "uppercase" ? v[0].toUpperCase() + v.slice(1) : v))
         .join(""),
-
-    // Override
-    ...override,
 
     // Merge custom data with override
     CustomData: customData,
@@ -112,25 +113,22 @@ function assignMembersToTeams(team2manyMembers: Teams, memberMap: Record<string,
 
   function getMembers(teamId: string, team: Team) {
     const members = team2manyMembers[teamId] ?? [];
-    let forcedMembers: Set<string> | null = null;
 
     // Add forced members
     if ("members" in team) {
-      forcedMembers = new Set();
       for (const username of team.members) {
         const member = memberMap[username];
         if (member) {
           members.push(member);
-          forcedMembers.add(username);
         }
       }
     }
 
-    return { members, forcedMembers };
+    return members;
   }
 
   for (const [teamId, team] of Object.entries(teams)) {
-    const { members, forcedMembers } = getMembers(teamId, team);
+    const members = getMembers(teamId, team);
 
     // Skip empty teams, just in case
     if (!members.length) continue;
@@ -140,10 +138,11 @@ function assignMembersToTeams(team2manyMembers: Teams, memberMap: Record<string,
     for (const member of members) {
       member.Teams.add(teamId);
 
+      const wantedTeam = member.PrimaryTeam;
       const currentTeam = member2Team[member.Username];
 
-      // If already has team, skip
-      if (currentTeam && !forcedMembers?.has(member.Username)) continue;
+      // If already has team (and the team is wanted), skip
+      if (currentTeam && (!wantedTeam || wantedTeam == currentTeam)) continue;
 
       // If already had a team, remove them from it
       teamMembers[currentTeam]?.delete(member);

@@ -5,6 +5,7 @@
     "type": "object",
     "properties": {
       "Displayname": { "type": "string" },
+      "PrimaryTeam": { "type": "string" },
       "Image": { "type": "string" },
       "ID": { "type": "string" },
       "Roles": {

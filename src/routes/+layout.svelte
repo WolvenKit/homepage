@@ -27,6 +27,7 @@
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Sammy from "$components/parts/Sammy.svelte";
   import { site } from "$lib/content/site";
+  import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
 
   let { data, children } = $props();
 
@@ -134,13 +135,21 @@
         Website made with
         <LazyImage src={catLove} alt="love" title="love" width={22} height={22} class="inline" />
         by <Button inline hideExternal href="https://zhincore.eu/">@Zhincore</Button>.
-        <div class="text-zinc-400">Ping him on Discord about feedback or complaints.</div>
-        <Button href={site.source}>Source code</Button>
-
-        <div class="block text-zinc-500">
-          <span class="text-sm">Website last updated on</span>
-          <date>{data.buildDate?.toLocaleString()}</date>
+        <div class="text-zinc-400">
+          Ping him on <a href={site.socials.Discord} class="text-cyan hover-focus:underline">the Discord</a> about feedback
+          or complaints.
         </div>
+        <Button href={site.source}>
+          <FontAwesomeIcon icon={faGithub} />
+          Source code
+        </Button>
+
+        {#if data.buildDate}
+          <div class="block text-zinc-500">
+            <span class="text-sm">Website last updated on</span>
+            <date>{data.buildDate.toLocaleString()}</date>
+          </div>
+        {/if}
       </div>
     </div>
 

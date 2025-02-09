@@ -33,12 +33,6 @@
   @apply text-red uppercase italic;
 }
 
-@utility cyber-text {
-  @apply text-yellow font-[Cyberpunk];
-
-  text-shadow: 0.2ex 0.2ex 0 color-mix(in srgb, var(--color-cyan) 90%, transparent);
-}
-
 @utility hover-glow {
   &:hover {
     filter: drop-shadow(0 0 0.4rem var(--color-cyan-dark));

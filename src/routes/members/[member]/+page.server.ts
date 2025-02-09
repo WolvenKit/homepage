@@ -5,8 +5,8 @@ import { getCachedMembers } from "$lib/server/members";
 import { wrapCatch } from "$lib/utils";
 import type { PageServerLoad } from "./$types";
 
-export const load = (async ({ params, isDataRequest }) => {
-  const promise = getCachedMembers()
+export const load = (async ({ params }) => {
+  return await getCachedMembers()
     .then(async ({ memberMap }) => {
       const member = memberMap[params.member];
 
@@ -25,8 +25,6 @@ export const load = (async ({ params, isDataRequest }) => {
       return { member, contributions };
     })
     .catch(wrapCatch({ description: "Fetching member data failed. Please try again later." }));
-
-  return isDataRequest ? promise : await promise;
 }) satisfies PageServerLoad;
 
 export const entries = async () => {

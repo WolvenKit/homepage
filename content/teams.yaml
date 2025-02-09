@@ -1,10 +1,20 @@
 # yaml-language-server: $schema=./_schemas/teams.schema.json
 
 leaders:
-  label: Primary members
-  description: The leaders, the masters, the OGs. Ping @Zhincore if you're annoyed.
+  label: Founding Members
+  description: The leaders, the masters, the OGs.*
   icon: /cat_royal.webp
-  members: [rfuzzo, traderain, moonded, wopss, yamashi, jackhumbert, seberoth, hitmanhimself, wssdude, psiberx]
+  members:
+    - rfuzzo
+    - traderain
+    - moonded
+    - wopss
+    - yamashi
+    - jackhumbert
+    - seberoth
+    - hitmanhimself
+    - wssdude
+    - psiberx
 
 mods:
   label: Moderator Team
@@ -36,9 +46,28 @@ wkit:
   discordRole: "803628105087713290"
   color: "#ff4c6f"
 
+blender:
+  label: Blender Team
+  description: They blend stuff. Also called the material team.
+  color: "#105885"
+  members:
+    - hitmanhimself
+    - turk645 # turk
+    - ja.to
+    - dragonzkiller
+    - kwek9377 # kwekmaster
+    # - glitchered
+    - simarilius
+    - themagnificentdoctorpresto
+    - 5h07 # shotlastc
+    - rudolph2109
+    - holopointz
+    - peatral
+    - jco.2999
+
 website:
   label: Website Team
-  description: Haha
+  description: "// TODO: proper decsription"
   discordRole: "803647729905172521"
   color: "#7119f8"
 
