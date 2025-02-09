@@ -16,16 +16,9 @@ module.exports = {
       fontFamily: {
         sans: ["Rajdhani", ...defaultConfig.theme.fontFamily.sans],
         witcher: ["Metamorphous", ...defaultConfig.theme.fontFamily.serif],
-        cyberpunk: ["Cyberpunk", ...defaultConfig.theme.fontFamily.sans],
       },
       listStyleType: {
         dash: "'\\2013 '",
-      },
-      fill: {
-        "gradient-to-r": "linear-gradient(to right, var(--tw-gradient-stops))",
-      },
-      animation: {
-        blink: "blink 0.5s linear infinite alternate",
       },
       boxShadow: {
         "xl-front": "2px 3px 16px 8px rgb(0 0 0 / 0.9)",

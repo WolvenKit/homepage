@@ -31,12 +31,12 @@
   <HeroBackground bind:video fadeDelay={0.5} rainbow={clicks > 16} />
 
   <div
-    class="relative z-10 mx-[5vw] mt-auto flex max-w-screen-2xl flex-wrap items-end justify-between gap-2 pb-4 pt-16 max-v-md:flex-grow v-md:gap-8 max-sm:flex-col md:pb-16 lg:gap-16"
+    class="max-v-md:grow v-md:gap-8 relative z-10 mx-[5vw] mt-auto flex max-w-(--breakpoint-2xl) flex-wrap items-end justify-between gap-2 pt-16 pb-4 max-sm:flex-col md:pb-16 lg:gap-16"
   >
-    <div class="w-full text-5xl font-bold uppercase text-zinc-200 sm:text-6xl">
+    <div class="w-full text-5xl font-bold text-zinc-200 uppercase sm:text-6xl">
       <div class="header-bg relative -ml-1 inline-block" style:--fade-duration="1s">
         <span class="fade-in" style:--fade-delay="0.1s">Community of</span>
-        <div class="-ml-0.5 text-7xl text-red sm:text-8xl">
+        <div class="text-red -ml-0.5 text-7xl sm:text-8xl">
           <span class="fade-in" style:--fade-delay="0.3s">RED<span class="text-zinc-400">engine</span> </span>
           <span class="fade-in" style:--fade-delay="0.4s">modding</span>
         </div>
@@ -84,7 +84,7 @@
           alt={project.name}
         />
 
-        <div class="flex flex-grow flex-col gap-4 md:items-start" class:md:items-end={i % 2}>
+        <div class="flex grow flex-col gap-4 md:items-start" class:md:items-end={i % 2}>
           <div class="my-auto">
             <h3 class="text-3xl font-semibold sm:text-5xl md:text-6xl">{project.name}</h3>
             <p class="md:text-2xl">{project.description}</p>
@@ -107,7 +107,7 @@
 
 <style>
   .header-bg {
-    --color: color-mix(in srgb, theme("colors.zinc.900") 75%, transparent);
+    --color: color-mix(in srgb, var(--colors-zinc-900) 75%, transparent);
     background-image: radial-gradient(farthest-side, var(--color) 75%, transparent);
     text-shadow: 0.3ex 0.25ex 0.5ex var(--color);
   }

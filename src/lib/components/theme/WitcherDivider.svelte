@@ -13,9 +13,9 @@
 
 <div
   class={twMerge(
-    "relative flex h-0 text-witcher-silver",
+    "text-witcher-silver relative flex h-0",
     !withoutCorners &&
-      "before:-mr-0.5 before:origin-top-right before:rotate-45 after:-ml-0.5 after:origin-top-left after:-rotate-45 pseudo:mt-px pseudo:inline-block pseudo:size-2 pseudo:flex-shrink-0 pseudo:border-2 pseudo:border-current",
+      "pseudo:mt-px pseudo:inline-block pseudo:size-2 pseudo:shrink-0 pseudo:border-2 pseudo:border-current before:-mr-0.5 before:origin-top-right before:rotate-45 after:-ml-0.5 after:origin-top-left after:-rotate-45",
     classes,
   )}
 >
@@ -26,7 +26,7 @@
     height="16.85"
     viewBox="0 0 33 16.85"
     xmlns="http://www.w3.org/2000/svg"
-    class="-mt-3 max-h-none flex-shrink-0"
+    class="-mt-3 max-h-none shrink-0"
   >
     <path
       class="fill-none stroke-current"

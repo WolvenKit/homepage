@@ -39,13 +39,13 @@
 
   {#if theme != "default"}
     {#if corners.tl}
-      <ThemeCorner {theme} {scale} class="absolute -left-0.5 -top-0.5" />
+      <ThemeCorner {theme} {scale} class="absolute -top-0.5 -left-0.5" />
     {/if}
     {#if corners.tr}
-      <ThemeCorner {theme} {scale} class="absolute -right-0.5 -top-0.5 rotate-90" />
+      <ThemeCorner {theme} {scale} class="absolute -top-0.5 -right-0.5 rotate-90" />
     {/if}
     {#if corners.br}
-      <ThemeCorner {theme} {scale} class="absolute -bottom-0.5 -right-0.5 rotate-180" />
+      <ThemeCorner {theme} {scale} class="absolute -right-0.5 -bottom-0.5 rotate-180" />
     {/if}
     {#if corners.bl}
       <ThemeCorner {theme} {scale} class="absolute -bottom-0.5 -left-0.5 -rotate-90" />

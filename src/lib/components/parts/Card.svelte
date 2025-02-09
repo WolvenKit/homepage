@@ -23,7 +23,7 @@
   rel={external ? "noopener noreferrer" : undefined}
   target={external ? "_blank" : undefined}
   class={twMerge(
-    "group relative flex w-min flex-col overflow-hidden bg-zinc-950 shadow-lg transition hover-focus:shadow-red",
+    "group hover-focus:shadow-red relative flex w-min flex-col overflow-hidden bg-zinc-950 shadow-lg transition",
     classes,
   )}
 >
@@ -35,7 +35,7 @@
 
   <div class="relative max-w-full flex-1 px-4 py-2 transition">
     {#if title || titleText}
-      <h3 class="mb-1 max-w-full text-2xl font-bold uppercase text-white">
+      <h3 class="mb-1 max-w-full text-2xl font-bold text-white uppercase">
         {#if title}{@render title()}{:else}{titleText}{/if}
       </h3>
     {/if}

@@ -16,6 +16,6 @@
   class={twMerge("my-4 flex items-center justify-center gap-2 px-4", classes)}
   ondblclick={() => cursorTrail.toggle()}
 >
-  <span class="inline-block size-2 rounded-full bg-red"></span>
-  <span class="inline-block size-2 rounded-full bg-red"></span>
+  <span class="bg-red inline-block size-2 rounded-full"></span>
+  <span class="bg-red inline-block size-2 rounded-full"></span>
 </div>

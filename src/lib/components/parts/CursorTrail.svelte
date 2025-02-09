@@ -48,7 +48,7 @@
 
 {#each points as point, i (point)}
   <div
-    class="point pointer-events-none absolute z-50 size-2 rounded-full bg-red"
+    class="point bg-red pointer-events-none absolute z-50 size-2 rounded-full"
     style:top="{point[1]}px"
     style:left="{point[0]}px"
     onanimationend={() => removePoint(i)}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createEventDispatcher, onMount } from "svelte";
+  import { onMount } from "svelte";
   import Button from "../elements/Button.svelte";
   import Heading from "../elements/Heading.svelte";
   import ThemeButton from "../theme/ThemeButton.svelte";
@@ -31,11 +31,10 @@
 
   interface Props {
     sprite: string;
+    onExit?: () => void;
   }
 
-  let { sprite }: Props = $props();
-
-  const emit = createEventDispatcher<{ exit: void }>();
+  let { sprite, onExit }: Props = $props();
 
   // "Engine"
   let frame = 0;
@@ -98,7 +97,7 @@
 
   function exit() {
     stop();
-    emit("exit");
+    onExit?.();
   }
 
   function die() {
@@ -208,10 +207,10 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="absolute inset-0 select-none" onclick={jump}>
-  <div class="-mt-4 flex items-start justify-between p-1 px-4 font-semibold tabular-nums text-red">
+  <div class="text-red -mt-4 flex items-start justify-between p-1 px-4 font-semibold tabular-nums">
     <div>
       <Button class="-ml-4" onClick={exit}>Quit game</Button>
-      <span class="text-sm text-cyan opacity-75">{Math.round(tps)}</span>
+      <span class="text-cyan text-sm opacity-75">{Math.round(tps)}</span>
     </div>
 
     <div class="text-center">
@@ -226,11 +225,11 @@
   </div>
 
   <!-- game -->
-  <div class="absolute left-1/4 top-3/4 w-3/4">
+  <div class="absolute top-3/4 left-1/4 w-3/4">
     <!-- player -->
     <div class="absolute left-0 mt-px" style:transform="translate(-50%, {-100 - y}%)">
       <img
-        class="size-16 border border-red transition-transform duration-300 ease-out"
+        class="border-red size-16 border transition-transform duration-300 ease-out"
         src={sprite}
         width={64}
         height={64}
@@ -242,7 +241,7 @@
     <div style:transform="translateX({-x}px)" style:will-change="transform">
       {#each spikes as spikeX (spikeX)}
         <span
-          class="absolute bottom-0 left-0 inline-block origin-bottom-right border-[16px] border-transparent border-b-red"
+          class="border-b-red absolute bottom-0 left-0 inline-block origin-bottom-right border-[16px] border-transparent"
           style:transform="translateX(-50%) translateX({spikeX}px)"
         ></span>
         <!-- transition:scale={{ duration: 500 }} -->
@@ -251,9 +250,9 @@
   </div>
 
   <!-- ground -->
-  <span class="absolute top-3/4 w-full border-b-2 border-red"></span>
+  <span class="border-red absolute top-3/4 w-full border-b-2"></span>
 
-  <div class="small-caps absolute top-3/4 w-full p-4 text-center text-red opacity-75">
+  <div class="small-caps text-red absolute top-3/4 w-full p-4 text-center opacity-75">
     Tap or press space to avoid ICE traps
   </div>
 
@@ -271,7 +270,7 @@
       <div>
         <Heading level={3} class="m-0">Leaderboard</Heading>
         <table>
-          <thead class="border-b border-red">
+          <thead class="border-red border-b">
             <tr>
               <th class="px-2">Player</th>
               <th class="px-2">Score</th>
@@ -282,7 +281,7 @@
               {@const isYou = item[0] == "You"}
               <tr class:bg-zinc-900={isYou}>
                 <td class="px-2">{item[0]}</td>
-                <td class="px-2 text-right text-xl text-yellow">{item[1]}</td>
+                <td class="text-yellow px-2 text-right text-xl">{item[1]}</td>
               </tr>
             {/each}
           </tbody>

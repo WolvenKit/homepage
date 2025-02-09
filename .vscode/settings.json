@@ -1,7 +1,5 @@
 {
-  "tailwindCSS.experimental.classRegex": [
-    "tw`([^`]+)`"
-  ],
+  "tailwindCSS.experimental.classRegex": ["tw`([^`]+)`"],
   "yaml.schemas": {
     "https://json.schemastore.org/minecraft-custom-main-menu-mod.json": "file:///home/adam/Projects/Svelte/RedModding/content/members.yaml"
   }

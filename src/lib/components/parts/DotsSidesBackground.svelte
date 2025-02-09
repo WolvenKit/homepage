@@ -25,7 +25,7 @@
       {repeats}
       duration="4s"
       maskPos={[75, 50]}
-      class={twMerge("transition-all duration-700", "-left-1/4 right-2/3 rotate-180", landing && "right-full")}
+      class={twMerge("transition-all duration-700", "right-2/3 -left-1/4 rotate-180", landing && "right-full")}
     />
   </div>
 </div>

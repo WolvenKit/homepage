@@ -20,13 +20,13 @@
 
 <div
   class={twMerge(
-    "relative flex max-w-full flex-shrink flex-col items-center justify-between",
-    crossed && "after:absolute after:-top-1/3 after:h-[150%] after:-rotate-45 after:border-r-2 after:border-red",
+    "relative flex max-w-full shrink flex-col items-center justify-between",
+    crossed && "after:border-red after:absolute after:-top-1/3 after:h-[150%] after:-rotate-45 after:border-r-2",
     classes,
   )}
 >
-  <dt class={twMerge("text-sm font-semibold uppercase text-zinc-300", themeClasses.font, themeClasses.label)}>
+  <dt class={twMerge("text-sm font-semibold text-zinc-300 uppercase", themeClasses.font, themeClasses.label)}>
     <StringSnippet children={key} />
   </dt>
-  <dd class="max-w-full overflow-hidden text-ellipsis text-2xl"><StringSnippet children={value || children} /></dd>
+  <dd class="max-w-full overflow-hidden text-2xl text-ellipsis"><StringSnippet children={value || children} /></dd>
 </div>

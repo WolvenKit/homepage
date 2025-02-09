@@ -13,7 +13,7 @@
   let { team, children, onClick }: Props = $props();
 </script>
 
-<Heading level={2} class="-mb-4 mt-0 flex flex-wrap items-center justify-center gap-2">
+<Heading level={2} class="mt-0 -mb-4 flex flex-wrap items-center justify-center gap-2">
   <TeamBadge {team} class="size-10" {onClick} />
   {team.label}
 </Heading>
@@ -22,6 +22,6 @@
   <p class="-my-8 text-zinc-400">{team.description}</p>
 {/if}
 
-<ul class="flex w-full max-w-screen-2xl flex-wrap justify-center gap-4">
+<ul class="flex w-full max-w-(--breakpoint-2xl) flex-wrap justify-center gap-4">
   {@render children?.()}
 </ul>

@@ -1,4 +1,5 @@
 import { sveltekit } from "@sveltejs/kit/vite";
+import tailwindcss from "@tailwindcss/vite";
 import { uneval } from "devalue";
 import { defineConfig } from "vite";
 import glsl from "vite-plugin-glsl";
@@ -10,6 +11,7 @@ const YAML_REGEX = /\.ya?ml$/;
 export default defineConfig({
   plugins: [
     glsl(),
+    tailwindcss(),
     ViteImageOptimizer({
       webp: { minSize: true, mixed: true },
       includePublic: true,

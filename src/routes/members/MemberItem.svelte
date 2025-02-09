@@ -29,7 +29,7 @@
       base: tw`bg-zinc-800`,
       header: tw`border-transparent px-6`,
       name: tw`small-caps font-witcher text-witcher-gold`,
-      image: tw`border-transparent drop-shadow-px`,
+      image: tw`drop-shadow-px border-transparent`,
       links: tw`mr-1`,
       frame: tw`drop-shadow-px`,
     },
@@ -72,7 +72,7 @@
 
 <li
   class={twMerge(
-    "item fade-in relative flex w-full flex-shrink flex-grow flex-col",
+    "item fade-in relative flex w-full shrink grow flex-col",
     "max-w-[round(100%,1px)] md:max-w-[round(48%,1px)] lg:max-w-[round(30%,1px)] 2xl:max-w-[round(24%,1px)]",
     themeClasses.background,
     theme?.base,
@@ -89,7 +89,7 @@
       theme?.header,
     )}
   >
-    <a href="/members/{member.Username}" class={twMerge("text-2xl font-semibold leading-none", theme?.name)}>
+    <a href="/members/{member.Username}" class={twMerge("text-2xl leading-none font-semibold", theme?.name)}>
       {member.Displayname}
     </a>
 
@@ -102,9 +102,9 @@
     {/if}
 
     {#if themeName == "witcher"}
-      <div class="absolute -bottom-0.5 -left-px right-0 flex h-0 text-zinc-400">
+      <div class="absolute right-0 -bottom-0.5 -left-px flex h-0 text-zinc-400">
         <span class="-mt-0.5 inline-block h-0 w-[130px] translate-x-px border-b-2 border-current"></span>
-        <WitcherDivider withoutCorners class="flex-grow rotate-180 text-inherit drop-shadow-px" />
+        <WitcherDivider withoutCorners class="drop-shadow-px grow rotate-180 text-inherit" />
       </div>
     {/if}
   </h3>
@@ -130,7 +130,7 @@
       {/if}
     </div>
 
-    <div class={twMerge("relative flex h-full flex-grow flex-col p-2", themeClasses.text)}>
+    <div class={twMerge("relative flex h-full grow flex-col p-2", themeClasses.text)}>
       <Description
         class="line-clamp-3 pl-1 leading-none"
         longClass="line-clamp-4"
@@ -138,12 +138,12 @@
       />
 
       <div class="mt-auto flex flex-row-reverse flex-wrap-reverse items-center justify-end gap-2">
-        <div class="hyphens-auto text-sm leading-none">
-          <FontAwesomeIcon icon={faDiscord} class="mr-0.5 mt-px" />
+        <div class="text-sm leading-none hyphens-auto">
+          <FontAwesomeIcon icon={faDiscord} class="mt-px mr-0.5" />
           @{member.Username}
         </div>
 
-        <div class="relative z-10 order-first -mb-1.5 -mr-2 ml-auto translate-y-0.5">
+        <div class="relative z-10 order-first -mr-2 -mb-1.5 ml-auto translate-y-0.5">
           <ThemeButton href="/members/{member.Username}" theme={themeName} size="sm">detail</ThemeButton>
         </div>
       </div>
@@ -163,7 +163,7 @@
     content: "";
     position: absolute;
     background: black;
-    border: 2px solid theme("colors.red.DEFAULT");
+    border: 2px solid var(-colors-red);
   }
   .cyberborder::after {
     width: 1.5rem;

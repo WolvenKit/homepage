@@ -22,7 +22,7 @@
   <Warning />
 
   <div>
-    <div class="text-4xl text-red">
+    <div class="text-red text-4xl">
       {#if title}{@render title()}{:else}{titleText}{/if}
     </div>
     <p>

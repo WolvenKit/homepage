@@ -15,20 +15,21 @@
 </script>
 
 <div
-  class={twMerge("dots pointer-events-none absolute inset-0 -top-16 -z-10 overflow-hidden bg-red/40", classes)}
+  class={twMerge("dots bg-red/40 pointer-events-none absolute inset-0 -top-16 -z-10 overflow-hidden", classes)}
   style:--repeats={repeats}
   style:--duration={duration}
   style:--mask-x="{maskPos[0]}%"
   style:--mask-y="{maskPos[1]}%"
 >
   {#if children}{@render children()}{:else}<div
-      class="dots-wave absolute inset-0 text-red motion-reduce:hidden"
+      class="dots-wave text-red absolute inset-0 motion-reduce:hidden"
     ></div>{/if}
 </div>
 
 <style>
   .dots {
-    mask: radial-gradient(white 0.1rem, transparent 0.2rem),
+    mask:
+      radial-gradient(white 0.1rem, transparent 0.2rem),
       radial-gradient(farthest-side at var(--mask-x) var(--mask-y), white, transparent);
     mask-size:
       2rem 2rem,

@@ -1,75 +1,110 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@font-face {
-  font-family: "Cyberpunk";
-  src: url("$assets/Cyberpunk-Regular.woff2") format("woff2");
+@theme {
+  --color-yellow: #f3e600;
+  --color-yellow-dark: #d3c600;
+
+  --color-cyan-light: #75ffff;
+  --color-cyan: #04daf6;
+  --color-cyan-dark: #008b9d;
+  --color-cyan-darker: #00464f;
+
+  --color-red: #ff003c;
+  --color-red-dark: #910022;
+  --color-red-darker: #40000f;
+  --color-red-darkest: #090002;
+
+  --color-witcher-gold: #e1a735;
+  --color-witcher-silver: #718381;
+
+  --drop-shadow-px: 1px 1px 0 black;
+
+  --font-sans:
+    Rajdhani, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+  --font-witcher:
+    Metamorphous, ui-serif, system-ui, serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+
+  --list-dash: "\\2013 ";
 }
 
-:root {
-  --witcher-border-caret: polygon(
-    0 calc(50% - 5px),
-    5px 50%,
-    0 calc(50% + 5px),
-    0 100%,
-    2px 100%,
-    2px calc(50% + 5.5px),
-    7.5px 50%,
-    2px calc(50% - 5.5px),
-    2px 0,
-    0 0
-  );
+@utility error-text {
+  @apply text-red uppercase italic;
 }
+
+@utility cyber-text {
+  @apply text-yellow font-[Cyberpunk];
+
+  text-shadow: 0.2ex 0.2ex 0 color-mix(in srgb, var(--color-cyan) 90%, transparent);
+}
+
+@utility hover-glow {
+  &:hover {
+    filter: drop-shadow(0 0 0.4rem var(--color-cyan-dark));
+  }
+
+  &:focus {
+    filter: drop-shadow(0 0 0.4rem var(--color-cyan-dark));
+  }
+}
+
+@utility absolutely-centered {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+@utility crt {
+  background-image: radial-gradient(transparent, #000a);
+  background-size: 3px 3px;
+}
+
+@utility small-caps {
+  font-variant: small-caps;
+}
+
+@utility text-shadow {
+  text-shadow: 0.3ex 0.2ex 0.15rem rgba(0, 0, 0, 0.9);
+}
+
+@utility fade-in {
+  animation: fade-in var(--fade-duration, 2s) var(--fade-delay, 0s) both;
+}
+
+@utility clip-* {
+  clip-path: --value(*);
+}
+
+@custom-variant hover-focus (&:hover, &:focus, &:focus-within);
+@custom-variant group-hover-focus (.group:hover &, .group:focus &, .group:focus-within &);
+@custom-variant peer-hover-focus (.peer:hover &, .peer:focus &, .peer:focus-within &);
+
+@custom-variant pseudo (&::before, &::after);
+
+@custom-variant noscript (body.noscript &);
+@custom-variant script (body:not(.noscript) &);
+
+@custom-variant max-v-md (@media (height < 48rem));
+@custom-variant v-md (@media (height >= 48rem));
 
 @layer base {
   html {
     scrollbar-gutter: stable;
     overflow-y: auto;
   }
-}
 
-@layer components {
-  .error-text {
-    @apply uppercase italic text-red;
-  }
-
-  .cyber-text {
-    @apply font-[Cyberpunk] text-yellow;
-
-    text-shadow: 0.2ex 0.2ex 0 color-mix(in srgb, theme("colors.cyan.DEFAULT") 90%, transparent);
-  }
-
-  .hover-glow:hover,
-  .hover-glow:focus {
-    filter: drop-shadow(0 0 0.4rem theme("colors.cyan.dark"));
-  }
-
-  .absolutely-centered {
-    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2;
-  }
-
-  .crt {
-    background-image: radial-gradient(transparent, #000a);
-    background-size: 3px 3px;
-  }
-}
-
-@layer utilities {
-  .small-caps {
-    font-variant: small-caps;
-  }
-
-  .text-shadow {
-    text-shadow: 0.3ex 0.2ex 0.15rem rgba(0, 0, 0, 0.9);
-  }
-
-  .fade-in {
-    animation: fade-in var(--fade-duration, 2s) var(--fade-delay, 0s) both;
-  }
-
-  .small-caps {
-    font-variant: small-caps;
+  :root {
+    --witcher-border-caret: polygon(
+      0 calc(50% - 5px),
+      5px 50%,
+      0 calc(50% + 5px),
+      0 100%,
+      2px 100%,
+      2px calc(50% + 5.5px),
+      7.5px 50%,
+      2px calc(50% - 5.5px),
+      2px 0,
+      0 0
+    );
   }
 }
 

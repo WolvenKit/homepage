@@ -43,7 +43,7 @@
 
   const THEME: Record<Theme, string> = {
     default: "",
-    cyberpunk: tw`bg-gray-950 hover-focus:bg-cyan-darker`,
+    cyberpunk: tw`hover-focus:bg-cyan-darker bg-gray-950`,
     witcher: tw`hover-focus:bg-zinc-600`,
   };
 
@@ -64,7 +64,7 @@
   title={label || undefined}
   class={twMerge(
     "relative inline-block border-2 text-center font-semibold uppercase",
-    "transition hover-focus:bg-zinc-700 hover-focus:text-white",
+    "hover-focus:bg-zinc-700 hover-focus:text-white transition",
     THEME_CLASSES[theme ?? "default"].border.border,
     SIZES[size],
     THEME[theme],
@@ -75,7 +75,7 @@
 >
   {#if theme == "cyberpunk"}
     <ThemeCorner
-      class={twMerge("absolute -left-0.5 -top-0.5", THEME_CLASSES[theme ?? "default"].border.text, cornerClass)}
+      class={twMerge("absolute -top-0.5 -left-0.5", THEME_CLASSES[theme ?? "default"].border.text, cornerClass)}
       theme="cyberpunk"
       scale={cornerScale}
     />

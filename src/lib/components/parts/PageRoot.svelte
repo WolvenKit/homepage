@@ -32,14 +32,14 @@
 
 <div
   bind:this={element}
-  class={twMerge("relative my-8 flex w-full flex-grow flex-col items-center gap-16 p-2 py-8", classes)}
+  class={twMerge("relative my-8 flex w-full grow flex-col items-center gap-16 p-2 py-8", classes)}
 >
   {#if title}
     <Heading>{title}</Heading>
   {/if}
 
   {#if restProps.description && !hideDescription}
-    <p class="max-w-3xl text-balance text-center">
+    <p class="max-w-3xl text-center text-balance">
       {#if descriptionEl}{@render descriptionEl()}{:else}{restProps.description}{/if}
     </p>
   {/if}

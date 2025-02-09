@@ -39,11 +39,11 @@ blender-addon:
 
 # TODO: ???
 # pisskit:
-  # name: RedKit for Cyberpunk 2077
-  # description: Also called the YellowKit or the PissKit.
-  # image: /projects/pisskit.webp
-  # link: https://youtu.be/dQw4w9WgXcQ
-  # theme: cyberpunk
+# name: RedKit for Cyberpunk 2077
+# description: Also called the YellowKit or the PissKit.
+# image: /projects/pisskit.webp
+# link: https://youtu.be/dQw4w9WgXcQ
+# theme: cyberpunk
 
 redscript:
   name: Redscript Toolkit

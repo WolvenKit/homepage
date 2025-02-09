@@ -33,20 +33,20 @@
 
   <div class="dialog relative z-10">
     <div class="flex gap-8 bg-black p-8 text-white max-md:flex-wrap" style:clip-path={clipPath}>
-      <ThemeFrameBig theme="cyberpunk" {corners} scale={2} class="right-[unset] w-[round(down,100%,1px)] text-red" />
+      <ThemeFrameBig theme="cyberpunk" {corners} scale={2} class="text-red right-[unset] w-[round(down,100%,1px)]" />
 
-      <Warning class="flex-shrink-0 max-md:mx-auto" />
+      <Warning class="shrink-0 max-md:mx-auto" />
 
       <div class="flex h-full w-full flex-col items-start">
-        <Heading class="m-0 text-red">Website malfunction detected</Heading>
-        <p class="max-w-screen-sm text-xl">
+        <Heading class="text-red m-0">Website malfunction detected</Heading>
+        <p class="max-w-(--breakpoint-sm) text-xl">
           The website has been left idle for so long that it has been infested by rogue AIs from beyond the Blackwall.
         </p>
 
         <ThemeButton
           onClick={onClose}
           theme="cyberpunk"
-          class="-mb-8 -mr-8 ml-auto mt-auto border-red"
+          class="border-red mt-auto -mr-8 -mb-8 ml-auto"
           cornerClass="text-red"
         >
           Oh no

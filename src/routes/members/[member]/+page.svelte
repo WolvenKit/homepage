@@ -102,18 +102,18 @@
     <Loading />
   {:then data}
     <header
-      class="relative w-full max-w-screen-lg pt-16 text-left max-md:mt-4"
+      class="relative w-full max-w-(--breakpoint-lg) pt-16 text-left max-md:mt-4"
       class:text-shadow={background}
       style:--fade-duration="1s"
     >
-      <Button href="." icon={faArrowLeft} class="absolute bottom-full text-opacity-75 md:mb-4">See all members</Button>
+      <Button href="." icon={faArrowLeft} class="text-opacity-75 absolute bottom-full md:mb-4">See all members</Button>
 
       {#if background}
         <LazyImage
           src={background}
           class={twMerge(
             "member-profile-background fade-in contrast-more:hidden",
-            "absolute -left-8 -right-8 -top-4 -z-10 h-auto max-h-96 w-[calc(100%+4rem)] max-w-[unset] object-cover",
+            "absolute -top-4 -right-8 -left-8 -z-10 h-auto max-h-96 w-[calc(100%+4rem)] max-w-[unset] object-cover",
             "rounded-t-3xl opacity-50 mix-blend-screen contrast-125",
           )}
         />
@@ -121,7 +121,7 @@
 
       <div class="mb-8 inline-flex flex-wrap gap-4 gap-x-8 px-2 max-md:justify-center">
         <!-- svelte-ignore a11y_no_static_element_interactions -->
-        <div class="fade-in relative flex-shrink-0" style:--fade-delay=".7s" ondblclick={() => (game = true)}>
+        <div class="fade-in relative shrink-0" style:--fade-delay=".7s" ondblclick={() => (game = true)}>
           <ThemeFrameBig theme={themeName}>
             {@const ImageComponent = themeName == "cyberpunk" ? GlitchingImage : LazyImage}
             <ImageComponent
@@ -133,17 +133,17 @@
             />
 
             {#if member.CustomData?.brokenTheme}
-              <Warning class="absolute -right-4 -top-4 z-10 size-24 mix-blend-screen" />
+              <Warning class="absolute -top-4 -right-4 z-10 size-24 mix-blend-screen" />
             {/if}
           </ThemeFrameBig>
         </div>
 
-        <div class="flex max-w-full flex-grow flex-col justify-center gap-4 max-md:text-center">
+        <div class="flex max-w-full grow flex-col justify-center gap-4 max-md:text-center">
           <div class="fade-in">
             <Heading
               level={2}
               class={twMerge(
-                "small-caps m-0 max-w-full overflow-hidden text-ellipsis text-4xl font-semibold normal-case leading-none text-white md:text-left",
+                "small-caps m-0 max-w-full overflow-hidden text-4xl leading-none font-semibold text-ellipsis text-white normal-case md:text-left",
                 themeName == "witcher" && "font-witcher text-3xl",
               )}
             >
@@ -151,12 +151,12 @@
             </Heading>
 
             {#if member.Nickname}
-              <p class="-mt-1 text-xl uppercase text-zinc-300">@{member.Username}</p>
+              <p class="-mt-1 text-xl text-zinc-300 uppercase">@{member.Username}</p>
             {/if}
           </div>
 
           {#if member.CustomData?.description}
-            <div class="fade-in max-w-screen-sm" style:--fade-delay=".3s">
+            <div class="fade-in max-w-(--breakpoint-sm)" style:--fade-delay=".3s">
               <Description class={themeClasses.text} text={member.CustomData.description} />
             </div>
           {/if}
@@ -170,7 +170,7 @@
           {#each member.Teams as teamId, i (teamId)}
             {@const team = teams[teamId]}
             <li
-              class="fade-in flex items-center gap-2 text-xl font-semibold leading-none text-zinc-400"
+              class="fade-in flex items-center gap-2 text-xl leading-none font-semibold text-zinc-400"
               style:--fade-duration=".5s"
               style:--fade-delay="{1.5 + i * 0.2}s"
             >
@@ -238,7 +238,7 @@
 
       {#if game}
         {#await import("$components/parts/DinoGame.svelte") then { default: DinoGame }}
-          <DinoGame sprite={member.Image + "?size=64"} on:exit={() => (game = false)} />
+          <DinoGame sprite={member.Image + "?size=64"} onExit={() => (game = false)} />
         {/await}
       {/if}
     </header>
@@ -278,7 +278,7 @@
 
               <li class="max-md:w-full">
                 <ThemeFrameBig class={twMerge("flex flex-col gap-4 px-4", THEME_CLASSES[projectTheme].background)}>
-                  <div class="-mx-4 h-32 min-w-64 flex-shrink-0">
+                  <div class="-mx-4 h-32 min-w-64 shrink-0">
                     {#if project.image}
                       <LazyImage
                         width="720"
@@ -310,19 +310,19 @@
                           <FontAwesomeIcon
                             icon={faGithub}
                             size="xl"
-                            class="text-zinc-400 transition group-hover-focus:text-cyan"
+                            class="group-hover-focus:text-cyan text-zinc-400 transition"
                           />
 
                           <div>
                             <Button
                               inline
                               external
-                              class="text-pretty text-left hover-focus:text-cyan hover-focus:filter-none"
+                              class="hover-focus:text-cyan hover-focus:filter-none text-left text-pretty"
                             >
                               {repo.Repository.split("/")[1]}
                             </Button>
 
-                            <ul class="list-outside list-dash">
+                            <ul class="list-dash list-outside">
                               {#each Object.entries(repoContributions).filter(([_, a]) => a) as [type, amount] (type)}
                                 <li class="-mt-2 ml-2 pl-1">
                                   <strong>{amount}</strong>
@@ -349,7 +349,8 @@
 
 <style>
   :global(.member-profile-background) {
-    mask-image: linear-gradient(to bottom, transparent, white 2rem, transparent),
+    mask-image:
+      linear-gradient(to bottom, transparent, white 2rem, transparent),
       linear-gradient(to right, transparent, white 2rem, white calc(100% - 2rem), transparent);
     mask-composite: intersect;
 

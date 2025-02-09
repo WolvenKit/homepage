@@ -4,10 +4,10 @@
 
 <div class="relative flex items-center justify-center p-16">
   <DotsBackground maskPos={[50, 50]} class="-inset-32 bg-transparent">
-    <div class="ping absolute inset-0 rounded-full text-red"></div>
+    <div class="ping text-red absolute inset-0 rounded-full"></div>
   </DotsBackground>
 
-  <span class="text-4xl font-bold uppercase text-red">Loading...</span>
+  <span class="text-red text-4xl font-bold uppercase">Loading...</span>
 </div>
 
 <style>

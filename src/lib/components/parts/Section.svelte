@@ -13,7 +13,7 @@
 
 <svelte:element
   this={as}
-  class={twMerge("relative my-8 flex w-full flex-grow flex-col items-center gap-16 p-2 py-8", classes)}
+  class={twMerge("relative my-8 flex w-full grow flex-col items-center gap-16 p-2 py-8", classes)}
 >
   {@render children?.()}
 </svelte:element>

@@ -37,13 +37,13 @@
 </script>
 
 <div
-  class="fade-in pointer-events-none absolute -top-16 right-0 max-w-[75vw] overflow-hidden bg-red opacity-90 mix-blend-lighten transition max-lg:hidden 2xl:bottom-0"
+  class="fade-in bg-red pointer-events-none absolute -top-16 right-0 max-w-[75vw] overflow-hidden opacity-90 mix-blend-lighten transition max-lg:hidden 2xl:bottom-0"
   class:opacity-0={!bgLoaded}
   class:rainbow
   style:--fade-delay="{fadeDelay}s"
 >
   <div class="crt absolute inset-0"></div>
-  <div class="wave absolute inset-0 text-red motion-reduce:hidden"></div>
+  <div class="wave text-red absolute inset-0 motion-reduce:hidden"></div>
 
   <!-- Motion-reduced fallback -->
   <LazyImage src={malorian} class="h-full w-full bg-black object-contain mix-blend-multiply motion-safe:hidden" />
@@ -68,16 +68,18 @@
   </video>
 
   {#if autoplayDisabled}
-    <div class="absolute right-0 top-16 p-4 text-lg text-red motion-reduce:hidden">
+    <div class="text-red absolute top-16 right-0 p-4 text-lg motion-reduce:hidden">
       Auto-play is disabled. Click to play animation.
     </div>
   {/if}
 
-  <div class="crt absolute right-0 top-24 max-w-screen-sm bg-red/90 bg-clip-text p-8 text-right text-transparent">
+  <div
+    class="crt bg-red/90 absolute top-24 right-0 max-w-(--breakpoint-sm) bg-clip-text p-8 text-right text-transparent"
+  >
     <div class="text-black/25">
       <h1 class="text-2xl leading-none">Malorian Arms</h1>
 
-      <h2 class="text-3xl font-semibold leading-none">3516</h2>
+      <h2 class="text-3xl leading-none font-semibold">3516</h2>
     </div>
   </div>
 </div>

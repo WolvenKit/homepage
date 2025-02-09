@@ -70,6 +70,8 @@
 </PageRoot>
 
 <style lang="postcss">
+  @reference "../../app.css";
+
   .content > p {
     @apply mx-auto my-8 max-w-3xl text-justify;
   }

@@ -67,18 +67,18 @@
     </div>
   {/if}
 
-  <div class="flex flex-grow flex-col items-start">
+  <div class="flex grow flex-col items-start">
     <div class="px-6 pt-4">
-      <Heading level={2} class="-mb-2 -ml-0.5 mt-0 text-left normal-case text-white">{project.name}</Heading>
+      <Heading level={2} class="mt-0 -mb-2 -ml-0.5 text-left text-white normal-case">{project.name}</Heading>
       {#if project.author}
         {@const member = memberMapResult ? memberMapResult[project.author] : undefined}
-        <div class="-mb-2 mt-1">
+        <div class="mt-1 -mb-2">
           <Button inline href="/members/{project.author}" class="normal-case">
             {member ? member.Displayname : project.author}
           </Button>
         </div>
       {/if}
-      <p class="mt-2 text-pretty leading-tight">{project.description}</p>
+      <p class="mt-2 leading-tight text-pretty">{project.description}</p>
     </div>
 
     <div
@@ -93,7 +93,7 @@
         {#each githubs as github (github)}
           <a
             href="https://github.com/{github}"
-            class="inline-block text-pretty leading-none text-cyan transition hover:text-cyan-light hover:underline"
+            class="text-cyan hover:text-cyan-light inline-block leading-none text-pretty transition hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -106,7 +106,7 @@
       {#if project.discord}
         <a
           href={project.discord}
-          class="inline-block whitespace-nowrap text-pretty leading-none text-cyan transition hover:text-cyan-light hover:underline"
+          class="text-cyan hover:text-cyan-light inline-block leading-none text-pretty whitespace-nowrap transition hover:underline"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -116,7 +116,7 @@
       {/if}
 
       {#if project.link}
-        <ThemeButton class="order-first -mb-4 -mr-4 ml-auto flex-shrink-0" href={project.link} theme={themeName}>
+        <ThemeButton class="order-first -mr-4 -mb-4 ml-auto shrink-0" href={project.link} theme={themeName}>
           Visit project
         </ThemeButton>
       {/if}

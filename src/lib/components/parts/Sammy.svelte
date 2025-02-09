@@ -46,7 +46,7 @@
   onmouseleave={onMouseLeave}
   href="/"
   class={twMerge(
-    "relative z-10 mt-auto flex-shrink-0 rounded-b-full bg-zinc-900 p-4 shadow-xl transition duration-500",
+    "relative z-10 mt-auto shrink-0 rounded-b-full bg-zinc-900 p-4 shadow-xl transition duration-500",
     isOnTop && "script:bg-transparent script:shadow-none",
   )}
 >

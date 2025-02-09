@@ -66,8 +66,8 @@
   <a
     href="/"
     class={twMerge(
-      "text-2xl font-bold uppercase text-red transition-all duration-500 sm:text-4xl",
-      isOnTop && "script:lg:translate-y-1/2 script:lg:text-6xl",
+      "text-red text-2xl font-bold uppercase transition-all duration-500 sm:text-4xl",
+      isOnTop && "lg:script:translate-y-1/2 lg:script:text-6xl",
     )}
   >
     {site.name}
@@ -89,7 +89,7 @@
       ontransitionend={() => (navClosed = !navOpen)}
       class={twMerge(
         "flex items-end justify-center gap-4 max-lg:flex-col",
-        "right-0 top-full origin-top transition max-lg:absolute max-lg:w-full max-lg:scale-y-0 max-lg:bg-zinc-950 max-lg:p-4 max-lg:shadow-xl",
+        "top-full right-0 origin-top transition max-lg:absolute max-lg:w-full max-lg:scale-y-0 max-lg:bg-zinc-950 max-lg:p-4 max-lg:shadow-xl",
         !browser && "max-lg:group-focus-within:scale-y-100",
         navOpen && "max-lg:scale-y-100",
         navClosed && browser && "max-lg:invisible",
@@ -105,7 +105,7 @@
 <DotsSidesBackground landing={isLanding} class={isLanding ? "" : "fixed"} />
 
 <CursorTrail>
-  <main class="flex flex-grow flex-col">
+  <main class="flex grow flex-col">
     {@render children?.()}
   </main>
 
@@ -114,7 +114,7 @@
       <Sammy isOnTop />
 
       <div class="flex flex-col items-start max-md:items-center max-md:text-center">
-        <a href="/" class="text-4xl font-bold uppercase text-red transition-all duration-500">{site.name}</a>
+        <a href="/" class="text-red text-4xl font-bold uppercase transition-all duration-500">{site.name}</a>
         <Divider class="my-1 inline-flex px-1 " />
 
         <div class="text-sm text-gray-600">
