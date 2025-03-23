@@ -32,4 +32,4 @@
   {@render children?.()}
 </ul>
 
-<Button href="/teams/{teamId}" class="text-cyan/75 -mt-12">See all member in this team</Button>
+<Button href="/teams/{teamId}" class="text-cyan/75 -mt-12">See all members in this team</Button>

@@ -16,10 +16,10 @@
       WolvenKit to the new game’s REDengine with the help of our brilliant and dedicated developers.
     </p>
     <p>
-      Lead by the legend, <em>Ryan Fuzzling</em> and his laid-back yet inspiring vibe our
-      <strong>Discord server</strong> shaped into a&nbsp;hub of <strong>collaboration</strong>, <strong>memes</strong>,
-      and <strong>mutual support</strong>. Here, modders and gamers come together to share knowledge, troubleshoot, and
-      innovate.
+      Lead by the legend, <Button inline href="/members/rfuzzo"><em>Ryan Fuzzling</em></Button> and his laid-back yet inspiring
+      vibe our <strong>Discord server</strong> shaped into a&nbsp;hub of <strong>collaboration</strong>,
+      <strong>memes</strong>, and <strong>mutual support</strong>. Here, modders and gamers come together to share
+      knowledge, troubleshoot, and innovate.
     </p>
 
     <figure class="m-8 max-w-[640px] text-center lg:float-right lg:-mr-32 xl:-mr-64 2xl:-mr-96">
