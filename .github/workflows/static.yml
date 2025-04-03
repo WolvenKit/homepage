@@ -82,5 +82,5 @@ jobs:
       - name: Report Failure to Webhook
         run: |
           curl -H "Content-Type: application/json" -H "X-GitHub-Event: check_suite" \
-          -d '{"action":"completed","sender":{"login":"${{ github.actor }}","id":${{ github.actor_id }},"html_url":"https://github.com/${{ github.actor }}","avatar_url": "https://avatars.githubusercontent.com/u/${{ github.actor_id }}?v=4"},"repository":{"name":"${{ github.event.repository.name }}","id":${{ github.repository_id }},"html_url": "${{ github.repositoryUrl }}","full_name": "${{ github.repository }}"},"check_suite":{"conclusion":"failure","head_sha": "${{ github.sha }}","status": "completed","app":{"name":"GitHub Actions"}}}' \
+          -d '{"action":"completed","sender":{"login":"${{ github.actor }}","id":${{ github.actor_id }},"html_url":"https://github.com/${{ github.actor }}","avatar_url": "https://avatars.githubusercontent.com/u/${{ github.actor_id }}?v=4"},"repository":{"name":"${{ github.event.repository.name }}","id":${{ github.repository_id }},"html_url": "${{ github.event.repository.html_url }}","full_name": "${{ github.repository }}"},"check_suite":{"conclusion":"failure","head_sha": "${{ github.sha }}","status": "completed","app":{"name":"GitHub Actions"}}}' \
           ${{ secrets.WEBHOOK_URL }}
