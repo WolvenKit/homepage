@@ -11,6 +11,7 @@
 
   import "../app.css";
 
+  import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
   import { faBars } from "@fortawesome/free-solid-svg-icons/faBars";
   import { faClose } from "@fortawesome/free-solid-svg-icons/faClose";
   import { FontAwesomeIcon } from "@fortawesome/svelte-fontawesome";
@@ -27,7 +28,6 @@
   import DotsSidesBackground from "$components/parts/DotsSidesBackground.svelte";
   import Sammy from "$components/parts/Sammy.svelte";
   import { site } from "$lib/content/site";
-  import { faGithub } from "@fortawesome/free-brands-svg-icons/faGithub";
 
   let { data, children } = $props();
 

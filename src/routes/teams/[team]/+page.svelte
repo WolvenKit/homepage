@@ -1,12 +1,11 @@
 <script lang="ts">
+  import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
   import { page } from "$app/state";
   import Button from "$components/elements/Button.svelte";
   import PageRoot from "$components/parts/PageRoot.svelte";
-  import { teams } from "$lib/content/teams.js";
-  import { faArrowLeft } from "@fortawesome/free-solid-svg-icons/faArrowLeft";
-  import MemberItem from "../../members/MemberItem.svelte";
-  import TeamSection from "../../members/TeamSection.svelte";
   import Heading from "$lib/components/elements/Heading.svelte";
+  import { teams } from "$lib/content/teams.js";
+  import MemberItem from "../../members/MemberItem.svelte";
   import TeamBadge from "../../members/TeamBadge.svelte";
 
   let { data } = $props();

@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { Snippet } from "svelte";
   import Heading from "$components/elements/Heading.svelte";
+  import Button from "$lib/components/elements/Button.svelte";
   import type { Team } from "$lib/content/teams";
   import TeamBadge from "./TeamBadge.svelte";
-  import Button from "$lib/components/elements/Button.svelte";
 
   interface Props {
     teamId: string;
