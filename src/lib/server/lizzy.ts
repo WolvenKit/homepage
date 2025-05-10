@@ -1,5 +1,5 @@
 import { dev } from "$app/environment";
-import { DISCORD_SERVER_ID, LIZZY_API_URL } from "$env/static/private";
+import { DISCORD_SERVER_ID, API_URL } from "$env/static/private";
 import type { Theme } from "$lib/themes";
 
 export interface Role {
@@ -72,7 +72,7 @@ export interface GithubDataItem {
 }
 
 async function fetchLizzy(path: string, init?: RequestInit) {
-  const url = new URL(path, LIZZY_API_URL);
+  const url = new URL(path, API_URL);
   const response = await fetch(url, { ...init });
 
   if (!response.ok) {
@@ -87,7 +87,7 @@ let memberCache: Promise<DiscordMember[]> | null = null;
 export async function fetchDiscordMembers(): Promise<DiscordMember[]> {
   // Cache in development
   if (!dev || !memberCache) {
-    memberCache = fetchLizzy("/api/v2/web?q=" + DISCORD_SERVER_ID)
+    memberCache = fetchLizzy("/web/user" + DISCORD_SERVER_ID)
       .then((r) => r.json())
       .catch((e) => {
         memberCache = null;
