@@ -2,7 +2,7 @@
   import "@fontsource/rajdhani/400.css";
   import "@fontsource/rajdhani/600.css";
   import "@fontsource/rajdhani/700.css";
-  import "@fontsource/rajdhani/";
+  import "@fontsource/rajdhani";
   import "@fontsource/metamorphous/400.css";
 
   import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the CSS
